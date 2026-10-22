@@ -1,0 +1,15 @@
+# side: player | enemy. Lực lượng đối phương là trừu tượng hóa (FICTION), không mô tả số liệu lịch sử.
+units:
+  - {id: UNT-FOOT, name_vi: Bộ binh, side: player, class: bo_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 100, atk: 12, def: 8, range: 1, speed: 2, supply: 1, cost: {grain: 10, iron: 2}, train_turns: 1}
+  - {id: UNT-ARCHER, name_vi: Cung thủ, side: player, class: cung_no, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 70, atk: 14, def: 4, range: 3, speed: 2, supply: 1, cost: {grain: 10, wood: 8}, train_turns: 2}
+  - {id: UNT-CROSSBOW, name_vi: Nỏ thủ, side: player, class: cung_no, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 70, atk: 18, def: 4, range: 3, speed: 2, supply: 1, cost: {grain: 12, wood: 8, iron: 6}, train_turns: 2, requires_building: BLD-FORGE}
+  - {id: UNT-MILITIA, name_vi: Dân binh đồn trú, side: player, class: dan_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 80, atk: 9, def: 6, range: 1, speed: 0, supply: 0, cost: {grain: 6, wood: 4}, train_turns: 1, garrison: true}
+  - {id: UNT-BOAT, name_vi: Thuyền chiến, side: player, class: thuy_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 120, atk: 14, def: 6, range: 2, speed: 3, supply: 2, cost: {wood: 30}, train_turns: 2, enabled: false}
+  - {id: ENM-FOOT, name_vi: Bộ binh địch, side: enemy, class: bo_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 100, atk: 12, def: 8, range: 1, speed: 2, supply: 0}
+  - {id: ENM-ARCHER, name_vi: Cung thủ địch, side: enemy, class: cung_no, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 70, atk: 14, def: 4, range: 3, speed: 2, supply: 0}
+characters:
+  - {id: CHR-LTK, name_vi: Lý Thường Kiệt, source_label: SOURCED, source_ids: [H2, H8], balance: placeholder, design: SYS-05, role: chi_huy, enabled: false, note: "tướng/chỉ huy chưa triển khai trong vertical slice"}
+policies:
+  - {id: POL-NONG-HAU, name_vi: Nông tang hậu cần, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-09, cost_dantam: 6, effect: {supply_cap: 2}}
+  - {id: POL-LUY-BIEN, name_vi: Lũy biên, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-09, cost_dantam: 8, effect: {fort_bonus: 0.1}}
+  - {id: POL-TIEN-PHONG, name_vi: Luyện binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-09, cost_dantam: 8, effect: {atk_mult: 0.1}}

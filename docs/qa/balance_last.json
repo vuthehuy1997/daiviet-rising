@@ -1,0 +1,48 @@
+[
+ {
+  "strat": "idle",
+  "n": 40,
+  "wins": 0,
+  "lostReasons": {
+   "Thủ phủ thất thủ": 40
+  },
+  "avgRepelled": 0
+ },
+ {
+  "strat": "turtle",
+  "n": 40,
+  "wins": 0,
+  "lostReasons": {
+   "Thủ phủ thất thủ": 31,
+   "Hết thời hạn chiến dịch mà chưa giảng hòa": 9
+  },
+  "avgRepelled": 4.2250000000000005
+ },
+ {
+  "strat": "sprawl",
+  "n": 40,
+  "wins": 0,
+  "lostReasons": {
+   "Dân tâm cạn kiệt": 40
+  },
+  "avgRepelled": 2.000000000000001
+ },
+ {
+  "strat": "expand",
+  "n": 40,
+  "wins": 21,
+  "lostReasons": {
+   "Hết thời hạn chiến dịch mà chưa giảng hòa": 19
+  },
+  "avgRepelled": 4.525
+ },
+ {
+  "strat": "expand-strike",
+  "n": 40,
+  "wins": 20,
+  "lostReasons": {
+   "Hết thời hạn chiến dịch mà chưa giảng hòa": 20
+  },
+  "avgRepelled": 4.500000000000001
+ }
+]

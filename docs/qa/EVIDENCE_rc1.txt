@@ -1,0 +1,71 @@
+# EVIDENCE RC1 — 2026-10-21T10:03:33Z
+node v24.22.0 npm 11.19.1
+
+$ npm run typecheck
+
+> daiviet-rising@0.1.0 typecheck
+> tsc --noEmit
+
+exit=0
+
+$ npm run check:design
+ids=40 tiles=12 features=20 design_ids_checked=31 tests=10
+OK
+exit=0
+
+$ npx vitest run
+
+ RUN  v5.0.5 /data/yuu/ai-data/yuu/self/dev/daiviet-rising
+
+
+ Test Files  3 passed (3)
+      Tests  48 passed (48)
+   Start at  17:03:35
+   Duration  5.95s (import 88%, environment 8%, tests 3%, transform 1%)
+
+
+$ npm run build
+
+> daiviet-rising@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 91 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.42 kB │ gzip:  0.30 kB
+dist/assets/index-DWV68azE.css    2.83 kB │ gzip:  1.19 kB
+dist/assets/index-DJyN9y_P.js   137.42 kB │ gzip: 43.73 kB
+
+✓ built in 151ms
+
+$ npx playwright test (desktop + mobile-touch, Chromium 156)
+  ✓   2 [desktop] › e2e/game.spec.ts:11:1 › TST-07 tải trang: 12 ô, không lỗi console, tiếng Việt (225ms)
+  ✓   1 [mobile-touch] › e2e/game.spec.ts:11:1 › TST-07 tải trang: 12 ô, không lỗi console, tiếng Việt (224ms)
+  ✓   4 [mobile-touch] › e2e/game.spec.ts:20:1 › chọn ô → xây → huấn luyện → kết thúc lượt (chuột/chạm) (304ms)
+  ✓   3 [desktop] › e2e/game.spec.ts:20:1 › chọn ô → xây → huấn luyện → kết thúc lượt (chuột/chạm) (320ms)
+  ✓   5 [mobile-touch] › e2e/game.spec.ts:33:1 › hoàn tác trong lượt (268ms)
+  ✓   6 [desktop] › e2e/game.spec.ts:33:1 › hoàn tác trong lượt (267ms)
+  ✓   8 [desktop] › e2e/game.spec.ts:43:1 › bàn phím: Tab tới ô và Enter chọn (151ms)
+  ✓   9 [mobile-touch] › e2e/game.spec.ts:50:1 › tự lưu: tải lại trang giữ nguyên lượt (254ms)
+  ✓  10 [desktop] › e2e/game.spec.ts:50:1 › tự lưu: tải lại trang giữ nguyên lượt (257ms)
+  ✓  11 [mobile-touch] › e2e/game.spec.ts:57:1 › lập khu định cư rồi điều quân tới ô mới (luồng điều quân bằng UI) (416ms)
+  ✓  12 [desktop] › e2e/game.spec.ts:57:1 › lập khu định cư rồi điều quân tới ô mới (luồng điều quân bằng UI) (415ms)
+  ✓  13 [mobile-touch] › e2e/game.spec.ts:69:1 › bỏ mặc cả chiến dịch qua UI → hộp thoại Thất bại (417ms)
+  ✓  14 [desktop] › e2e/game.spec.ts:69:1 › bỏ mặc cả chiến dịch qua UI → hộp thoại Thất bại (430ms)
+  ✓  15 [mobile-touch] › e2e/game.spec.ts:81:1 › TST-09 không cuộn ngang trên màn hình hẹp, vùng chạm ≥44px (388ms)
+  ✓  16 [desktop] › e2e/game.spec.ts:81:1 › TST-09 không cuộn ngang trên màn hình hẹp, vùng chạm ≥44px (326ms)
+  ✓  18 [desktop] › e2e/game.spec.ts:94:1 › TST-09 axe: không vi phạm nghiêm trọng/cực kỳ nghiêm trọng (983ms)
+  ✓  17 [mobile-touch] › e2e/game.spec.ts:94:1 › TST-09 axe: không vi phạm nghiêm trọng/cực kỳ nghiêm trọng (1.0s)
+  ✓  19 [desktop] › e2e/game.spec.ts:101:1 › FEAT-018 màn Bối cảnh & nguồn nêu rõ nhãn FICTION/SOURCED (228ms)
+  ✓  20 [mobile-touch] › e2e/game.spec.ts:101:1 › FEAT-018 màn Bối cảnh & nguồn nêu rõ nhãn FICTION/SOURCED (242ms)
+  1 skipped
+  19 passed (7.4s)
+
+# balance (docs/qa/balance_last.json, 40 seeds each)
+idle 0 / 40 avg repelled 0 {'Thủ phủ thất thủ': 40}
+turtle 0 / 40 avg repelled 4.23 {'Thủ phủ thất thủ': 31, 'Hết thời hạn chiến dịch mà chưa giảng hòa': 9}
+sprawl 0 / 40 avg repelled 2.0 {'Dân tâm cạn kiệt': 40}
+expand 21 / 40 avg repelled 4.53 {'Hết thời hạn chiến dịch mà chưa giảng hòa': 19}
+expand-strike 20 / 40 avg repelled 4.5 {'Hết thời hạn chiến dịch mà chưa giảng hòa': 20}

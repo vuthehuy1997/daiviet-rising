@@ -1,0 +1,10 @@
+ids=24 tiles=6 features=20 design_ids_checked=31 tests=10
+OK
+exit=0
+
+# Lệnh đã chạy (2026-10-21)
+1. python3 -I tools/check_design.py            -> OK (ở trên)
+2. python3 -I tools/build_dashboard.py         -> docs=23 features=20 bytes=58477
+3. node: kiểm tra cú pháp JS trong dashboard/index.html (new Function) -> "JS syntax OK"
+4. Negative test: bản sao tạm với FEAT-001 trỏ SYS-99 -> check_design.py FAIL, exit=1 (bắt đúng lỗi)
+# CHƯA làm: mở dashboard trong trình duyệt thật / kiểm tra a11y tự động / mobile; chưa có code game nên không có test gameplay.

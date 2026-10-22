@@ -1,0 +1,13 @@
+# Mọi số là placeholder (balance: placeholder). Thiết kế: docs/design/02_GDD.md SYS-04. Schema mở rộng ở Phase 4: cost, build_turns.
+buildings:
+  - {id: BLD-FARM, name_vi: Ruộng/đồn điền, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, produces: {grain: 8}, terrain_mult: {dong_bang: 1.25}, supply_cap: 1, cost: {wood: 20}, build_turns: 1}
+  - {id: BLD-LUMBER, name_vi: Trại gỗ-tre, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, produces: {wood: 8}, terrain_mult: {rung: 1.25}, cost: {wood: 15}, build_turns: 1}
+  - {id: BLD-QUARRY, name_vi: Mỏ đá, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, produces: {stone: 6}, terrain_mult: {nui: 1.25}, cost: {wood: 25}, build_turns: 1}
+  - {id: BLD-FORGE, name_vi: Lò rèn, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, produces: {iron: 4}, terrain_mult: {nui: 1.25}, cost: {wood: 30, stone: 15}, build_turns: 2}
+  - {id: BLD-BARRACKS, name_vi: Trại quân, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, trains: true, cost: {wood: 30, stone: 10}, build_turns: 1}
+  - {id: BLD-GRANARY, name_vi: Kho lương, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, supply_cap: 2, cost: {wood: 25, stone: 10}, build_turns: 1}
+  - {id: BLD-DIKE, name_vi: Đê/kè, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, terrain_only: [song, dong_bang], enabled: false, note: "post-MVP (chưa có cơ chế lũ)", cost: {stone: 30}, build_turns: 2}
+  - {id: BLD-PALISADE, name_vi: Đồn tre/lũy, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-04, fort_bonus: 0.12, cost: {wood: 25, stone: 5}, build_turns: 1}
+  - {id: BLD-STAKES, name_vi: Cọc ngầm, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-11, terrain_only: [song], attacker_penalty: 0.12, cost: {wood: 25}, build_turns: 1}
+  - {id: BLD-WATCH, name_vi: Chòi canh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-08, warn_lead_bonus: 1, cost: {wood: 15}, build_turns: 1}
+  - {id: BLD-DOCK, name_vi: Bến thuyền, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-11, terrain_only: [song, ven_bien], enabled: false, note: "post-MVP (quân thủy, CMP-02)", cost: {wood: 40}, build_turns: 2}

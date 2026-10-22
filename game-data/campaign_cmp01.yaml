@@ -1,0 +1,53 @@
+# CMP-01 vertical slice: 12 ô minh họa (mục tiêu đầy đủ ~28). Địa danh trừu tượng/hư cấu; số liệu placeholder.
+campaign:
+  id: CMP-01
+  name_vi: Hộ Quốc Tuyến
+  period: "1075-1077"
+  source_label: SOURCED
+  source_ids: [H1, H2, H8]
+  design: CMP-01
+  seed: 1075
+  capital: TIL-001
+  start: {grain: 120, wood: 120, stone: 50, iron: 30, dantam: 10}
+  start_buildings: {TIL-001: [BLD-FARM, BLD-LUMBER, BLD-BARRACKS]}
+  rules:
+    deadline_turn: 28
+    negotiate_from_turn: 21
+    negotiate_min_repelled: 4
+    negotiate_min_dantam: 10
+    negotiate_min_settled: 3
+    lose_dantam_turns: 3
+    base_supply_cap: 4
+    base_warn_lead: 2
+    rounds: 15
+    defense_k: 20
+    settle_cost: {wood: 40, grain: 30}
+    default_slots: 4
+    capital_slots: 6
+    max_level: 3
+    garrison_base: 4
+    garrison_capital_bonus: 4
+    garrison_per_fort_level: 3
+    terrain_cost: {dong_bang: 1, song: 2, nui: 3, rung: 2, ven_bien: 1}
+  # Cơ chế "tập kích trước": chiếm ô này làm yếu các đợt tập kích xuất phát từ nó (cơ chế game, FICTION; không khẳng định chi tiết lịch sử).
+  preemptive: {tile: TIL-012, weaken_factor: 0.7, min_turn_effect: 12}
+tiles:
+  - {id: TIL-001, name_vi: Thủ phủ, terrain: dong_bang, state: settled, x: 300, y: 520, adj: [TIL-002, TIL-003, TIL-004, TIL-005], source_label: FICTION, source_ids: []}
+  - {id: TIL-002, name_vi: Châu Đông, terrain: dong_bang, state: open, x: 460, y: 500, adj: [TIL-001, TIL-005, TIL-008], source_label: FICTION, source_ids: []}
+  - {id: TIL-003, name_vi: Châu Tây, terrain: nui, state: open, x: 140, y: 500, adj: [TIL-001, TIL-005, TIL-006], source_label: FICTION, source_ids: []}
+  - {id: TIL-004, name_vi: Châu Nam, terrain: ven_bien, state: open, x: 300, y: 650, adj: [TIL-001], source_label: FICTION, source_ids: []}
+  - {id: TIL-005, name_vi: Đồng Trung, terrain: dong_bang, state: open, x: 300, y: 390, adj: [TIL-001, TIL-002, TIL-003, TIL-006, TIL-007, TIL-008], source_label: FICTION, source_ids: []}
+  - {id: TIL-006, name_vi: Rừng Tây, terrain: rung, state: open, x: 150, y: 350, adj: [TIL-003, TIL-005, TIL-009], source_label: FICTION, source_ids: []}
+  - {id: TIL-007, name_vi: Bến sông Nam, terrain: song, state: hostile, x: 300, y: 270, adj: [TIL-005, TIL-008, TIL-009, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3}}
+  - {id: TIL-008, name_vi: Cửa Đông Bắc, terrain: dong_bang, state: hostile, x: 450, y: 300, adj: [TIL-002, TIL-005, TIL-007, TIL-010, TIL-012], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3, ENM-ARCHER: 1}}
+  - {id: TIL-009, name_vi: Rừng biên, terrain: rung, state: hostile, x: 150, y: 230, adj: [TIL-006, TIL-007, TIL-011], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3, ENM-ARCHER: 1}}
+  - {id: TIL-010, name_vi: Tuyến sông biên, terrain: song, state: hostile, x: 300, y: 140, adj: [TIL-007, TIL-008, TIL-011, TIL-012], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 4, ENM-ARCHER: 2}}
+  - {id: TIL-011, name_vi: Trại biên Tây, terrain: nui, state: hostile, x: 170, y: 70, adj: [TIL-009, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 5, ENM-ARCHER: 2}}
+  - {id: TIL-012, name_vi: Doanh trại biên Đông, terrain: dong_bang, state: hostile, x: 430, y: 70, adj: [TIL-008, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 6, ENM-ARCHER: 3}}
+# Kịch bản tập kích: mục tiêu = ô đang có khu định cư gần nguồn nhất (theo chi phí đường).
+raids:
+  - {id: RAID-1, turn: 4, origin: TIL-011, units: {ENM-FOOT: 3}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-2, turn: 8, origin: TIL-012, units: {ENM-FOOT: 4, ENM-ARCHER: 2}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-3, turn: 12, origin: TIL-011, units: {ENM-FOOT: 9, ENM-ARCHER: 6}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-4, turn: 16, origin: TIL-012, units: {ENM-FOOT: 14, ENM-ARCHER: 9}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-5, turn: 20, origin: TIL-011, units: {ENM-FOOT: 19, ENM-ARCHER: 12}, source_label: FICTION, source_ids: [], design: SYS-07}

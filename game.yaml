@@ -1,0 +1,84 @@
+# Dai Viet Rising — per-project game brief
+# Used by Claude Code in this project's root directory.
+project:
+  slug: daiviet-rising
+  title: Dai Viet Rising
+  summary: >-
+    Game lấy cảm hứng từ những nguyên lý gameplay của Demacia Rising,
+    đặt trong bối cảnh lịch sử Đại Việt, xây dựng quốc gia, bảo vệ biên cương
+    phương Bắc và phát triển ảnh hưởng về phương Nam.
+  status: concept-research
+
+references:
+  - name: Demacia Rising
+    url: "" # Điền link chính thức hoặc video gameplay nếu có
+    liked:
+      - Tìm hiểu và học hỏi core gameplay loop thực tế
+      - Cảm giác phát triển sức mạnh, tiến trình và chiến đấu nếu được xác minh
+    avoid:
+      - Không sao chép nhân vật, tên riêng, hình ảnh, bản đồ, lời thoại hoặc code độc quyền
+    research_rule: >-
+      Phải xác minh đúng game và cơ chế từ nguồn đáng tin cậy; nếu chưa rõ,
+      hỏi tôi link/video thay vì tự suy đoán.
+
+vision:
+  setting: >-
+    Đại Việt qua những thời kỳ lịch sử được lựa chọn hợp lý; có thể bổ sung
+    chế độ lịch sử giả định, nhưng phải phân biệt với sự kiện lịch sử có nguồn.
+  player_fantasy: >-
+    Dẫn dắt Đại Việt xây dựng kinh tế, quân đội, thành trì, ngoại giao;
+    bảo vệ độc lập trước các cuộc xâm lược từ phương Bắc và phát triển
+    ảnh hưởng về phương Nam qua những quyết định chiến lược.
+  themes:
+    - Xây dựng và phát triển quốc gia
+    - Chiến thuật và quản lý nguồn lực
+    - Phòng thủ lãnh thổ và chiến dịch lịch sử
+    - Ngoại giao, hậu cần và địa hình
+    - Văn hóa và bản sắc Đại Việt
+  unique_direction: >-
+    Gameplay có bản sắc Việt Nam, khai thác địa hình sông núi, thành lũy,
+    thủy chiến, hậu cần, quan hệ khu vực và các lựa chọn chiến lược.
+  genre_preference: Chưa chốt; nghiên cứu tham khảo rồi đề xuất ba concept khác biệt
+  narrative_importance: central
+  historical_guidelines:
+    - Phân biệt sự kiện có nguồn với hư cấu hoặc lịch sử giả định
+    - Không gộp các cuộc chiến cách nhau nhiều thế kỷ mà không giải thích
+    - Thể hiện các triều đại và cộng đồng láng giềng có chiều sâu
+    - Không đồng nhất dân tộc hiện đại với đối thủ quân sự trong lịch sử
+
+research_topics:
+  - Các triều đại và thời kỳ Đại Việt phù hợp với gameplay
+  - Các cuộc chiến với quân Tống và Mông–Nguyên
+  - Quá trình mở rộng về phương Nam và quan hệ với Champa, Khmer
+  - Tướng lĩnh, quân đội, vũ khí, thành trì và thủy chiến
+  - Địa hình, kinh tế, thương mại, ngoại giao và hậu cần
+
+targets:
+  platforms: [web]
+  first_release: web
+  online_mode: offline-single-player
+  hosting: GitHub Pages
+  controls: [mouse, touch]
+  languages: [vi]
+  future_platforms: [android, ios, desktop]
+  future_online_features: Chỉ nghiên cứu khi có yêu cầu; không triển khai backend trong MVP
+
+constraints:
+  budget: Tối thiểu; ưu tiên mã nguồn mở và công cụ miễn phí
+  team: Một nhà phát triển sử dụng Claude Code và các agent hỗ trợ
+  timeline: Agent đề xuất sau khi nghiên cứu và xác định MVP
+  paid_services_allowed: false
+  technology: Chọn engine/framework sau khi concept và technical design được duyệt
+
+workflow:
+  mode: autopilot-with-gates
+  initial_phases: [intake, research, concept-proposal]
+  concept_options: 3
+  gate_g1: Phê duyệt concept trước khi triển khai thiết kế chi tiết
+  gate_g2: Phê duyệt design baseline trước khi lập trình gameplay chính
+  gate_g3: Phê duyệt release trước khi deploy production
+  review_dashboard: true
+  automated_build_test_fix_regression: true
+  persistent_project_state: true
+  change_request_process: true
+

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dai Viet Rising — Review</title>
+<style>
+:root{--bg:#fbf8f1;--fg:#1d1b17;--mut:#6b6559;--card:#fff;--line:#d9d2c2;--acc:#8a2a1c}
+@media (prefers-color-scheme:dark){:root{--bg:#171512;--fg:#ece6d8;--mut:#a39b8a;--card:#211e1a;--line:#3a352d;--acc:#e0806e}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif}
+header{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+h1{font-size:1.1rem;margin:0}.badge{border:1px solid var(--acc);color:var(--acc);padding:2px 8px;border-radius:99px;font-size:.8rem}
+.wrap{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 56px)}
+nav{border-right:1px solid var(--line);padding:12px;overflow:auto}nav h2{font-size:.8rem;color:var(--mut);margin:14px 0 4px;text-transform:uppercase}
+nav a{display:block;padding:6px 8px;min-height:36px;color:var(--fg);text-decoration:none;border-radius:6px;font-size:.9rem;word-break:break-all}
+nav a[aria-current=true]{background:var(--card);outline:2px solid var(--acc)}
+main{padding:16px;max-width:980px;overflow:auto}input{width:100%;padding:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:6px;font:inherit}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;margin:8px 0}td,th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{background:var(--card)}
+pre,code{background:var(--card);border-radius:4px}pre{padding:10px;overflow:auto}code{padding:1px 4px}
+.note{border-left:4px solid var(--acc);padding:6px 12px;background:var(--card);margin:8px 0}
+@media(max-width:760px){.wrap{grid-template-columns:1fr}nav{border-right:0;border-bottom:1px solid var(--line);max-height:40vh}}
+</style></head><body>
+<header><h1>Dai Viet Rising — Review Hub</h1><span class="badge" id="gate">Gate</span>
+<span style="color:var(--mut);font-size:.85rem">Chỉ đọc. Phê duyệt = gõ <code>approve G2: …</code> trong Claude Code. Nguồn thật: file trong Git.</span></header>
+<div class="wrap"><nav aria-label="Tài liệu"><label for="q" class="sr">Tìm</label><input id="q" type="search" placeholder="Tìm trong tài liệu…"><div id="list"></div></nav>
+<main id="view" tabindex="-1"></main></div>
+<script>
+const D=/*__DATA__*/null;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inl=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" rel="noopener">$1</a>');
+function md(t){const L=t.split('\n');let o='',i=0,ul=false;const cl=()=>{if(ul){o+='</ul>';ul=false}};
+while(i<L.length){let l=L[i];
+ if(/^```/.test(l)){cl();let b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;o+='<pre>'+esc(b.join('\n'))+'</pre>';continue}
+ if(/^\|/.test(l)&&/^\|[\s:|-]+\|?$/.test(L[i+1]||'')){cl();const row=r=>r.replace(/^\||\|$/g,'').split('|').map(c=>c.trim());o+='<table><tr>'+row(l).map(c=>'<th>'+inl(c)+'</th>').join('')+'</tr>';i+=2;while(i<L.length&&/^\|/.test(L[i]))o+='<tr>'+row(L[i++]).map(c=>'<td>'+inl(c)+'</td>').join('')+'</tr>';o+='</table>';continue}
+ let m=l.match(/^(#{1,4})\s+(.*)/);if(m){cl();o+=`<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`;i++;continue}
+ if(/^\s*[-*]\s+/.test(l)){if(!ul){o+='<ul>';ul=true}o+='<li>'+inl(l.replace(/^\s*[-*]\s+/,''))+'</li>';i++;continue}
+ cl();if(l.trim())o+='<p>'+inl(l)+'</p>';i++}cl();return o}
+function trace(){const rows=D.backlog.map(f=>`<tr><td>${f.id}</td><td>${esc(f.title)}</td><td>${f.design.join(', ')}</td><td>${f.tests.join(', ')}</td><td>${f.milestone}</td><td>${f.status}</td></tr>`).join('');
+ return '<h2>Truy vết Feature → Design → Test</h2><table><tr><th>Feature</th><th>Tiêu đề</th><th>Design IDs</th><th>Tests</th><th>Mốc</th><th>Trạng thái</th></tr>'+rows+'</table>'}
+const st=D.docs.find(d=>d.path==='state/STATUS.md').text;document.getElementById('gate').textContent=(st.match(/^Gate:\s*(.*)$/m)||[,'?'])[1].replace(/\*/g,'').slice(0,60);
+let cur=null;
+function show(p){cur=p;const v=document.getElementById('view');
+ if(p==='#trace'){v.innerHTML='<div class="note">Dữ liệu từ docs/production/BACKLOG.yaml. Trạng thái "todo" = chưa có code; chưa có build/test gameplay.</div>'+trace()}
+ else{const d=D.docs.find(x=>x.path===p);v.innerHTML=d.kind==='yaml'?'<pre>'+esc(d.text)+'</pre>':md(d.text)}
+ v.focus();draw()}
+function draw(){const q=document.getElementById('q').value.toLowerCase();let h='<h2>Tổng quan</h2><a href="#" data-p="#trace" '+(cur==='#trace'?'aria-current="true"':'')+'>Truy vết backlog</a>',g='';
+ for(const d of D.docs){if(q&&!(d.text.toLowerCase().includes(q)||d.path.toLowerCase().includes(q)))continue;if(d.group!==g){g=d.group;h+='<h2>'+esc(g)+'</h2>'}h+=`<a href="#" data-p="${d.path}" ${cur===d.path?'aria-current="true"':''}>${d.path}</a>`}
+ document.getElementById('list').innerHTML=h}
+document.getElementById('list').addEventListener('click',e=>{const a=e.target.closest('a[data-p]');if(a){e.preventDefault();show(a.dataset.p)}});
+document.getElementById('q').addEventListener('input',draw);
+show('docs/concepts/PROPOSAL.md');
+</script></body></html>

@@ -1,0 +1,24 @@
+# Approvals
+## G1 — Concept approval
+- Date: 2026-10-21
+- Approver: user (as entered in session)
+- Exact words: "approve G1: chọn cả 3 concept, về cơ bản demacia rising là mở rộng lãnh thổ, kèm phòng thủ các thành thị trong 1 vài lượt mà mandi hoặc noxus tấn công, tìm hiểu demacia rising sâu hơn đi,"
+- Scope as recorded: Concept A + B + C (all three) are accepted as the concept direction. User states the reference's essence = territory expansion + defending towns within a few turns when attacked.
+- Not decided by this approval: how the three concepts combine / MVP ordering (agent will propose in Phase 2 for G2 review); the term "mandi" (unverified).
+- Baseline: none yet. G2 pending.
+
+## G2 — Design baseline approval
+- Date: 2026-10-21
+- Approver: user (as entered in session)
+- Exact words: "approve G2" (initial message, no baseline named) → confirmed via explicit question: "Duyệt DB-0.1 nguyên trạng"; local git init: "Có, git init cục bộ".
+- Baseline: **DB-0.1** (docs/design/BASELINE_CANDIDATE.md, docs/design/01..05, game-data/, docs/production/BACKLOG.yaml). Approved as-is including the 6 proposals (MVP=CMP-01 first; no end-turn fee; self-defined win/lose SYS-12; TypeScript+Vite+SVG; "Mandi" excluded; all numbers placeholder).
+- Also authorized: local `git init` in this directory (no remote push, no deploy).
+- Not authorized: remote push, production deploy, purchases (G3 pending).
+
+## G3 — Release approval
+- Date: 2026-10-22
+- Approver: user (as entered in session)
+- Exact words: "approve G3" → target clarified via explicit question: "tạo repo cho tôi, tôi cung cấp token" (GitHub token supplied in chat; NOT stored in any file). CR-001 + RC1 limitations: "Xác nhận CR-001 và giới hạn".
+- Baseline/build: RC1 (git tag rc1), DB-0.1 + CR-001.
+- Authorized target: a NEW GitHub repository created under the token's account, and GitHub Pages of that repo (static `dist/`). Nothing else (no other repos, no paid services, no purchases).
+- Agent constraints: token only via transient env var/header; never written to repo, remote URL, or memory. Recommend user revokes/rotates the token after release (it was pasted in chat).
