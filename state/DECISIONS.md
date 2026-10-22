@@ -7,3 +7,4 @@
 - D-006 (2026-10-21): Đề xuất (chưa duyệt): MVP=CMP-01; không phí kết thúc lượt; thắng/thua tự định nghĩa (SYS-12); stack TS+Vite+SVG. Chờ G2.
 - D-007 (2026-10-21): CR-001 — trần đồn trú, điều kiện thắng giữ >=3 khu định cư, sản lượng x2, đợt 3-5 mạnh hơn (từ bằng chứng TST-08). Chờ user xác nhận.
 - D-008 (2026-10-21): Dùng Playwright + axe + bot balance làm bằng chứng; jsdom chỉ là smoke, không thay E2E.
+- D-009 (2026-10-22): Release repo is public (needed for Pages on free plan); commits use GitHub noreply email; deploy via gh-pages branch (no Actions).
