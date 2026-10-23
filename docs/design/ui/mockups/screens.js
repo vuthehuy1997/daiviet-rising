@@ -52,16 +52,28 @@ function screenMap() {
 
 /* tranh minh họa sự kiện (trinh sát nơi biên ải) */
 function eventArt() {
-  let s = `<svg viewBox="0 0 760 250" width="760" height="250" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d98f"/><stop offset=".6" stop-color="#f0b86a"/><stop offset="1" stop-color="#d98a52"/></linearGradient></defs><rect width="760" height="250" fill="url(#sk)"/>`;
-  s += `<g transform="translate(380,128)">`;
-  for (let i = 0; i < 20; i++) s += `<path d="M0,0 L${Math.cos(i / 20 * Math.PI * 2) * 420},${Math.sin(i / 20 * Math.PI * 2) * 420}" stroke="#fff3c4" stroke-width="${i % 2 ? 6 : 12}" opacity=".22"/>`;
-  s += `<circle r="38" fill="#fbe7a0" stroke="#b8892b" stroke-width="3"/><circle r="26" fill="#f8d36a"/></g>`;
-  s += `<path d="M0,190 L90,110 L150,150 L240,70 L330,160 L420,120 L520,60 L620,140 L690,100 L760,150 L760,250 L0,250Z" fill="#6c6a9a" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>`;
-  s += `<path d="M240,70 L330,160 L290,170 L250,110Z M520,60 L620,140 L560,150Z" fill="#5a5888"/><path d="M0,215 C140,185 220,225 360,205 C500,185 620,225 760,200 L760,250 L0,250Z" fill="#2f5d73" stroke="${INK}" stroke-width="2.4"/>`;
-  s += `<path d="M30,222 q8,-6 16,0 q8,6 16,0 M300,214 q8,-6 16,0 q8,6 16,0 M520,222 q8,-6 16,0 q8,6 16,0" stroke="#cfe3e6" stroke-width="2" fill="none"/>`;
-  s += `<path d="M560,250 L600,176 L680,176 L720,250Z" fill="#3d3a63" stroke="${INK}" stroke-width="2.4"/>`;
-  s += `<g transform="translate(640,176)"><path d="M-10,0 q4,-18 14,-16 q4,2 2,8 l8,8z" fill="#2b1c0e"/><path d="M14,-8 L14,-52" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><path d="M15,-52 Q30,-58 44,-48 Q30,-44 15,-38Z" fill="#a33b2f" stroke="${INK}" stroke-width="2"/><circle cx="2" cy="-22" r="7" fill="#2b1c0e"/><path d="M-6,-26 q8,-8 16,0" stroke="#b8892b" stroke-width="3" fill="none"/></g>`;
-  s += `<path d="M160,70 q10,-10 20,0 q10,10 20,0 M480,40 q8,-8 16,0 q8,8 16,0" stroke="${INK}" stroke-width="2" fill="none" opacity=".6"/>`;
+  const pine = (x, y, k, c) => { let g = `<g transform="translate(${x},${y}) scale(${k})"><rect x="-2" y="-8" width="4" height="10" fill="#1f1a14"/>`; for (let i = 0; i < 4; i++) { const w = 20 - i * 4, y0 = -6 - i * 14; g += `<path d="M${-w},${y0} L0,${y0 - 22} L${w},${y0} Q0,${y0 + 5} ${-w},${y0}Z" fill="${c}"/>`; } return g + '</g>'; };
+  let s = `<svg viewBox="0 0 760 250" width="760" height="250" preserveAspectRatio="xMidYMid slice"><defs>
+<linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7f9fae"/><stop offset=".45" stop-color="#f4d8a0"/><stop offset=".8" stop-color="#f2a766"/><stop offset="1" stop-color="#e58a54"/></linearGradient>
+<radialGradient id="sg"><stop offset="0" stop-color="rgba(255,244,190,.95)"/><stop offset=".35" stop-color="rgba(255,214,120,.5)"/><stop offset="1" stop-color="rgba(255,190,100,0)"/></radialGradient>
+<linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,236,200,0)"/><stop offset=".6" stop-color="rgba(255,232,190,.7)"/><stop offset="1" stop-color="rgba(255,232,190,0)"/></linearGradient>
+<radialGradient id="fg"><stop offset="0" stop-color="rgba(255,150,40,.9)"/><stop offset="1" stop-color="rgba(255,150,40,0)"/></radialGradient>
+<linearGradient id="rv" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a9aa6"/><stop offset=".55" stop-color="#f8dca0"/><stop offset="1" stop-color="#6b8b98"/></linearGradient></defs><rect width="760" height="250" fill="url(#sk)"/>`;
+  s += `<circle cx="470" cy="116" r="120" fill="url(#sg)"/><circle cx="470" cy="116" r="27" fill="#fff0b8"/>`;
+  for (let i = 0; i < 14; i++) s += `<path d="M470,116 L${f1(470 + Math.cos(i / 14 * 6.283) * 520)},${f1(116 + Math.sin(i / 14 * 6.283) * 520)}" stroke="#fff3c4" stroke-width="${i % 2 ? 5 : 10}" opacity=".13"/>`;
+  s += `<path d="M0,128 L70,96 L120,112 L200,70 L270,108 L340,88 L420,118 L520,84 L600,110 L680,80 L760,108 L760,170 L0,170Z" fill="#b8c1c4"/>`; // dãy xa
+  s += `<rect y="110" width="760" height="40" fill="url(#mist)"/>`;
+  s += `<path d="M0,150 L60,118 L110,138 L180,96 L250,136 L330,112 L400,146 L480,126 L560,150 L640,116 L720,140 L760,126 L760,190 L0,190Z" fill="#8e9fa8" stroke="rgba(60,50,60,.4)" stroke-width="1.5"/><path d="M180,96 L250,136 L215,150 L190,124Z M640,116 L720,140 L670,150Z" fill="#74878f"/>`;
+  s += `<rect y="140" width="760" height="40" fill="url(#mist)" opacity=".8"/>`;
+  s += `<path d="M0,176 C120,160 200,186 330,172 C470,158 560,186 760,168 L760,250 L0,250Z" fill="#6f8a5a" stroke="${INK}" stroke-width="1.6"/>`; // thung lũng
+  s += `<path d="M130,250 C200,214 300,206 360,190 C420,176 450,170 520,174 C440,182 400,196 340,214 C270,232 230,246 220,250Z" fill="url(#rv)" stroke="${INK}" stroke-width="1.4"/>`; // sông phản chiếu mặt trời
+  for (const [x, y] of [[300, 188], [336, 184], [372, 190], [330, 196]]) s += `<path d="M${x - 11},${y} L${x},${y - 17} L${x + 11},${y}Z" fill="#8f2d24" stroke="${INK}" stroke-width="1.2"/>`; // trại địch phía xa
+  for (const [x, y] of [[318, 194], [352, 194], [280, 190]]) s += `<circle cx="${x}" cy="${y}" r="13" fill="url(#fg)"/><circle cx="${x}" cy="${y}" r="2.4" fill="#ffe27a"/><path d="M${x},${y - 3} q-5,-12 1,-24 q6,-10 -1,-20" stroke="#6b6458" stroke-width="2" fill="none" opacity=".4"/>`;
+  s += `<path d="M0,250 L0,196 C60,188 110,200 170,214 C200,222 230,236 250,250Z" fill="#3f5233" stroke="${INK}" stroke-width="2"/>${pine(40, 214, 1.5, '#2b3a24')}${pine(96, 220, 1.2, '#33452a')}${pine(150, 236, .95, '#2b3a24')}`;
+  s += `<path d="M540,250 L566,168 C590,158 640,160 700,170 L760,176 L760,250Z" fill="#5c4a3a" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/><path d="M566,168 C590,158 640,160 700,170 L690,180 C640,172 596,174 572,184Z" fill="#8f8a52"/><path d="M566,168 L548,250 L575,250 L582,186Z" fill="#8d7960" opacity=".7"/><path d="M600,190 l20,10 M640,200 l24,12 M690,196 l-16,20" stroke="#3f3226" stroke-width="2" opacity=".6" stroke-linecap="round"/>`;
+  s += `<g transform="translate(640,170)"><ellipse cx="6" cy="2" rx="22" ry="4" fill="rgba(0,0,0,.3)"/><path d="M-12,2 Q-10,-24 4,-30 Q18,-26 20,2Z" fill="#2b2230" stroke="${INK}" stroke-width="1.8" stroke-linejoin="round"/><path d="M-12,2 Q-10,-24 4,-30 L2,2Z" fill="#3d3144"/><circle cx="4" cy="-36" r="8" fill="#c99a6a" stroke="${INK}" stroke-width="1.6"/><path d="M-6,-39 Q4,-54 14,-39 Z" fill="#c8ced4" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round"/><path d="M4,-52 q6,-6 12,-2" stroke="#a33b2f" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M26,6 L30,-64" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><path d="M30,-64 l-3,-9 l6,0Z" fill="#c8ced4" stroke="${INK}" stroke-width="1"/><path d="M30,-62 Q46,-68 60,-58 Q46,-54 30,-48Z" fill="#a33b2f" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/><path d="M30,-62 Q46,-68 44,-52 L30,-48Z" fill="rgba(255,200,140,.3)"/></g>`;
+  s += `<path d="M120,60 q10,-9 20,0 q10,9 20,0 M580,38 q8,-8 16,0 q8,8 16,0 M610,64 q6,-6 12,0 q6,6 12,0" stroke="${INK}" stroke-width="2" fill="none" opacity=".55" stroke-linecap="round"/>`;
+  s += `<rect width="760" height="250" fill="none" stroke="rgba(40,26,12,.55)" stroke-width="22" opacity=".35" filter="url(#soft)"/>`;
   return s + '</svg>';
 }
 function lotusBorder(w) {

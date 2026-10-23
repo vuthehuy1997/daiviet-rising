@@ -27,3 +27,15 @@ Trạng thái: **mockup để bạn duyệt. Chưa có dòng code nào trong `sr
 
 ## Dựng lại ảnh
 `node docs/design/ui/mockups/render.mjs` (cần `@playwright/test` + Chromium, đã có trong dự án).
+
+## Nâng cấp đồ họa lần 2 (2026-10-23, phản hồi "đồ họa chưa đủ")
+Giữ nguyên bố cục/HUD, vẽ lại lớp minh họa theo một nguồn sáng thống nhất (trên-trái, bóng đổ xuống phải):
+- **Nền đất**: gradient + mảng màu loang (rừng đậm, đồng lúa vàng, đất cát), vân giấy/mottle, cỏ lác đác; bờ biển có viền cát + sóng vỗ; sông có bờ cát, nước sâu/nông, ánh sáng.
+- **Núi**: cụm 3 đỉnh có mặt sáng/mặt khuất, nét gạch bóng, sương chân núi, cây thông ở chân.
+- **Cây**: 2 loại (tròn nhiều tầng sáng-tối, thông 3 tầng), bóng đổ; tre có đốt.
+- **Công trình**: mái ngói cong đầu đao vểnh (kiểu Lý) có khối sáng/tối + đường ngói; tháp 3 tầng ở thủ phủ; tường đá; lũy cọc có mặt sáng; ruộng bậc có ánh nước.
+- **Đồn địch**: lều nhiều lớp có cờ hiệu, lều chỉ huy, lửa trại có quầng sáng + khói, giá giáo, lũy cọc.
+- **Tranh sự kiện**: cảnh bình minh nhiều lớp (núi xa phủ sương → thung lũng → đồn địch có lửa → trinh sát trên vách đá).
+- **Đường**: đường đất có bóng, vệt bánh xe; làng nhỏ rải ven đường; sương mù phía bắc (chưa khám phá).
+
+Giới hạn còn lại (trung thực): vẫn là SVG thủ tục, nên cây/nhà còn lặp mẫu; chưa có hoạt ảnh; tranh sự kiện mới có 1 cảnh (7 sự kiện còn lại dùng chung hoặc chờ tranh); cây Kế sách, hộp Xây dựng, bảng ô địch chưa thiết kế. Nếu muốn vượt mức này cần tranh nền/icon do họa sĩ hoặc công cụ ảnh bạn cấp (CR-003 câu hỏi 1).
