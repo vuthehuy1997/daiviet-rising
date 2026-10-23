@@ -29,3 +29,10 @@
 - Exact words: "approve CR-002"
 - Scope approved: docs/change_requests/CR-002_choice_events_cmp01.md as written (8 deterministic events, RC2 local build only).
 - Not authorized: remote push, deploy of RC2 (G3 covers RC1 only).
+
+## G3 (RC2) — Release approval
+- Date: 2026-10-23
+- Approver: user (as entered in session)
+- Exact words: "approve G3: push và deploy RC2 lên vuthehuy1997/daiviet-rising"
+- Build: RC2 = commit 016b7d5 (DB-0.1 + CR-001 + CR-002). Known open issues: docs/qa/EVENTS_BALANCE.md (shown to user before approval).
+- Authorized target: push main (+ tag rc2) to origin vuthehuy1997/daiviet-rising and refresh gh-pages (GitHub Pages). Nothing else.
