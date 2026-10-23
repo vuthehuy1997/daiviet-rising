@@ -1,5 +1,6 @@
 [
  {
+  "pick": "default",
   "strat": "idle",
   "n": 40,
   "wins": 0,
@@ -9,16 +10,18 @@
   "avgRepelled": 0
  },
  {
+  "pick": "default",
   "strat": "turtle",
   "n": 40,
   "wins": 0,
   "lostReasons": {
-   "Thủ phủ thất thủ": 31,
-   "Hết thời hạn chiến dịch mà chưa giảng hòa": 9
+   "Thủ phủ thất thủ": 37,
+   "Hết thời hạn chiến dịch mà chưa giảng hòa": 3
   },
-  "avgRepelled": 4.2250000000000005
+  "avgRepelled": 4.075000000000002
  },
  {
+  "pick": "default",
   "strat": "sprawl",
   "n": 40,
   "wins": 0,
@@ -28,6 +31,7 @@
   "avgRepelled": 2.000000000000001
  },
  {
+  "pick": "default",
   "strat": "expand",
   "n": 40,
   "wins": 21,
@@ -37,6 +41,7 @@
   "avgRepelled": 4.525
  },
  {
+  "pick": "default",
   "strat": "expand-strike",
   "n": 40,
   "wins": 20,

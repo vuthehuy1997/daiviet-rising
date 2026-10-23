@@ -1,4 +1,4 @@
-import type { Counts, GameData, GameState, TileRT } from './types';
+import type { Counts, GameData, GameState, ModKind, Terrain, TileRT } from './types';
 
 export const MAX_FORT = 0.40;
 export const MAX_WARN_BONUS = 3;
@@ -9,18 +9,23 @@ export function anyActive(s: GameState, type: string) {
   return Object.values(s.tiles).some((t) => t.status === 'settled' && hasActive(t, type));
 }
 
+/** Tổng hiệu chỉnh tạm/vĩnh viễn từ sự kiện (CR-002); lọc theo địa hình nếu có. */
+export function modSum(s: GameState, kind: ModKind, terrain?: Terrain): number {
+  return s.mods.reduce((a, m) => a + (m.kind === kind && (m.until === undefined || s.turn <= m.until) && (!m.terrain || m.terrain === terrain) ? m.value : 0), 0);
+}
+
 function policyEffect(d: GameData, s: GameState, key: 'supply_cap' | 'fort_bonus' | 'atk_mult'): number {
   return s.policies.reduce((a, p) => a + (d.policies[p].effect[key] ?? 0), 0);
 }
 
 /** SYS-03: trần quân cơ động. */
 export function supplyCap(d: GameData, s: GameState): number {
-  let cap = d.campaign.rules.base_supply_cap + policyEffect(d, s, 'supply_cap');
+  let cap = d.campaign.rules.base_supply_cap + policyEffect(d, s, 'supply_cap') + modSum(s, 'supply_cap');
   for (const t of Object.values(s.tiles)) {
     if (t.status !== 'settled') continue;
     for (const b of activeBuildings(t)) cap += (d.buildings[b.type].supply_cap ?? 0) * b.level;
   }
-  return cap;
+  return Math.max(0, cap);
 }
 
 export function countSupply(d: GameData, units: Counts): number {
@@ -41,7 +46,7 @@ export function moraleMod(d: GameData, s: GameState): number {
 
 export function fortBonus(d: GameData, s: GameState, tile: string): number {
   const t = s.tiles[tile];
-  let f = policyEffect(d, s, 'fort_bonus');
+  let f = policyEffect(d, s, 'fort_bonus') + modSum(s, 'fort', t.terrain);
   for (const b of activeBuildings(t)) f += (d.buildings[b.type].fort_bonus ?? 0) * b.level;
   return Math.min(MAX_FORT, f);
 }
@@ -53,7 +58,7 @@ export function stakesPenalty(d: GameData, s: GameState, tile: string): number {
   return Math.min(0.4, p);
 }
 
-export function atkMult(d: GameData, s: GameState): number { return 1 + policyEffect(d, s, 'atk_mult'); }
+export function atkMult(d: GameData, s: GameState): number { return 1 + policyEffect(d, s, 'atk_mult') + modSum(s, 'atk_mult'); }
 
 /** SYS-07: cảnh báo hiện khi eta <= warn_lead = base + chòi canh (tối đa +3). */
 export function warnLead(d: GameData, s: GameState): number {
@@ -62,7 +67,7 @@ export function warnLead(d: GameData, s: GameState): number {
     if (t.status !== 'settled') continue;
     for (const b of activeBuildings(t)) bonus += (d.buildings[b.type].warn_lead_bonus ?? 0) * b.level;
   }
-  return d.campaign.rules.base_warn_lead + Math.min(MAX_WARN_BONUS, bonus);
+  return Math.max(0, d.campaign.rules.base_warn_lead + Math.min(MAX_WARN_BONUS, bonus) + modSum(s, 'warn_lead'));
 }
 
 export function watchCount(s: GameState): number {

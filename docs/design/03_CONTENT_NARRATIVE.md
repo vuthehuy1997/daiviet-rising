@@ -27,4 +27,4 @@ Nhãn bắt buộc cho mọi nội dung: `[SOURCED]` có nguồn · `[FICTION]` 
 Nội dung đặt trong `game-data/` (YAML/JSON), ID ổn định: `CMP-`, `TIL-`, `BLD-`, `UNT-`, `CHR-`, `EVT-`, `POL-` (kế sách). Mỗi bản ghi có `source_label` và `source_ids`.
 
 ## Danh mục nội dung MVP (mục tiêu)
-~28 ô, ~11 công trình, ~6 loại quân, ~3 tướng/chỉ huy có nguồn, ~8 sự kiện, ~12 kế sách (placeholder; chốt khi cân bằng).
+~28 ô, ~11 công trình, ~6 loại quân, ~3 tướng/chỉ huy có nguồn, 8 sự kiện lựa chọn CMP-01 (CR-002, đạt), ~12 kế sách (placeholder; chốt khi cân bằng).

@@ -1,0 +1,8 @@
+CR-002 / RC2 local evidence — 2026-10-23T04:20:36Z
+ Test Files  4 passed (4)
+      Tests  67 passed (67)
+ids=48 tiles=12 features=20 design_ids_checked=31 tests=10
+OK
+  1 skipped
+  25 passed (9.2s)
+tsc --noEmit: OK; npm run build: OK

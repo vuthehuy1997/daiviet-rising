@@ -1,6 +1,6 @@
 import type { GameState } from './types';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export function serialize(s: GameState): string { return JSON.stringify({ save_version: SAVE_VERSION, state: s }); }
 
@@ -16,6 +16,10 @@ export function deserialize(text: string): GameState {
 }
 
 function migrate(o: any): GameState {
-  // v1 là phiên bản đầu; điểm mở rộng cho migration sau này.
-  return o.state;
+  const st = o.state;
+  if (o.save_version < 2 && st && typeof st === 'object') { // v1 (RC1) chưa có sự kiện: thêm trường rỗng
+    st.save_version = 2;
+    st.mods ??= []; st.pendingEvents ??= []; st.eventLog ??= []; st.raidEdits ??= {}; st.scheduled ??= [];
+  }
+  return st;
 }

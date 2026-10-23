@@ -179,12 +179,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 225,
+                  "duration": 267,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:46.936Z",
+                  "startTime": "2026-10-23T04:20:25.582Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -194,7 +194,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-fe6f4347fb35fcc3f21a",
           "file": "game.spec.ts",
-          "line": 11,
+          "line": 17,
           "column": 1
         },
         {
@@ -213,12 +213,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 320,
+                  "duration": 390,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:47.321Z",
+                  "startTime": "2026-10-23T04:20:25.994Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -228,7 +228,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-314f71138a8edddd64a5",
           "file": "game.spec.ts",
-          "line": 20,
+          "line": 26,
           "column": 1
         },
         {
@@ -247,12 +247,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 267,
+                  "duration": 269,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:47.653Z",
+                  "startTime": "2026-10-23T04:20:26.395Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -262,7 +262,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-3bb92aea8051ff3c560e",
           "file": "game.spec.ts",
-          "line": 33,
+          "line": 40,
           "column": 1
         },
         {
@@ -281,12 +281,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 151,
+                  "duration": 162,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:47.929Z",
+                  "startTime": "2026-10-23T04:20:26.674Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -296,7 +296,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-00236f5b024689dfc2c1",
           "file": "game.spec.ts",
-          "line": 43,
+          "line": 50,
           "column": 1
         },
         {
@@ -315,12 +315,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 257,
+                  "duration": 317,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:48.088Z",
+                  "startTime": "2026-10-23T04:20:26.846Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -330,7 +330,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-23242ffda969ef6414f6",
           "file": "game.spec.ts",
-          "line": 50,
+          "line": 57,
           "column": 1
         },
         {
@@ -349,12 +349,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 415,
+                  "duration": 486,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:48.357Z",
+                  "startTime": "2026-10-23T04:20:27.180Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -364,7 +364,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-f8d969674344c1551f43",
           "file": "game.spec.ts",
-          "line": 57,
+          "line": 66,
           "column": 1
         },
         {
@@ -383,12 +383,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 430,
+                  "duration": 591,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:48.783Z",
+                  "startTime": "2026-10-23T04:20:27.678Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -398,7 +398,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-3708c9d748f1b1da8e62",
           "file": "game.spec.ts",
-          "line": 69,
+          "line": 79,
           "column": 1
         },
         {
@@ -417,12 +417,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 326,
+                  "duration": 285,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:49.224Z",
+                  "startTime": "2026-10-23T04:20:28.287Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -432,7 +432,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-09f410006ab84029e2c3",
           "file": "game.spec.ts",
-          "line": 81,
+          "line": 92,
           "column": 1
         },
         {
@@ -451,12 +451,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 983,
+                  "duration": 980,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:49.565Z",
+                  "startTime": "2026-10-23T04:20:28.599Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -466,7 +466,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-8ded868a9d582ffb06cd",
           "file": "game.spec.ts",
-          "line": 94,
+          "line": 105,
           "column": 1
         },
         {
@@ -485,12 +485,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 228,
+                  "duration": 226,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:50.561Z",
+                  "startTime": "2026-10-23T04:20:29.590Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -500,7 +500,109 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-ec386beb04362f47c5cb",
           "file": "game.spec.ts",
-          "line": 101,
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "CR-002 sự kiện lựa chọn: hiện ở lượt 2, nêu hệ quả, chọn bằng chuột/chạm, trừ đúng tài nguyên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 229,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:29.824Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-421f1e49bace72c573c6",
+          "file": "game.spec.ts",
+          "line": 122,
+          "column": 1
+        },
+        {
+          "title": "CR-002 sự kiện: “Để sau”/Esc không chọn hộ; kết thúc lượt tự áp mặc định; có thể mở lại",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 305,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:30.062Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-bee88741fc6de8afb67e",
+          "file": "game.spec.ts",
+          "line": 138,
+          "column": 1
+        },
+        {
+          "title": "CR-002 axe với hộp thoại sự kiện đang mở; tải lại trang giữ sự kiện đang chờ",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 804,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:30.375Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-4c0355f42c2d158069cc",
+          "file": "game.spec.ts",
+          "line": 150,
           "column": 1
         },
         {
@@ -519,12 +621,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 224,
+                  "duration": 258,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:46.936Z",
+                  "startTime": "2026-10-23T04:20:25.571Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -534,11 +636,371 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-97d2b1c7e039d7f4e4f3",
           "file": "game.spec.ts",
-          "line": 11,
+          "line": 17,
           "column": 1
         },
         {
           "title": "chọn ô → xây → huấn luyện → kết thúc lượt (chuột/chạm)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 385,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:25.965Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-028c85dc4186668eb4fd",
+          "file": "game.spec.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "hoàn tác trong lượt",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 269,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:26.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-1f4e4752f5383ada6add",
+          "file": "game.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "bàn phím: Tab tới ô và Enter chọn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "bàn phím chỉ kiểm tra trên desktop",
+                  "location": {
+                    "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
+                    "line": 51,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 124,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:26.641Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "bàn phím chỉ kiểm tra trên desktop",
+                      "location": {
+                        "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
+                        "line": 51,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-598f499fec0b74e6ff53",
+          "file": "game.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "tự lưu: tải lại trang giữ nguyên lượt",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 324,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:26.774Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-d21321fba92cecefdc2d",
+          "file": "game.spec.ts",
+          "line": 57,
+          "column": 1
+        },
+        {
+          "title": "lập khu định cư rồi điều quân tới ô mới (luồng điều quân bằng UI)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 487,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:27.113Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-c42ea48232534011bc98",
+          "file": "game.spec.ts",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "bỏ mặc cả chiến dịch qua UI → hộp thoại Thất bại",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 601,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:27.613Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-bb4b6a1cf8adba7ec5d1",
+          "file": "game.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "TST-09 không cuộn ngang trên màn hình hẹp, vùng chạm ≥44px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 362,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:28.226Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-4d50bc9b022e039e1d87",
+          "file": "game.spec.ts",
+          "line": 92,
+          "column": 1
+        },
+        {
+          "title": "TST-09 axe: không vi phạm nghiêm trọng/cực kỳ nghiêm trọng",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1025,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:28.602Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-96cf6fb797a7897626db",
+          "file": "game.spec.ts",
+          "line": 105,
+          "column": 1
+        },
+        {
+          "title": "FEAT-018 màn Bối cảnh & nguồn nêu rõ nhãn FICTION/SOURCED",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 226,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:29.641Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-6dea49bbbb0221740a46",
+          "file": "game.spec.ts",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "CR-002 sự kiện lựa chọn: hiện ở lượt 2, nêu hệ quả, chọn bằng chuột/chạm, trừ đúng tài nguyên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T04:20:29.875Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-0459fb011ea496aa59f1",
+          "file": "game.spec.ts",
+          "line": 122,
+          "column": 1
+        },
+        {
+          "title": "CR-002 sự kiện: “Để sau”/Esc không chọn hộ; kết thúc lượt tự áp mặc định; có thể mở lại",
           "ok": true,
           "tags": [],
           "tests": [
@@ -558,7 +1020,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:47.321Z",
+                  "startTime": "2026-10-23T04:20:30.113Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -566,13 +1028,13 @@
               "status": "expected"
             }
           ],
-          "id": "8b1bb1493a64c9fc3ab6-028c85dc4186668eb4fd",
+          "id": "8b1bb1493a64c9fc3ab6-0389051151824f3c3880",
           "file": "game.spec.ts",
-          "line": 20,
+          "line": 138,
           "column": 1
         },
         {
-          "title": "hoàn tác trong lượt",
+          "title": "CR-002 axe với hộp thoại sự kiện đang mở; tải lại trang giữ sự kiện đang chờ",
           "ok": true,
           "tags": [],
           "tests": [
@@ -587,12 +1049,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 268,
+                  "duration": 796,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-21T10:03:47.636Z",
+                  "startTime": "2026-10-23T04:20:30.425Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -600,267 +1062,9 @@
               "status": "expected"
             }
           ],
-          "id": "8b1bb1493a64c9fc3ab6-1f4e4752f5383ada6add",
+          "id": "8b1bb1493a64c9fc3ab6-4f63c88b68358343d26e",
           "file": "game.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "bàn phím: Tab tới ô và Enter chọn",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [
-                {
-                  "type": "skip",
-                  "description": "bàn phím chỉ kiểm tra trên desktop",
-                  "location": {
-                    "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
-                    "line": 44,
-                    "column": 8
-                  }
-                }
-              ],
-              "expectedStatus": "skipped",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "skipped",
-                  "duration": 117,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:47.913Z",
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "bàn phím chỉ kiểm tra trên desktop",
-                      "location": {
-                        "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
-                        "line": 44,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "attachments": []
-                }
-              ],
-              "status": "skipped"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-598f499fec0b74e6ff53",
-          "file": "game.spec.ts",
-          "line": 43,
-          "column": 1
-        },
-        {
-          "title": "tự lưu: tải lại trang giữ nguyên lượt",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 254,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:48.041Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-d21321fba92cecefdc2d",
-          "file": "game.spec.ts",
-          "line": 50,
-          "column": 1
-        },
-        {
-          "title": "lập khu định cư rồi điều quân tới ô mới (luồng điều quân bằng UI)",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 416,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:48.306Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-c42ea48232534011bc98",
-          "file": "game.spec.ts",
-          "line": 57,
-          "column": 1
-        },
-        {
-          "title": "bỏ mặc cả chiến dịch qua UI → hộp thoại Thất bại",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 417,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:48.732Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-bb4b6a1cf8adba7ec5d1",
-          "file": "game.spec.ts",
-          "line": 69,
-          "column": 1
-        },
-        {
-          "title": "TST-09 không cuộn ngang trên màn hình hẹp, vùng chạm ≥44px",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 388,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:49.161Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-4d50bc9b022e039e1d87",
-          "file": "game.spec.ts",
-          "line": 81,
-          "column": 1
-        },
-        {
-          "title": "TST-09 axe: không vi phạm nghiêm trọng/cực kỳ nghiêm trọng",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1005,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:49.565Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-96cf6fb797a7897626db",
-          "file": "game.spec.ts",
-          "line": 94,
-          "column": 1
-        },
-        {
-          "title": "FEAT-018 màn Bối cảnh & nguồn nêu rõ nhãn FICTION/SOURCED",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-touch",
-              "projectName": "mobile-touch",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 242,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-10-21T10:03:50.583Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "8b1bb1493a64c9fc3ab6-6dea49bbbb0221740a46",
-          "file": "game.spec.ts",
-          "line": 101,
+          "line": 150,
           "column": 1
         }
       ]
@@ -868,9 +1072,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-21T10:03:43.501Z",
-    "duration": 7407.148,
-    "expected": 19,
+    "startTime": "2026-10-23T04:20:22.113Z",
+    "duration": 9195.625,
+    "expected": 25,
     "skipped": 1,
     "unexpected": 0,
     "flaky": 0

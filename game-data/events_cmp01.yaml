@@ -1,0 +1,92 @@
+# CR-002: sự kiện có lựa chọn CMP-01. Kích hoạt theo lượt cố định (tất định). Số liệu placeholder.
+# Mỗi sự kiện có đúng 1 lựa chọn default:true (tự áp nếu người chơi không chọn trước khi Kết thúc lượt).
+# effects: res (delta), mods [{kind: atk_mult|fort|warn_lead|supply_cap, value, turns?, terrain?}], raid {delay, mult} (đợt kế tiếp), later [{after, res}]
+events:
+  - id: EVT-01
+    turn: 2
+    name_vi: Tin tình báo từ phía Bắc
+    text_vi: Trinh sát báo đối phương đang gom lương, chuẩn bị tiến quân. Chờ họ ra tay trước hay chủ động ra tay?
+    source_label: SOURCED
+    source_ids: [H8]
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Cử trinh sát qua biên, effects: {res: {grain: -10}, mods: [{kind: warn_lead, value: 1, turns: 6}]}}
+      - {id: b, label_vi: Tập kích trước ở biên, effects: {res: {grain: -25, iron: -10, dantam: -1}, raid: {delay: 1, mult: 0.9}}}
+      - {id: c, label_vi: Chỉ củng cố tiền tuyến, default: true, effects: {mods: [{kind: fort, value: 0.05, turns: 6}]}}
+  - id: EVT-02
+    turn: 4
+    name_vi: Dân tản cư xin vào thành
+    text_vi: Dân làng vùng biên kéo nhau về xin nương náu.
+    source_label: FICTION
+    source_ids: []
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Đón nhận cả làng, effects: {res: {grain: -25, dantam: 3}}}
+      - {id: b, label_vi: Chỉ nhận thợ và người khỏe, default: true, effects: {res: {grain: -5, wood: 10, stone: 5}}}
+      - {id: c, label_vi: Từ chối, effects: {res: {dantam: -2}}}
+  - id: EVT-03
+    turn: 7
+    name_vi: Tin đồn về hướng tiến quân
+    text_vi: Có tin đồn đối phương sẽ đánh từ một hướng, nhưng chưa rõ thật hay giả.
+    source_label: FICTION
+    source_ids: []
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Tin ngay và dồn quân phòng bị, effects: {mods: [{kind: fort, value: 0.05, turns: 3}, {kind: warn_lead, value: -1, turns: 3}]}}
+      - {id: b, label_vi: Cho người kiểm chứng, effects: {res: {grain: -10}, mods: [{kind: warn_lead, value: 1, turns: 3}]}}
+      - {id: c, label_vi: Phân tán nhẹ, giữ nguyên thế trận, default: true, effects: {}}
+  - id: EVT-04
+    turn: 10
+    name_vi: Thương nhân xin qua biên giới
+    text_vi: Một đoàn thương nhân xin đi qua tuyến của ta.
+    source_label: FICTION
+    source_ids: []
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Cho qua và thu thuế, effects: {res: {grain: 10}, mods: [{kind: warn_lead, value: -1, turns: 3}]}}
+      - {id: b, label_vi: Mua tin của họ, effects: {res: {grain: -25}, mods: [{kind: warn_lead, value: 1, turns: 4}]}}
+      - {id: c, label_vi: Không cho qua, default: true, effects: {}}
+  - id: EVT-05
+    turn: 13
+    name_vi: Thiếu lương trong quân
+    text_vi: Kho lương hao nhanh hơn dự tính; quân sĩ bắt đầu ta thán.
+    source_label: FICTION
+    source_ids: []
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Trưng thu lương của dân, effects: {res: {grain: 30, dantam: -1}}}
+      - {id: b, label_vi: Cắt khẩu phần, default: true, effects: {res: {grain: 10}, mods: [{kind: supply_cap, value: -1, turns: 2}]}}
+      - {id: c, label_vi: Xin dân làng cho vay lương, effects: {res: {grain: 40}, later: [{after: 3, res: {grain: -45, dantam: -1}}]}}
+  - id: EVT-06
+    turn: 16
+    name_vi: Thợ rèn đề nghị cải tiến khí giới
+    text_vi: Thợ rèn xin vật liệu để cải tiến khí giới hoặc gia cố công sự.
+    source_label: FICTION
+    source_ids: []
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Đầu tư sắt cải tiến khí giới, effects: {res: {iron: -15}, mods: [{kind: atk_mult, value: 0.05}]}}
+      - {id: b, label_vi: Đầu tư sắt gia cố công sự, effects: {res: {iron: -15}, mods: [{kind: fort, value: 0.03}]}}
+      - {id: c, label_vi: Từ chối, default: true, effects: {}}
+  - id: EVT-07
+    turn: 18
+    name_vi: Chuẩn bị tuyến sông
+    text_vi: Tuyến sông là chỗ dựa phòng thủ. Nên đắp lũy cố định hay giữ quân cơ động?
+    source_label: SOURCED
+    source_ids: [H2]
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Đắp lũy dọc sông, effects: {res: {stone: -25}, mods: [{kind: fort, value: 0.05, terrain: song}]}}
+      - {id: b, label_vi: Giữ quân cơ động, effects: {res: {grain: -25}, mods: [{kind: supply_cap, value: 1, turns: 6}]}}
+      - {id: c, label_vi: Làm nửa vời cả hai, default: true, effects: {mods: [{kind: fort, value: 0.02, turns: 4, terrain: song}]}}
+  - id: EVT-08
+    turn: 19
+    name_vi: Sứ giả dò hỏi giảng hòa
+    text_vi: Sứ giả đối phương dò hỏi khả năng giảng hòa trước khi đợt tiến công kế tiếp.
+    source_label: FICTION
+    source_ids: []
+    design: SYS-10
+    choices:
+      - {id: a, label_vi: Tiếp sứ giả, nghe ngóng, effects: {res: {grain: -10, dantam: -1}, mods: [{kind: warn_lead, value: 1, turns: 4}]}}
+      - {id: b, label_vi: Hoãn, chưa trả lời, default: true, effects: {}}
+      - {id: c, label_vi: Từ chối thẳng, effects: {res: {dantam: 2}, raid: {mult: 1.15}}}

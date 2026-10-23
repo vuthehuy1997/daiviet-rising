@@ -1,3 +1,4 @@
+import { resolveEvent } from './events';
 import { hasActive, anyActive, activeBuildings, garrisonCap } from './derived';
 import { shortestPath } from './graph';
 import { slotsOf } from './state';
@@ -122,6 +123,10 @@ export function applyCommand(d: GameData, s0: GameState, cmd: Cmd): CmdResult {
       s.res.dantam -= p.cost_dantam;
       s.policies.push(p.id);
       return { state: s };
+    }
+    case 'choose': {
+      const err = resolveEvent(d, s, cmd.event, cmd.choice, false);
+      return err ? fail(s0, err) : { state: s };
     }
     case 'negotiate': {
       if (s.turn < rules.negotiate_from_turn) return fail(s0, `Chỉ đàm phán từ lượt ${rules.negotiate_from_turn}`);

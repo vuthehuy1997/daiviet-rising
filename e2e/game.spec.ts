@@ -1,6 +1,12 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+/** Sự kiện lựa chọn (CR-002) mở hộp thoại modal sau khi kết thúc lượt; các luồng không quan tâm thì “Để sau”. */
+async function dismissEvent(page: import('@playwright/test').Page) {
+  const later = page.getByRole('button', { name: 'Để sau' });
+  if (await later.isVisible().catch(() => false)) await later.click();
+}
+
 test.beforeEach(async ({ page }) => {
   page.on('pageerror', (e) => { throw e; });
   await page.goto('/');
@@ -27,6 +33,7 @@ test('chọn ô → xây → huấn luyện → kết thúc lượt (chuột/ch�
   await page.getByRole('button', { name: '+1 Bộ binh' }).click();
   await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
   await expect(page.getByText('Lượt 2/28')).toBeVisible();
+  await dismissEvent(page);
   await expect(page.getByText(/Quân tại ô/)).toBeVisible();
 });
 
@@ -49,8 +56,10 @@ test('bàn phím: Tab tới ô và Enter chọn', async ({ page, isMobile }) => 
 
 test('tự lưu: tải lại trang giữ nguyên lượt', async ({ page }) => {
   await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  await dismissEvent(page);
   await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
   await page.reload();
+  await dismissEvent(page);
   await expect(page.getByText('Lượt 3/28')).toBeVisible();
 });
 
@@ -58,6 +67,7 @@ test('lập khu định cư rồi điều quân tới ô mới (luồng điều 
   await page.locator('[data-tile="TIL-001"]').click();
   await page.getByRole('button', { name: '+1 Bộ binh' }).click();
   await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  await dismissEvent(page);
   await page.locator('[data-tile="TIL-005"]').click();
   await page.getByRole('button', { name: /Lập khu định cư/ }).click();
   await page.locator('[data-tile="TIL-001"]').click();
@@ -70,6 +80,7 @@ test('bỏ mặc cả chiến dịch qua UI → hộp thoại Thất bại', asy
   for (let i = 0; i < 40; i++) {
     const dlg = page.getByRole('button', { name: 'Đóng' });
     if (await dlg.isVisible().catch(() => false)) await dlg.click();
+    await dismissEvent(page);
     const end = page.getByRole('button', { name: 'Kết thúc lượt' });
     if (await end.isDisabled()) break;
     await end.click();
@@ -106,4 +117,46 @@ test('FEAT-018 màn Bối cảnh & nguồn nêu rõ nhãn FICTION/SOURCED', asyn
   await expect(dlg.getByRole('link').first()).toHaveAttribute('href', /^https:\/\//);
   await dlg.getByRole('button', { name: 'Đóng' }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
+});
+
+test('CR-002 sự kiện lựa chọn: hiện ở lượt 2, nêu hệ quả, chọn bằng chuột/chạm, trừ đúng tài nguyên', async ({ page }) => {
+  await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  const dlg = page.getByRole('dialog', { name: /Sự kiện/ });
+  await expect(dlg).toBeVisible();
+  await expect(dlg).toContainText('Tin tình báo từ phía Bắc');
+  await expect(dlg).toContainText('SOURCED');
+  await expect(dlg).toContainText('Hệ quả:');
+  await expect(dlg.locator('[data-choice]')).toHaveCount(3);
+  const grain = async () => Number((await page.locator('header.top .res').innerText()).match(/Lương: (-?\d+)/)![1]);
+  const g0 = await grain();
+  await dlg.locator('[data-choice="a"]').click(); // −10 Lương
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  expect(await grain()).toBe(g0 - 10);
+  await expect(page.locator('ul.log')).toContainText('Cử trinh sát qua biên');
+});
+
+test('CR-002 sự kiện: “Để sau”/Esc không chọn hộ; kết thúc lượt tự áp mặc định; có thể mở lại', async ({ page, isMobile }) => {
+  await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  if (!isMobile) await page.keyboard.press('Escape'); else await page.getByRole('button', { name: 'Để sau' }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByText('Sự kiện chờ quyết định')).toBeVisible();
+  await page.getByRole('button', { name: 'Xem & quyết định' }).click();
+  await expect(page.getByRole('dialog', { name: /Sự kiện/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Để sau' }).click();
+  await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  await expect(page.locator('ul.log')).toContainText('chưa quyết nên tự chọn');
+});
+
+test('CR-002 axe với hộp thoại sự kiện đang mở; tải lại trang giữ sự kiện đang chờ', async ({ page }) => {
+  await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  await expect(page.getByRole('dialog', { name: /Sự kiện/ })).toBeVisible();
+  const r = await new AxeBuilder({ page }).analyze();
+  const bad = r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
+  expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).slice(0, 3).join(' ; ')}`)).toEqual([]);
+  for (const b of await page.getByRole('dialog').getByRole('button').all()) {
+    const box = await b.boundingBox();
+    expect(box!.height, await b.innerText()).toBeGreaterThanOrEqual(43.5);
+  }
+  await page.reload();
+  await expect(page.getByRole('dialog', { name: /Sự kiện/ })).toBeVisible();
 });

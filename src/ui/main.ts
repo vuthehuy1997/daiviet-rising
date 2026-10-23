@@ -1,5 +1,6 @@
 import { loadData } from '../sim/data';
 import { garrisonCap, intelLevel, mobileSupplyUsed, raidIntel, supplyCap, warnLead, fortBonus } from '../sim/derived';
+import { canChoose, describeEffects, eventById } from '../sim/events';
 import { shortestPath } from '../sim/graph';
 import type { BattleReport, Counts, GameData, TileRT } from '../sim/types';
 import { Controller } from './controller';
@@ -215,6 +216,37 @@ function aboutDialog() {
   return dlg;
 }
 
+let eventDismissed = false; // Esc/“Để sau” chỉ ẩn hộp thoại, KHÔNG chọn thay người chơi
+function eventDialog() {
+  const st = ctl.state;
+  const ev = st.pendingEvents.length && st.outcome === 'playing' && !reportQueue.length && !eventDismissed ? eventById(d, st.pendingEvents[0]) : undefined;
+  if (!ev) return null;
+  const dlg = h('dialog', { 'aria-label': `Sự kiện: ${ev.name_vi}`, 'data-event': ev.id },
+    h('h2', {}, ev.name_vi),
+    h('p', {}, ev.text_vi),
+    h('p', { class: 'muted' }, `Nhãn nội dung: ${ev.source_label}${ev.source_ids.length ? ' · nguồn ' + ev.source_ids.join(', ') : ''}`),
+    ...ev.choices.map((c) => {
+      const ok = canChoose(st, c);
+      return h('div', { class: 'choice' },
+        h('button', { class: c.default ? '' : 'primary', 'data-choice': c.id, disabled: !ok, onclick: () => { try { dlg.close(); } catch { /* jsdom */ } act({ t: 'choose', event: ev.id, choice: c.id }); } },
+          c.label_vi + (c.default ? ' (mặc định)' : '')),
+        h('div', { class: 'muted' }, `Hệ quả: ${describeEffects(c.effects).join('; ')}${ok ? '' : ' — không đủ tài nguyên'}`));
+    }),
+    h('p', { class: 'muted' }, 'Nếu chưa chọn khi kết thúc lượt, trò chơi tự áp lựa chọn mặc định.'),
+    h('div', { class: 'row' }, h('button', { 'data-act': 'later', onclick: () => { eventDismissed = true; try { dlg.close(); } catch { /* jsdom */ } render(); } }, 'Để sau')));
+  dlg.addEventListener('cancel', () => { eventDismissed = true; });
+  queueMicrotask(() => { try { dlg.showModal(); } catch { /* jsdom */ } });
+  return dlg;
+}
+
+function eventsPanel() {
+  const st = ctl.state;
+  if (!st.pendingEvents.length || st.outcome !== 'playing') return null;
+  return h('div', { class: 'alert late', role: 'status' },
+    h('b', {}, 'Sự kiện chờ quyết định: '), st.pendingEvents.map((id) => eventById(d, id)?.name_vi).join(', '), ' ',
+    h('button', { 'data-act': 'open-event', onclick: () => { eventDismissed = false; render(); } }, 'Xem & quyết định'));
+}
+
 function logPanel() {
   const st = ctl.state;
   return h('div', { class: 'panel' }, h('h2', {}, 'Nhật ký'), h('ul', { class: 'log' }, ...st.log.slice(-12).reverse().map((l) => h('li', {}, l))));
@@ -236,7 +268,7 @@ function controls() {
       h('button', { onclick: onExport }, 'Xuất JSON'),
       h('button', { onclick: () => fileInput.click() }, 'Nhập JSON'),
       h('button', { onclick: () => { showAbout = true; render(); } }, 'Bối cảnh & nguồn'),
-      h('button', { onclick: () => { if (confirm('Bắt đầu lại chiến dịch?')) { ctl.newGame(); selTile = null; selArmy = null; msg = ''; render(); } } }, 'Chơi lại')),
+      h('button', { onclick: () => { if (confirm('Bắt đầu lại chiến dịch?')) { ctl.newGame(); eventDismissed = false; selTile = null; selArmy = null; msg = ''; render(); } } }, 'Chơi lại')),
     !ctl.storageOk && h('p', { class: 'muted' }, 'Không lưu được vào trình duyệt — hãy dùng “Xuất JSON”.'),
     msg && h('p', { role: 'alert', style: 'color:var(--bad)' }, msg));
 }
@@ -244,7 +276,7 @@ function controls() {
 const fileInput = h('input', { type: 'file', accept: 'application/json,.json', class: 'sr', 'aria-label': 'Nhập tệp lưu' });
 fileInput.addEventListener('change', async () => {
   const f = fileInput.files?.[0]; if (!f) return;
-  msg = ctl.importJson(await f.text()) ?? 'Đã nạp bản lưu.'; fileInput.value = ''; render();
+  msg = ctl.importJson(await f.text()) ?? 'Đã nạp bản lưu.'; fileInput.value = ''; eventDismissed = false; render();
 });
 function onExport() {
   const blob = new Blob([ctl.exportJson()], { type: 'application/json' });
@@ -254,6 +286,7 @@ function onExport() {
 
 function onEndTurn() {
   reportQueue = ctl.endTurn();
+  eventDismissed = false;
   selArmy = null; msg = '';
   render();
 }
@@ -278,9 +311,10 @@ function reportDialog() {
 
 function render() {
   const focused = (document.activeElement as HTMLElement | null)?.getAttribute?.('data-tile');
-  const main = h('main', {}, h('div', {}, alerts(), mapView()), h('div', {}, controls(), movingPanel(), tilePanel(), logPanel()));
+  const main = h('main', {}, h('div', {}, alerts(), eventsPanel(), mapView()), h('div', {}, controls(), movingPanel(), tilePanel(), logPanel()));
   root.replaceChildren(topBar(), main, fileInput);
   const dlg = reportDialog(); if (dlg) root.append(dlg);
+  const ev = eventDialog(); if (ev) root.append(ev);
   const ab = aboutDialog(); if (ab) root.append(ab);
   if (focused) (root.querySelector(`[data-tile="${focused}"]`) as HTMLElement | null)?.focus();
 }

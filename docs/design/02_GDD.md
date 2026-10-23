@@ -9,7 +9,7 @@ Phiên bản 0.1 (candidate). **Mọi con số là `PLACEHOLDER-BALANCE`** — c
 
 ## SYS-02 Lượt & thứ tự phân giải
 Người chơi ra lệnh → **Kết thúc lượt** (miễn phí). Thứ tự (theo reference S3, áp dụng nguyên lý):
-1. Sản xuất → 2. Công trình (hoàn tất nếu `remaining==0`) → 3. Di chuyển quân → 4. Huấn luyện → 5. Sự kiện & tình báo → 6. Trận đã lên lịch.
+1. Sản xuất → 2. Công trình (hoàn tất nếu `remaining==0`) → 3. Di chuyển quân → 4. Huấn luyện → 5. Sự kiện & tình báo (sự kiện mới mở ở đầu lượt kế; chưa chọn → mặc định ở đầu `endTurn`) → 6. Trận đã lên lịch.
 Mỗi lệnh có `duration` (số lượt). Di chuyển ngắn vẫn ≥1 lượt. Xác định (deterministic) theo `seed` của chiến dịch.
 
 ## SYS-03 Tài nguyên
@@ -66,7 +66,7 @@ Mức: `chính_xác`, `ước_lượng (±25%)`, `mơ_hồ (lớp quân, không 
 Cây 4 nhánh *riêng của dự án* (chưa đặt tên cuối, không dùng nhánh màu/cấu trúc reference): Nông-hậu cần, Thành-phòng, Quân-chiến thuật, Ngoại giao. Tốn Dân tâm; khóa theo cấp **Kinh đô/Thủ phủ**.
 
 ## SYS-10 Sự kiện & ngoại giao
-Sự kiện có lựa chọn, nhãn nguồn. Ngoại giao (Chiến dịch 1): đàm phán kết thúc khi điều kiện đạt (xem §9).
+Sự kiện có lựa chọn, nhãn nguồn (CR-002). Kích hoạt theo lượt cố định (tất định), mở ở đầu lượt đó; 2–3 lựa chọn, hệ quả hiện trước khi bấm. Sự kiện chưa chọn khi Kết thúc lượt tự áp lựa chọn `default`. Hiệu ứng chỉ gồm: đổi kho, hiệu chỉnh có hạn/vĩnh viễn (sức mạnh quân, công sự có thể theo địa hình, tầm cảnh báo, trần quân cơ động), hoãn/làm yếu/làm mạnh đợt tập kích kế tiếp, và khoản hẹn trả sau N lượt. Trần công sự 0.40 vẫn áp dụng. Dữ liệu: `game-data/events_cmp01.yaml`. Ngoại giao (Chiến dịch 1): đàm phán kết thúc khi điều kiện đạt (xem §9).
 
 ## SYS-11 Lớp thủy chiến (từ C)
 Ô `song`: thủy triều chu kỳ 2–3 lượt (placeholder); `BLD-STAKES` hiệu quả khi nước rút/lên theo kịch bản; nhử mục tiêu = lệnh kéo địch vào ô cọc. Dùng chủ yếu ở CP2, MVP có phiên bản giản lược (tuyến sông CP1).

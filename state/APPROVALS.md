@@ -22,3 +22,10 @@
 - Baseline/build: RC1 (git tag rc1), DB-0.1 + CR-001.
 - Authorized target: a NEW GitHub repository created under the token's account, and GitHub Pages of that repo (static `dist/`). Nothing else (no other repos, no paid services, no purchases).
 - Agent constraints: token only via transient env var/header; never written to repo, remote URL, or memory. Recommend user revokes/rotates the token after release (it was pasted in chat).
+
+## CR-002 — Choice events for CMP-01
+- Date: 2026-10-23
+- Approver: user (as entered in session)
+- Exact words: "approve CR-002"
+- Scope approved: docs/change_requests/CR-002_choice_events_cmp01.md as written (8 deterministic events, RC2 local build only).
+- Not authorized: remote push, deploy of RC2 (G3 covers RC1 only).

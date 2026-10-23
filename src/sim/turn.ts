@@ -1,6 +1,7 @@
 import { cleanArmies, fieldArmy } from './commands';
 import { activeBuildings, atkMult, fortBonus, moraleMod, stakesPenalty } from './derived';
 import { resolveCombat, terrainAttackerMod } from './combat';
+import { applyScheduled, autoResolvePending, openEvents } from './events';
 import { shortestPath } from './graph';
 import { Rng } from './rng';
 import type { BattleReport, Counts, GameData, GameState, Raid, ResKey, TileRT } from './types';
@@ -60,9 +61,10 @@ function spawnRaids(d: GameData, s: GameState) {
     const target = nearestSettled(d, s, def.origin);
     if (!target) { s.outcome = 'lost'; s.outcomeReason = 'Không còn khu định cư nào'; return; }
     const weaken = def.turn >= pre.min_turn_effect && s.tiles[pre.tile].status !== 'hostile' ? pre.weaken_factor : 1;
+    const edit = s.raidEdits[def.id] ?? { delay: 0, mult: 1 };
     const units: Counts = {};
-    for (const [u, n] of Object.entries(def.units)) units[u] = Math.max(1, Math.floor(n * weaken));
-    const raid: Raid = { id: def.id, origin: def.origin, target: target.tile, eta: Math.max(1, Math.ceil(target.cost / ENEMY_SPEED)), units };
+    for (const [u, n] of Object.entries(def.units)) units[u] = Math.max(1, Math.floor(n * weaken * edit.mult));
+    const raid: Raid = { id: def.id, origin: def.origin, target: target.tile, eta: Math.max(1, Math.ceil(target.cost / ENEMY_SPEED)) + edit.delay, units };
     s.raids.push(raid);
     log(s, `Tình báo: đợt tập kích ${def.id} nhắm ${target.tile}, dự kiến tới sau ${raid.eta} lượt${weaken < 1 ? ' (đã bị suy yếu do mất hậu cứ)' : ''}`);
   }
@@ -161,6 +163,8 @@ export function endTurn(d: GameData, s0: GameState): GameState {
   const rng = new Rng(s.rng);
   const rules = d.campaign.rules;
 
+  autoResolvePending(d, s);                        // 0: sự kiện chưa chọn → mặc định
+  applyScheduled(s);
   produce(d, s);                                   // 1
   construct(s);                                    // 2
   const arrivals: { armyId: string; dest: string }[] = []; // 3
@@ -181,6 +185,7 @@ export function endTurn(d: GameData, s0: GameState): GameState {
   s.rng = rng.state;
   s.turn += 1;
   if (s.outcome === 'playing') {
+    openEvents(d, s);
     s.negDantamTurns = s.res.dantam < 0 ? s.negDantamTurns + 1 : 0;
     if (s.negDantamTurns >= rules.lose_dantam_turns) { s.outcome = 'lost'; s.outcomeReason = 'Dân tâm cạn kiệt'; }
     else if (s.turn > rules.deadline_turn) { s.outcome = 'lost'; s.outcomeReason = 'Hết thời hạn chiến dịch mà chưa giảng hòa'; }

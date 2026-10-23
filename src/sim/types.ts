@@ -23,6 +23,18 @@ export interface TileDef {
   id: string; name_vi: string; terrain: Terrain; state: TileStatus; x: number; y: number;
   adj: string[]; defenders?: Counts;
 }
+export type ModKind = 'atk_mult' | 'fort' | 'warn_lead' | 'supply_cap';
+export interface ModDef { kind: ModKind; value: number; turns?: number; terrain?: Terrain }
+export interface Mod { kind: ModKind; value: number; until?: number; terrain?: Terrain }
+export interface Effects {
+  res?: Partial<Res>; mods?: ModDef[]; raid?: { delay?: number; mult?: number };
+  later?: { after: number; res: Partial<Res> }[];
+}
+export interface EventChoice { id: string; label_vi: string; default?: boolean; effects: Effects }
+export interface EventDef {
+  id: string; turn: number; name_vi: string; text_vi: string; choices: EventChoice[];
+  source_label: string; source_ids: string[];
+}
 export interface RaidDef { id: string; turn: number; origin: string; units: Counts }
 export interface Rules {
   deadline_turn: number; negotiate_from_turn: number; negotiate_min_repelled: number;
@@ -43,6 +55,7 @@ export interface GameData {
   };
   tiles: TileDef[];
   raids: RaidDef[];
+  events: EventDef[];
 }
 
 export interface BuildingInst { type: string; level: number; remaining: number }
@@ -61,7 +74,7 @@ export interface BattleReport {
 }
 
 export interface GameState {
-  save_version: 1;
+  save_version: 2;
   campaign: string;
   turn: number;
   rng: number;
@@ -75,6 +88,11 @@ export interface GameState {
   negDantamTurns: number;
   nextId: number;
   weaken: Record<string, number>;
+  mods: Mod[];
+  pendingEvents: string[];
+  eventLog: { turn: number; event: string; choice: string; auto: boolean }[];
+  raidEdits: Record<string, { delay: number; mult: number }>;
+  scheduled: { turn: number; res: Partial<Res> }[];
   log: string[];
   reports: BattleReport[];
   outcome: 'playing' | 'won' | 'lost';
@@ -90,6 +108,7 @@ export type Cmd =
   | { t: 'attack'; army: string; to: string; units?: Counts }
   | { t: 'settle'; tile: string }
   | { t: 'research'; policy: string }
-  | { t: 'negotiate' };
+  | { t: 'negotiate' }
+  | { t: 'choose'; event: string; choice: string };
 
 export interface CmdResult { state: GameState; error?: string }

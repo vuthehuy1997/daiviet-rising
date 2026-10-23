@@ -42,7 +42,7 @@ describe('UXD-06/UXD-SAVE controller', () => {
 });
 
 describe('UI smoke (jsdom) — không thay thế E2E trình duyệt thật', () => {
-  beforeEach(() => { document.body.innerHTML = '<div id="app"></div>'; vi.resetModules(); });
+  beforeEach(() => { try { localStorage.clear(); } catch { /* */ } document.body.innerHTML = '<div id="app"></div>'; vi.resetModules(); });
   it('render bản đồ 12 ô (role=button, tên truy cập từ chữ hiển thị), nút Kết thúc lượt chạy được', async () => {
     await import('../src/ui/main');
     const tiles = document.querySelectorAll('[data-tile]');
@@ -60,5 +60,16 @@ describe('UI smoke (jsdom) — không thay thế E2E trình duyệt thật', () 
     const before = document.body.textContent!.match(/Gỗ-tre: (\d+)/)![1];
     [...document.querySelectorAll('button')].find((b) => b.textContent === 'Chòi canh')!.click();
     expect(document.body.textContent!.match(/Gỗ-tre: (\d+)/)![1]).not.toBe(before);
+  });
+  it('CR-002: hết lượt 1 → hộp thoại EVT-01 với 3 lựa chọn kèm hệ quả; chọn xong hộp thoại biến mất', async () => {
+    await import('../src/ui/main');
+    [...document.querySelectorAll('button')].find((b) => b.textContent === 'Kết thúc lượt')!.click();
+    const dlg = document.querySelector('dialog[data-event="EVT-01"]')!;
+    expect(dlg).toBeTruthy();
+    expect(dlg.querySelectorAll('[data-choice]').length).toBe(3);
+    expect(dlg.textContent).toContain('Hệ quả:');
+    (dlg.querySelector('[data-choice="a"]') as HTMLElement).click();
+    expect(document.querySelector('dialog[data-event]')).toBeNull();
+    expect(document.body.textContent).toContain('Cử trinh sát qua biên');
   });
 });

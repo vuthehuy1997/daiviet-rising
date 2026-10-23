@@ -4,6 +4,8 @@ import { endTurn } from '../src/sim/turn';
 import type { Cmd, GameState } from '../src/sim/types';
 import { D, fresh } from './helpers';
 
+/** Cách bot chọn ở sự kiện: 'default' = để tự áp mặc định; 'a'|'b'|'c' = luôn chọn đó nếu có (không thì mặc định); 'mix' = xoay vòng theo seed. */
+export type Pick = 'default' | 'a' | 'b' | 'c' | 'mix' | Record<string, string>; // Record: sự kiện → lựa chọn (còn lại mặc định)
 export type Strategy = 'idle' | 'turtle' | 'sprawl' | 'expand' | 'expand-strike';
 
 function tryCmd(s: GameState, c: Cmd): GameState {
@@ -15,16 +17,27 @@ const settledIds = (s: GameState) => Object.values(s.tiles).filter((t) => t.stat
 const front = (s: GameState) => settledIds(s).sort((a, b) => D.tiles.find((t) => t.id === a)!.y - D.tiles.find((t) => t.id === b)!.y)[0];
 
 /** Bot tham lam đơn giản dùng để kiểm tra cân bằng thô (không phải người chơi tối ưu). */
-export function playBot(seed: number, strat: Strategy): GameState {
+export function playBot(seed: number, strat: Strategy, pick: Pick = 'default'): GameState {
   let s = fresh(seed);
   for (let guard = 0; guard < 60 && s.outcome === 'playing'; guard++) {
-    if (strat !== 'idle') s = botTurn(s, strat);
+    if (strat !== 'idle') s = botTurn(s, strat, pick, seed);
     s = endTurn(D, s);
   }
   return s;
 }
 
-function botTurn(s: GameState, strat: Strategy): GameState {
+function chooseEvents(s: GameState, pick: Pick, seed: number): GameState {
+  for (const id of [...s.pendingEvents]) {
+    const ev = D.events.find((e) => e.id === id)!;
+    const want = typeof pick === 'object' ? pick[id] : pick === 'default' ? undefined : pick === 'mix' ? 'abc'[(seed + s.turn) % 3] : pick;
+    const c = ev.choices.find((x) => x.id === want);
+    if (c) s = tryCmd(s, { t: 'choose', event: id, choice: c.id });
+  }
+  return s;
+}
+
+function botTurn(s: GameState, strat: Strategy, pick: Pick, seed: number): GameState {
+  s = chooseEvents(s, pick, seed);
   s = tryCmd(s, { t: 'negotiate' });
   if (s.outcome !== 'playing') return s;
   for (const p of ['POL-LUY-BIEN', 'POL-NONG-HAU', 'POL-TIEN-PHONG']) s = tryCmd(s, { t: 'research', policy: p });
@@ -84,11 +97,11 @@ function botTurn(s: GameState, strat: Strategy): GameState {
   return s;
 }
 
-export interface Stats { strat: Strategy; n: number; wins: number; lostReasons: Record<string, number>; avgRepelled: number }
-export function batch(strat: Strategy, seeds: number[]): Stats {
-  const st: Stats = { strat, n: seeds.length, wins: 0, lostReasons: {}, avgRepelled: 0 };
+export interface Stats { pick: Pick; strat: Strategy; n: number; wins: number; lostReasons: Record<string, number>; avgRepelled: number }
+export function batch(strat: Strategy, seeds: number[], pick: Pick = 'default'): Stats {
+  const st: Stats = { pick, strat, n: seeds.length, wins: 0, lostReasons: {}, avgRepelled: 0 };
   for (const sd of seeds) {
-    const r = playBot(sd, strat);
+    const r = playBot(sd, strat, pick);
     if (r.outcome === 'won') st.wins++; else st.lostReasons[r.outcomeReason ?? '?'] = (st.lostReasons[r.outcomeReason ?? '?'] ?? 0) + 1;
     st.avgRepelled += r.repelled / seeds.length;
   }
