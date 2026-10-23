@@ -9,3 +9,4 @@
 ## 2026-10-23
 - `update game: thêm sự kiện có lựa chọn cho chiến dịch 1` → created CR-002 (docs/change_requests/CR-002_choice_events_cmp01.md), status PENDING APPROVAL. No code or data changed.
 - CR-002 approved ("approve CR-002") and implemented locally: events_cmp01.yaml (8 events), sim (events.ts, choose cmd, mods, save v2 + migration), UI event dialog, tests (Vitest 67, Playwright 25+1 skipped). FEAT-011 → done. Not pushed/deployed.
+- G3(RC2): pushed main+tag rc2, gh-pages 0e2a876; live smoke OK (see DEPLOY_LOG).
