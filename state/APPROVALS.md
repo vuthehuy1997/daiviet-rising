@@ -36,3 +36,11 @@
 - Exact words: "approve G3: push và deploy RC2 lên vuthehuy1997/daiviet-rising"
 - Build: RC2 = commit 016b7d5 (DB-0.1 + CR-001 + CR-002). Known open issues: docs/qa/EVENTS_BALANCE.md (shown to user before approval).
 - Authorized target: push main (+ tag rc2) to origin vuthehuy1997/daiviet-rising and refresh gh-pages (GitHub Pages). Nothing else.
+
+## CR-003 — UI redesign (Demacia Rising UI reference)
+- Date: 2026-10-23
+- Approver: user (as entered in session)
+- Exact words: "approve CR-003: và thiết kế cho tôi phần design trước, lưu ra ảnh để xem trước"
+- Approved: CR-003 (docs/change_requests/CR-003_ui_redesign.md) WITH the user's edit: produce the DESIGN first as preview images for the user to review. Defaults of the CR apply otherwise (SVG self-drawn, giấy dó + son/chàm/vàng thếp, Lý motifs, drop dark theme).
+- Implementation in src/ (milestones V1–V3) is NOT yet started; start only after the user has seen the preview images and says to proceed (treat their reply as feedback, not blanket approval).
+- Not authorized: push/deploy (G3 covers RC1/RC2 only).
