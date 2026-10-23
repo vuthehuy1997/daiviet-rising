@@ -8,4 +8,5 @@ Evidence: docs/qa/EVIDENCE_rc1.txt (local tests), live smoke on desktop+Pixel7 C
 Known gaps: unchanged from docs/release/RC1.md (no human playtest, 7 partial features, history expert review, other browsers).
 Open: user should revoke the GitHub token that was pasted in chat.
 CR-002 (choice events CMP-01): APPROVED + implemented; RC2 pushed (tag rc2) and deployed to Pages 2026-10-23 under G3 (RC2) approval. Evidence: docs/qa/EVIDENCE_rc2.txt, docs/qa/EVENTS_BALANCE.md (2 open balance issues).
+CR-003 (UI redesign): APPROVED with edit (design preview first) 2026-10-23; preview images done in docs/design/ui/ (mockups only, no src/ change). Waiting for user review before milestone V1.
 Next: playtest feedback → `update game: ...` (change request flow).

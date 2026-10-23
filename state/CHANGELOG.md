@@ -11,3 +11,4 @@
 - CR-002 approved ("approve CR-002") and implemented locally: events_cmp01.yaml (8 events), sim (events.ts, choose cmd, mods, save v2 + migration), UI event dialog, tests (Vitest 67, Playwright 25+1 skipped). FEAT-011 → done. Not pushed/deployed.
 - G3(RC2): pushed main+tag rc2, gh-pages 0e2a876; live smoke OK (see DEPLOY_LOG).
 - 2026-10-23 update game: làm lại giao diện → researched official Riot screenshots (docs/research/REFERENCE_UI_DEMACIA.md), created CR-003 (PENDING APPROVAL). No code changed.
+- CR-003 approved with edit; design preview produced (docs/design/ui/*.png, README). No src/ change. Awaiting user review.
