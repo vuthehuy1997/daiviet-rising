@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style></head><body>
+<script src="../../mockups/art.js"></script>
+<script>
+// Chỉ vẽ lớp công trình/cụm địa điểm (không nền, không đường, không chữ) để đưa qua bộ "painterize" bằng Python.
+window.mountain = () => ''; // núi do Python vẽ từ bản đồ độ cao
+const strip = (g) => { let n = 0; return g.replace(/<path[^>]*\/>/g, (m) => (n++ < 3 ? '' : m)); }; // bỏ 3 path nền phẳng (bóng, đất, sáng)
+const defs = `<filter id="wob" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter>
+<filter id="soft" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+<radialGradient id="glow"><stop offset="0" stop-color="rgba(255,170,60,.65)"/><stop offset="1" stop-color="rgba(255,170,60,0)"/></radialGradient>${SYMBOLS}`;
+let s = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900"><defs>${defs}</defs>`;
+for (const id of Object.keys(TILES).sort((a, b) => TILES[a].p[1] - TILES[b].p[1])) s += `<g filter="url(#wob)">${strip(settlementArt(id))}</g>`;
+for (const [x, y, sc] of [[880, 600, .6], [640, 400, .55], [1120, 540, .55], [900, 260, .55]]) s += `<g filter="url(#wob)">${house(x, y, sc, '#9f5a3c') + house(x + 26 * sc, y + 10 * sc, sc * .8, '#b0603f')}</g>`;
+document.body.innerHTML = s + '</svg>';
+</script></body></html>
