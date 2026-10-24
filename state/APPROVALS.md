@@ -52,3 +52,10 @@
 - Approved: implement milestone V1 (UI-1..UI-4: full-screen map, settlement art + name banners, HUD with objective card, End-Turn disc/buttons) in src/ following docs/design/ui/v4 (baked painted map background + SVG/HTML overlay). Sim, balance data, save format unchanged.
 - Zoom question was not answered by the user: the recommended default (zoom ≤ 1.5x, 2400px background) is applied and flagged for confirmation.
 - V2/V3 still need showing V1 screenshots first. Not authorized: push/deploy (RC3 is a local build until the user re-authorizes).
+
+## CR-003 — V2 implementation approval
+- Date: 2026-10-24
+- Approver: user (as entered in session)
+- Exact words: "approve CR-003: làm V2"
+- Approved: milestone V2 (UI-5..UI-8): tile side panel as slot grids (buildings, garrison, enemy icons), raid-alert polish, event card with art + side-by-side choices, battle report with two sides/banner/causes, policies as diamond-node grid. Sim, save format and balance data unchanged.
+- Zoom question still unanswered → keeping <= 1.5x. Not authorized: push/deploy (RC3 stays a local build).

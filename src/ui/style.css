@@ -41,6 +41,7 @@ button.primary{background:linear-gradient(#c0463a,#8f2e24);border-color:#5e1d16;
 /* ---- HUD ---- */
 .hud{position:absolute;inset:0;pointer-events:none;display:flex;justify-content:space-between;align-items:flex-start;padding:18px 24px;gap:16px}
 .hud>*{min-width:0}.hud .col-l,.hud .col-r{display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 36px)}
+.hud .col-l{max-height:calc(100vh - 36px - 160px)}
 .col-l{width:340px;max-height:calc(100vh - 36px - 160px)}.col-r{width:440px;flex:none;align-items:stretch}
 .col-l>*,.col-r>*{pointer-events:auto}
 .col-l>.side{overflow:auto;min-height:0}
@@ -95,6 +96,37 @@ ul.log{max-height:260px;overflow:auto;padding-left:18px;margin:4px 0;font-size:.
 .pop{position:absolute;right:20px;bottom:250px;width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 290px);overflow:auto;padding:12px 14px;z-index:4}
 .pop h2{margin:0 0 6px;font:700 17px Lora,serif;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
 
+/* ---- bảng ô dạng lưới (UI-5) ---- */
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0}
+.slot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:96px;padding:12px 4px 6px;border-radius:10px;background:linear-gradient(#f9f1d8,#e9dab0);border:2px solid #8a7650}
+.slot .ic{width:34px;height:34px}.slot small{font-size:12px;font-weight:600;text-align:center;line-height:1.15}
+.slot .lv{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font:600 11px "Be Vietnam Pro";background:var(--cham);color:#fff;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.slot.empty{border:2px dashed #b3702a;background:rgba(255,255,255,.28)}.slot.empty small{color:#8a4a00}
+.slot .mini{display:flex;gap:2px}.slot .mini button{min-height:44px;min-width:44px;padding:0;font-size:16px;border-width:1.5px;background:rgba(255,255,255,.5)}
+.tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:6px 0}
+.tbtn{display:grid;grid-template-columns:28px 1fr;grid-template-rows:auto auto;gap:0 8px;align-items:center;text-align:left;padding:6px 10px;line-height:1.2}
+.tbtn .ic{grid-row:1/3;width:28px;height:28px}.tbtn span{font-weight:600;font-size:14px}.tbtn .cost{font-size:11.5px;font-weight:400;color:var(--mut)}
+.tbtn.poor .cost{color:var(--bad)}
+.cost .c{display:inline-flex;align-items:center;gap:2px;margin-right:7px}.ic.sm{width:14px;height:14px}
+.dots{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0}
+.unit{position:relative;width:48px;height:48px;border-radius:50%;border:2.5px solid #8a7650;background:radial-gradient(#fff6dc,#e5d4a2);display:flex;align-items:center;justify-content:center}
+.unit .ic{width:60%;height:60%}
+.unit.enemy{border-color:var(--son);background:radial-gradient(#fbe6dc,#e8b9a6)}
+.unit.empty{background:rgba(120,110,90,.15);border-style:dashed}.unit.empty .ic{width:44%;opacity:.7}
+.unit .cnt{position:absolute;right:-5px;bottom:-5px;min-width:22px;height:22px;padding:0 4px;border-radius:11px;background:var(--cham);color:#fff;font:700 12px "Be Vietnam Pro";display:flex;align-items:center;justify-content:center;border:2px solid var(--paper2);font-style:normal}
+.unit.enemy .cnt{background:var(--son)}
+.armyrow{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:6px 0}
+.row.end{justify-content:flex-end}
+/* cảnh báo tập kích: mũi tên chạy dọc đường (tắt khi giảm chuyển động) */
+.raidline{animation:raidmarch 1.2s linear infinite}
+@keyframes raidmarch{to{stroke-dashoffset:-46}}
+
+/* ---- bảng Kế sách: nút thoi (UI-8) ---- */
+.diamonds{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.dia{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;line-height:1.2;text-align:center;min-height:130px}
+.dia .dshape{width:60px;height:60px}.dia .dn{font-weight:600;font-size:13.5px}.dia small{font-size:11.5px;color:var(--mut)}.dia .dt{color:var(--ink)}
+.dia.own{opacity:1;background:linear-gradient(#e6f0d8,#cfe0b8)}.dia.poor small:nth-of-type(1){color:var(--bad)}
+
 /* ---- hộp thoại ---- */
 dialog{max-width:640px;width:calc(100% - 32px);padding:16px 20px;color:var(--ink);background:radial-gradient(ellipse at 18% 0,rgba(255,255,255,.4),transparent 60%),linear-gradient(#efdfb4,#dcc790);border:2px solid #4a331b;border-radius:10px;box-shadow:inset 0 0 0 3px rgba(238,214,150,.9),inset 0 0 0 4.5px rgba(184,137,43,.9),0 18px 40px rgba(20,14,6,.7)}
 dialog::backdrop{background:rgba(20,12,6,.62)}
@@ -123,3 +155,42 @@ a{color:var(--cham)}
   .stage.sheet .pop{bottom:calc(46vh + 140px);max-height:calc(54vh - 160px)}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- thẻ sự kiện (UI-7) ---- */
+dialog.evt{width:min(880px,calc(100vw - 24px));max-width:none;max-height:calc(100vh - 24px);overflow:auto;padding:14px 20px 14px;text-align:center}
+.evt-art{margin:0 -6px;height:220px;overflow:hidden;border:3px solid var(--goldb);border-radius:6px;box-shadow:inset 0 0 0 4px var(--cham)}
+.evt-art svg{display:block;width:100%;height:100%}
+.evt-tags{display:flex;justify-content:space-between;align-items:center;margin:8px 0 0;font-size:12.5px;color:var(--mut)}
+.evt-tags .src{background:var(--cham);color:#fff;border-radius:999px;padding:1px 12px;font-weight:600}
+dialog.evt h2{margin:4px 0 0;font-size:28px;text-align:center}
+.evt-text{margin:6px 24px 12px;font-size:16px}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:left}
+.choice{position:relative;display:flex;flex-direction:column;gap:6px;margin:0;padding:12px;background:linear-gradient(#f3ead0,#e3d3a6);border:2px solid #8a7650;border-radius:10px}
+.choice.dflt{border-color:var(--cham);box-shadow:inset 0 0 0 2px rgba(47,93,115,.25)}
+.choice h3{margin:0;min-height:40px;display:flex;align-items:center;justify-content:center;text-align:center;font:700 15px Lora,serif;color:var(--cham)}
+.dtag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--cham);color:#fff;font:600 11px "Be Vietnam Pro";padding:1px 10px;border-radius:999px;font-style:normal}
+.eff-h{font:600 12px "Be Vietnam Pro";text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.effs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.eff{position:relative;padding-left:18px;font-size:13.5px}.eff:before{position:absolute;left:0;font-weight:700}
+.eff.neg{color:#8f2e24}.eff.neg:before{content:"▼"}.eff.pos{color:var(--ok)}.eff.pos:before{content:"▲"}.eff.neu{color:var(--mut)}.eff.neu:before{content:"•"}
+.choice button{margin-top:auto;width:100%}
+.evt-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+
+/* ---- báo cáo trận (UI-7) ---- */
+dialog.rep{width:min(800px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;padding:0 28px 16px}
+.ribbon{margin:0 -28px;padding:12px 20px;text-align:center;clip-path:polygon(0 0,100% 0,calc(100% - 22px) 50%,100% 100%,0 100%,22px 50%)}
+.ribbon.win{background:linear-gradient(#3f7690,#1f4254)}.ribbon.lose{background:linear-gradient(#a8483c,#6d1f17)}
+.ribbon h2,.ribbon h3{margin:0;font:700 26px Lora,serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2)}
+.rep-reason{text-align:center;margin:8px 0}
+.bat-sub{text-align:center;margin:10px 0 12px;color:var(--mut)}
+.bat-cols{display:flex;align-items:flex-start;gap:12px}.bat-cols .col{flex:1;min-width:0}.vs{padding-top:90px}.vs .big{width:44px;height:44px}
+.col h4,.cz{display:flex;gap:6px;align-items:center;margin:8px 0;font:700 13px Lora,serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border-bottom:1.5px solid rgba(122,84,18,.4);padding-bottom:3px}
+.urs{display:flex;flex-direction:column;gap:12px;margin:10px 0}.ur{display:flex;align-items:center;gap:14px}
+.ur.enemy b{color:var(--son)}
+.bar{height:12px;border-radius:6px;background:rgba(60,40,20,.2);border:1.5px solid #6b4a2c;overflow:hidden}.bar i{display:block;height:100%;background:var(--cham)}.bar.foe i{background:var(--son)}
+.causes{list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:8px}.causes li{display:flex;gap:10px;align-items:center}.causes .ic{width:28px;height:28px}
+@media (max-width:760px){
+  .choices{grid-template-columns:1fr}.evt-art{height:150px}dialog.evt h2{font-size:22px}.evt-text{margin:6px 4px 10px}
+  .bat-cols{flex-direction:column}.vs{display:none}.ribbon h2,.ribbon h3{font-size:20px}
+  .slots{grid-template-columns:repeat(3,1fr)}.tgrid{grid-template-columns:1fr 1fr}
+}

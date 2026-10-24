@@ -1,10 +1,11 @@
 import { loadData } from '../sim/data';
 import { garrisonCap, intelLevel, mobileSupplyUsed, raidIntel, supplyCap, warnLead, fortBonus } from '../sim/derived';
-import { canChoose, describeEffects, eventById } from '../sim/events';
+import { canChoose, describeEffects, effectTones, eventById } from '../sim/events';
 import { shortestPath } from '../sim/graph';
 import type { BattleReport, Counts, GameData, TileRT } from '../sim/types';
 import { Controller } from './controller';
 import { SYMBOLS, alertBadge, banner, chip, endDisc, settlementSvg } from './art';
+import { eventArtSvg } from './eventart';
 import bgUrl from './assets/map_bg.webp';
 import roadsRaw from './assets/roads.json';
 import './style.css';
@@ -34,6 +35,9 @@ function s(tag: string, attrs: Record<string, any> = {}, ...kids: Child[]): SVGE
 
 const TERRAIN_VI: Record<string, string> = { dong_bang: 'đồng bằng', song: 'sông', nui: 'núi', ven_bien: 'ven biển', rung: 'rừng' };
 const STATUS_VI: Record<string, string> = { hostile: 'địch chiếm', open: 'đất trống', settled: 'khu định cư', lost: 'đã mất' };
+const INTEL_VI: Record<string, string> = { exact: 'chính xác', estimate: 'ước lượng', vague: 'mơ hồ' };
+const CLASS_VI: Record<string, string> = { bo_binh: 'bộ binh', cung_no: 'cung nỏ', dan_binh: 'dân binh', thuy_binh: 'thủy binh' };
+const viText = (t: string) => t.replace(/\b(bo_binh|cung_no|dan_binh|thuy_binh)\b/g, (m) => CLASS_VI[m]);
 const RES_VI: Record<string, string> = { grain: 'Lương', wood: 'Gỗ-tre', stone: 'Đá', iron: 'Sắt', dantam: 'Dân tâm' };
 
 const d: GameData = loadData();
@@ -103,7 +107,7 @@ function alerts() {
   const st = ctl.state, lead = warnLead(d, st);
   const box = h('div', { class: 'alerts', role: 'status', 'aria-live': 'polite' });
   const vis = st.raids.filter((r) => r.eta <= lead);
-  if (!vis.length) box.append(h('div', { class: 'alert calm' }, 'Chưa có cảnh báo tập kích.', h('div', { class: 'muted' }, `Tình báo: ${{ exact: 'chính xác', estimate: 'ước lượng', vague: 'mơ hồ' }[intelLevel(st)]} · cảnh báo ≤${lead} lượt`)));
+  if (!vis.length) box.append(h('div', { class: 'alert calm' }, 'Chưa có cảnh báo tập kích.', h('div', { class: 'muted' }, `Tình báo: ${INTEL_VI[intelLevel(st)]} · cảnh báo ≤${lead} lượt`)));
   for (const r of vis) {
     const intel = raidIntel(d, st, r.units, r.id);
     let verdict: Child = null; let cls = 'alert';
@@ -111,7 +115,7 @@ function alerts() {
       const t = travelInfo(selArmy, r.target);
       if (t) { const ok = t.turns <= r.eta; cls += ok ? ' ok' : ' late'; verdict = h('div', { class: 'verdict' }, ok ? `Đội đang chọn tới kịp sau ${t.turns} lượt.` : `Đội đang chọn cần ${t.turns} lượt — KHÔNG kịp.`); }
     }
-    box.append(h('div', { class: cls }, h('b', {}, `${r.id} → ${r.target}`), ` tới sau ${r.eta} lượt. Dự báo: ${intel.text}.`, verdict));
+    box.append(h('div', { class: cls }, h('b', {}, `${r.id} → ${r.target}`), ` tới sau ${r.eta} lượt. Dự báo: ${viText(intel.text)}.`, verdict));
   }
   return box;
 }
@@ -246,41 +250,70 @@ function onTile(id: string) {
   selTile = id; panToTile(id); render();
 }
 
+const UNIT_ICON: Record<string, string> = { 'UNT-FOOT': 'i-helm', 'UNT-ARCHER': 'i-bow', 'UNT-CROSSBOW': 'i-bow', 'UNT-MILITIA': 'i-hat', 'UNT-BOAT': 'i-boat', 'ENM-FOOT': 'i-helm', 'ENM-ARCHER': 'i-bow' };
+const CLASS_ICON: Record<string, string> = { bo_binh: 'i-helm', cung_no: 'i-bow', dan_binh: 'i-hat', thuy_binh: 'i-boat' };
+const BLD_ICON: Record<string, string> = { 'BLD-FARM': 'i-farm', 'BLD-LUMBER': 'i-lumber', 'BLD-QUARRY': 'i-stone', 'BLD-FORGE': 'i-iron', 'BLD-BARRACKS': 'i-barracks', 'BLD-GRANARY': 'i-grain', 'BLD-DIKE': 'i-stone', 'BLD-PALISADE': 'i-palisade', 'BLD-STAKES': 'i-spear', 'BLD-WATCH': 'i-watch', 'BLD-DOCK': 'i-boat' };
+/** Chân dung tròn + huy hiệu số lượng (P-UI4/P-UI5). label chỉ dành cho trình đọc màn hình. */
+function unitDot(icon: string, count: string | number, side: 'own' | 'enemy', label: string) {
+  return h('div', { class: `unit ${side}`, title: label }, ic(icon), h('i', { class: 'cnt' }, String(count)), h('span', { class: 'vh' }, label));
+}
+const emptyDot = (locked = false) => h('div', { class: 'unit empty', 'aria-hidden': 'true' }, locked ? ic('i-lock') : null);
+function costLine(c: Record<string, number | undefined>) {
+  return h('small', { class: 'cost' }, ...Object.entries(c).map(([k, v]) => h('span', { class: 'c', title: RES_VI[k] }, ic(RES_ICON[k], 'ic sm'), String(v), h('span', { class: 'vh' }, ` ${RES_VI[k]}`))));
+}
+function canPay(c: Record<string, number | undefined>) { return Object.entries(c).every(([k, v]) => ctl.state.res[k as keyof typeof ctl.state.res] >= (v ?? 0)); }
+
 function tileBody(): HTMLElement {
   const st = ctl.state;
   const sel: string = selTile as string; const t: TileRT = st.tiles[sel];
   const p = h('div', { class: 'tilebody' }, h('p', { class: 'sub' }, `${TERRAIN_VI[t.terrain]} · ${STATUS_VI[t.status]}`));
 
   if (t.status === 'hostile' || t.status === 'lost') {
-    const lvl = intelLevel(st);
-    const fake: Counts = t.defenders;
-    p.append(h('h3', {}, 'Lực lượng địch (xem trước)'), h('div', {}, raidIntel(d, st, fake, sel).text),
-      h('p', { class: 'muted' }, `Độ tin cậy tình báo: ${lvl}. Kết quả không được đảm bảo.`));
+    const intel = raidIntel(d, st, t.defenders, sel), entries = Object.entries(t.defenders).filter(([, n]) => n > 0);
+    p.append(h('h3', {}, 'Lực lượng địch (xem trước)'));
+    if (intel.level === 'vague') {
+      const classes = [...new Set(entries.map(([u]) => d.units[u].class))];
+      p.append(h('div', { class: 'dots' }, ...classes.map((c) => unitDot(CLASS_ICON[c] ?? 'i-swords', '?', 'enemy', `lớp quân ${CLASS_VI[c] ?? c}`))));
+    } else {
+      const parts = intel.text.split(', ');
+      p.append(h('div', { class: 'dots' }, ...entries.map(([u, n], i) => unitDot(UNIT_ICON[u] ?? 'i-swords', intel.level === 'exact' ? n : (parts[i]?.match(/~?\d+/)?.[0] ?? '?'), 'enemy', d.units[u].name_vi))));
+    }
+    p.append(h('div', {}, viText(intel.text)), h('p', { class: 'muted' }, `Độ tin cậy tình báo: ${INTEL_VI[intelLevel(st)]}. Kết quả không được đảm bảo. Chọn đội quân của bạn → “Điều quân” → bấm ô này để tấn công.`));
   }
   if (t.status === 'open') {
-    const cost = d.campaign.rules.settle_cost;
-    p.append(h('div', { class: 'row' }, h('button', { onclick: () => act({ t: 'settle', tile: sel }) }, `Lập khu định cư (${costText(cost as any)})`)));
+    const cost = d.campaign.rules.settle_cost as Record<string, number>;
+    p.append(h('div', { class: 'row' }, h('button', { class: 'primary', disabled: !canPay(cost) || undefined, onclick: () => act({ t: 'settle', tile: sel }) }, `Lập khu định cư (${costText(cost)})`)));
   }
   if (t.status === 'settled') {
-    p.append(h('h3', {}, `Công trình (${t.buildings.length}/${sel === d.campaign.capital ? d.campaign.rules.capital_slots : d.campaign.rules.default_slots})`));
-    t.buildings.forEach((b, i) => p.append(h('div', { class: 'row' },
-      h('span', {}, `${d.buildings[b.type].name_vi} Lv${b.level}${b.remaining ? ` (xây ${b.remaining} lượt)` : ''}`),
-      h('button', { onclick: () => act({ t: 'upgrade', tile: sel, index: i }), 'aria-label': `Nâng cấp ${d.buildings[b.type].name_vi}` }, '↑'),
-      h('button', { onclick: () => act({ t: 'demolish', tile: sel, index: i }), 'aria-label': `Phá ${d.buildings[b.type].name_vi}` }, '🗑'))));
-    p.append(h('h3', {}, 'Xây mới'));
-    const bl = h('div', { class: 'row' });
+    const slots = sel === d.campaign.capital ? d.campaign.rules.capital_slots : d.campaign.rules.default_slots;
+    p.append(h('h3', {}, `Công trình (${t.buildings.length}/${slots})`));
+    const grid = h('div', { class: 'slots' });
+    t.buildings.forEach((b, i) => grid.append(h('div', { class: 'slot' },
+      h('span', { class: 'lv' }, b.remaining ? `xây ${b.remaining} lượt` : `Cấp ${b.level}`),
+      ic(BLD_ICON[b.type] ?? 'i-farm'), h('small', {}, d.buildings[b.type].name_vi),
+      h('div', { class: 'mini' },
+        h('button', { onclick: () => act({ t: 'upgrade', tile: sel, index: i }), 'aria-label': `Nâng cấp ${d.buildings[b.type].name_vi}`, title: 'Nâng cấp' }, '↑'),
+        h('button', { onclick: () => act({ t: 'demolish', tile: sel, index: i }), 'aria-label': `Phá ${d.buildings[b.type].name_vi}`, title: 'Phá bỏ' }, '🗑')))));
+    for (let i = t.buildings.length; i < slots; i++) grid.append(h('div', { class: 'slot empty', 'aria-hidden': 'true' }, ic('i-plus'), h('small', {}, 'Trống')));
+    p.append(grid, h('h3', {}, 'Xây mới'));
+    const bl = h('div', { class: 'tgrid' });
     for (const b of Object.values(d.buildings).filter((x) => x.enabled !== false)) {
-      bl.append(h('button', { title: costText(b.cost as any), onclick: () => act({ t: 'build', tile: sel, bld: b.id }) }, b.name_vi));
+      const cost = b.cost as Record<string, number>;
+      bl.append(h('button', { class: `tbtn${canPay(cost) ? '' : ' poor'}`, title: costText(cost), onclick: () => act({ t: 'build', tile: sel, bld: b.id }) }, ic(BLD_ICON[b.id] ?? 'i-farm'), h('span', {}, b.name_vi), costLine(cost)));
     }
-    p.append(bl);
-    p.append(h('h3', {}, 'Huấn luyện'));
-    const tl = h('div', { class: 'row' });
+    p.append(bl, h('h3', {}, 'Huấn luyện'));
+    const tl = h('div', { class: 'tgrid' });
     for (const u of Object.values(d.units).filter((x) => x.side === 'player' && x.enabled !== false)) {
-      tl.append(h('button', { title: costText((u.cost ?? {}) as any), onclick: () => act({ t: 'train', tile: sel, unit: u.id, count: 1 }) }, `+1 ${u.name_vi}`));
+      const cost = (u.cost ?? {}) as Record<string, number>;
+      tl.append(h('button', { class: `tbtn${canPay(cost) ? '' : ' poor'}`, title: costText(cost), onclick: () => act({ t: 'train', tile: sel, unit: u.id, count: 1 }) }, ic(UNIT_ICON[u.id] ?? 'i-helm'), h('span', {}, `+1 ${u.name_vi}`), costLine(cost)));
     }
     p.append(tl);
-    const gSum = Object.values(t.garrison).reduce((a, b) => a + b, 0);
-    p.append(h('div', { class: 'muted' }, `Đồn trú: ${countsText(t.garrison)} (${gSum}/${garrisonCap(d, st, sel)}) · Công sự: -${Math.round(fortBonus(d, st, sel) * 100)}% sát thương`));
+    const gSum = Object.values(t.garrison).reduce((a, b) => a + b, 0), cap = garrisonCap(d, st, sel);
+    p.append(h('h3', {}, `Quân đồn trú (${gSum}/${cap})`));
+    const gd = h('div', { class: 'dots' });
+    for (const [u, n] of Object.entries(t.garrison)) if (n > 0) gd.append(unitDot(UNIT_ICON[u] ?? 'i-hat', n, 'own', d.units[u].name_vi));
+    for (let i = 0; i < Math.min(cap - gSum, 8); i++) gd.append(emptyDot());
+    p.append(gd, h('div', { class: 'muted' }, `Đồn trú: ${countsText(t.garrison)} (${gSum}/${cap}) · Công sự: -${Math.round(fortBonus(d, st, sel) * 100)}% sát thương`));
     const q = st.queue.filter((j) => j.tile === sel);
     if (q.length) p.append(h('div', { class: 'muted' }, 'Hàng đợi: ' + q.map((j) => `${j.count} ${d.units[j.unit].name_vi} (${j.remaining})`).join(', ')));
   }
@@ -288,7 +321,9 @@ function tileBody(): HTMLElement {
   if (here.length) {
     p.append(h('h3', {}, 'Quân tại ô'));
     for (const a of here) {
-      p.append(h('div', { class: 'row' }, h('span', {}, a.move ? `${countsText(a.units)} — đang hành quân (${a.move.remaining} lượt)` : countsText(a.units)),
+      p.append(h('div', { class: 'armyrow' },
+        h('div', { class: 'dots' }, ...Object.entries(a.units).filter(([, n]) => n > 0).map(([u, n]) => unitDot(UNIT_ICON[u] ?? 'i-helm', n, 'own', d.units[u].name_vi))),
+        h('span', { class: 'muted' }, a.move ? `${countsText(a.units)} — đang hành quân (${a.move.remaining} lượt)` : countsText(a.units)),
         !a.move && h('button', { 'aria-pressed': selArmy === a.id, onclick: () => { selArmy = selArmy === a.id ? null : a.id; msg = selArmy ? 'Chọn ô đích trên bản đồ.' : ''; if (selArmy) restoreCam(); render(); } }, selArmy === a.id ? 'Bỏ chọn' : 'Điều quân'),
       ));
     }
@@ -328,19 +363,24 @@ function eventDialog() {
   const st = ctl.state;
   const ev = st.pendingEvents.length && st.outcome === 'playing' && !reportQueue.length && !eventDismissed ? eventById(d, st.pendingEvents[0]) : undefined;
   if (!ev) return null;
-  const dlg = h('dialog', { 'aria-label': `Sự kiện: ${ev.name_vi}`, 'data-event': ev.id },
+  const art = h('div', { class: 'evt-art' }); art.innerHTML = eventArtSvg(ev.id);
+  const dlg = h('dialog', { class: 'evt', 'aria-label': `Sự kiện: ${ev.name_vi}`, 'data-event': ev.id },
+    art,
+    h('div', { class: 'evt-tags' }, h('span', {}, `Sự kiện · Lượt ${st.turn}`), h('span', { class: 'src' }, `${ev.source_label}${ev.source_ids.length ? ' · nguồn ' + ev.source_ids.join(', ') : ''}`)),
     h('h2', {}, ev.name_vi),
-    h('p', {}, ev.text_vi),
-    h('p', { class: 'muted' }, `Nhãn nội dung: ${ev.source_label}${ev.source_ids.length ? ' · nguồn ' + ev.source_ids.join(', ') : ''}`),
-    ...ev.choices.map((c) => {
-      const ok = canChoose(st, c);
-      return h('div', { class: 'choice' },
-        h('button', { class: c.default ? '' : 'primary', 'data-choice': c.id, disabled: !ok, onclick: () => { try { dlg.close(); } catch { /* jsdom */ } act({ t: 'choose', event: ev.id, choice: c.id }); } },
-          c.label_vi + (c.default ? ' (mặc định)' : '')),
-        h('div', { class: 'muted' }, `Hệ quả: ${describeEffects(c.effects).join('; ')}${ok ? '' : ' — không đủ tài nguyên'}`));
-    }),
-    h('p', { class: 'muted' }, 'Nếu chưa chọn khi kết thúc lượt, trò chơi tự áp lựa chọn mặc định.'),
-    h('div', { class: 'row' }, h('button', { 'data-act': 'later', onclick: () => { eventDismissed = true; try { dlg.close(); } catch { /* jsdom */ } render(); } }, 'Để sau')));
+    h('p', { class: 'evt-text' }, ev.text_vi),
+    h('div', { class: 'choices' }, ...ev.choices.map((c) => {
+      const ok = canChoose(st, c), tones = effectTones(c.effects);
+      return h('div', { class: `choice${c.default ? ' dflt' : ''}` },
+        c.default && h('em', { class: 'dtag' }, 'Mặc định'),
+        h('h3', {}, c.label_vi),
+        h('div', { class: 'eff-h' }, 'Hệ quả:'),
+        h('ul', { class: 'effs' }, ...describeEffects(c.effects).map((t, i) => h('li', { class: `eff ${tones[i]}` }, t))),
+        !ok && h('p', { class: 'muted' }, 'Không đủ tài nguyên.'),
+        h('button', { class: c.default ? '' : 'primary', 'data-choice': c.id, disabled: !ok, onclick: () => { try { dlg.close(); } catch { /* jsdom */ } act({ t: 'choose', event: ev.id, choice: c.id }); } }, 'Chọn', h('span', { class: 'vh' }, ` — ${c.label_vi}`)));
+    })),
+    h('div', { class: 'evt-foot' }, h('span', { class: 'muted' }, 'Chưa chọn khi kết thúc lượt → tự áp lựa chọn Mặc định.'),
+      h('button', { 'data-act': 'later', onclick: () => { eventDismissed = true; try { dlg.close(); } catch { /* jsdom */ } render(); } }, 'Để sau')));
   dlg.addEventListener('cancel', () => { eventDismissed = true; });
   queueMicrotask(() => { try { dlg.showModal(); } catch { /* jsdom */ } });
   return dlg;
@@ -383,10 +423,20 @@ function popover() {
   const box = h('div', { class: 'pop parch', role: 'region', 'aria-label': { log: 'Nhật ký', policy: 'Kế sách', settings: 'Cài đặt' }[openPop] });
   if (openPop === 'log') box.append(logPanel());
   if (openPop === 'policy') {
+    const POL: Record<string, { c: string; icon: string; txt: string }> = {
+      'POL-NONG-HAU': { c: '#2f7a46', icon: 'i-grain', txt: '+2 trần quân cơ động' },
+      'POL-LUY-BIEN': { c: '#2f5d73', icon: 'i-palisade', txt: '+10% công sự mọi ô' },
+      'POL-TIEN-PHONG': { c: '#a33b2f', icon: 'i-sword', txt: '+10% sát thương' } };
     box.append(h('h2', {}, 'Kế sách'),
-      h('div', { class: 'row' }, ...Object.values(d.policies).map((p) => st.policies.includes(p.id)
-        ? h('span', { class: 'muted' }, `✓ ${p.name_vi}`)
-        : h('button', { title: `${p.cost_dantam} Dân tâm`, onclick: () => act({ t: 'research', policy: p.id }) }, p.name_vi))),
+      h('div', { class: 'diamonds' }, ...Object.values(d.policies).map((p) => {
+        const own = st.policies.includes(p.id), m = POL[p.id] ?? { c: '#2f5d73', icon: 'i-diamond', txt: '' }, poor = !own && st.res.dantam < p.cost_dantam;
+        const shape = s('svg', { class: 'dshape', viewBox: '0 0 64 64', 'aria-hidden': 'true', focusable: 'false' },
+          s('path', { d: 'M32 3 L61 32 L32 61 L3 32Z', fill: own ? m.c : poor ? '#a79c82' : m.c, stroke: '#e8c27a', 'stroke-width': 3.5, 'stroke-linejoin': 'round' }),
+          s('path', { d: 'M32 11 L53 32 L32 53 L11 32Z', fill: 'none', stroke: 'rgba(255,255,255,.35)', 'stroke-width': 1.5 }),
+          s('use', { href: `#${own ? 'i-check' : m.icon}`, x: 18, y: 18, width: 28, height: 28 }));
+        return h('button', { class: `dia${own ? ' own' : ''}${poor ? ' poor' : ''}`, disabled: own || undefined, title: `${p.cost_dantam} Dân tâm`, onclick: () => act({ t: 'research', policy: p.id }) },
+          shape, h('span', { class: 'dn' }, p.name_vi), h('small', {}, own ? 'Đã áp dụng' : `${p.cost_dantam} Dân tâm`), h('small', { class: 'dt' }, m.txt));
+      })),
       h('p', { class: 'muted' }, 'Giảng hòa chỉ mở từ lượt ' + d.campaign.rules.negotiate_from_turn + ' khi đủ ba điều kiện ở thẻ Mục tiêu.'),
       h('div', { class: 'row' }, h('button', { onclick: () => act({ t: 'negotiate' }) }, 'Đàm phán giảng hòa')));
   }
@@ -441,20 +491,33 @@ function onEndTurn() {
   render();
 }
 
+const CAUSE_ICON: [RegExp, string][] = [[/lũy|công sự|cọc|đồn/i, 'i-palisade'], [/cung|nỏ|tầm|bắn/i, 'i-bow'], [/dân tâm/i, 'i-lotus'], [/địa hình|sông|núi|rừng/i, 'i-stone']];
+const sumC = (c: Counts) => Object.values(c).reduce((a, b) => a + b, 0);
+function reportSide(title: string, icon: string, before: Counts, left: Counts, side: 'own' | 'enemy') {
+  const b0 = sumC(before), b1 = sumC(left), pct = b0 ? Math.round((b1 / b0) * 100) : 0;
+  return h('div', { class: 'col' }, h('h4', {}, ic(icon), title),
+    h('div', { class: 'urs' }, ...Object.entries(before).filter(([, n]) => n > 0).map(([u, n]) => h('div', { class: `ur ${side}` },
+      unitDot(UNIT_ICON[u] ?? 'i-helm', n, side, d.units[u].name_vi), h('span', {}, '→ còn ', h('b', {}, String(left[u] ?? 0)))))),
+    h('div', { class: `bar${side === 'enemy' ? ' foe' : ''}`, role: 'img', 'aria-label': `Còn ${pct}% lực lượng` }, h('i', { style: `width:${pct}%` })),
+    h('small', { class: 'muted' }, b1 === 0 ? 'Bị đánh tan' : `Còn ${pct}% lực lượng`));
+}
 function reportDialog() {
   if (!reportQueue.length && ctl.state.outcome === 'playing') return null;
-  const dlg = h('dialog', { 'aria-label': 'Báo cáo' });
+  const dlg = h('dialog', { class: 'rep', 'aria-label': 'Báo cáo' });
   if (ctl.state.outcome !== 'playing') {
-    dlg.append(h('h2', {}, ctl.state.outcome === 'won' ? 'Chiến thắng' : 'Thất bại'), h('p', {}, ctl.state.outcomeReason ?? ''));
+    const won = ctl.state.outcome === 'won';
+    dlg.append(h('div', { class: `ribbon ${won ? 'win' : 'lose'}` }, h('h2', {}, won ? 'Chiến thắng' : 'Thất bại')), h('p', { class: 'rep-reason' }, ctl.state.outcomeReason ?? ''));
   }
   for (const r of reportQueue) {
-    const win = r.winner === (r.kind === 'raid' ? 'defender' : 'attacker');
-    dlg.append(h('h3', {}, `${r.kind === 'raid' ? 'Phòng thủ' : 'Tấn công'} tại ${r.tile}: ${win ? 'THẮNG' : 'THUA'} (${r.rounds} vòng)`),
-      h('div', {}, `Phe tấn công: ${countsText(r.attacker)} → còn ${countsText(r.attackerLeft)}`),
-      h('div', {}, `Phe phòng thủ: ${countsText(r.defender)} → còn ${countsText(r.defenderLeft)}`),
-      h('b', {}, 'Nguyên nhân chính:'), h('ul', {}, ...r.causes.map((c) => h('li', {}, c))));
+    const raid = r.kind === 'raid', win = r.winner === (raid ? 'defender' : 'attacker');
+    const ours = raid ? [r.defender, r.defenderLeft] : [r.attacker, r.attackerLeft], foe = raid ? [r.attacker, r.attackerLeft] : [r.defender, r.defenderLeft];
+    dlg.append(h('div', { class: `ribbon ${win ? 'win' : 'lose'}` }, h('h3', {}, `${raid ? 'Phòng thủ' : 'Tấn công'} ${win ? 'thành công' : 'thất bại'}`)),
+      h('p', { class: 'bat-sub' }, `${tdef.get(r.tile)?.name_vi ?? r.tile} (${r.tile}) · ${r.rounds} vòng · ${win ? 'THẮNG' : 'THUA'}`),
+      h('div', { class: 'bat-cols' }, reportSide('Quân ta', 'i-shield', ours[0], ours[1], 'own'), h('div', { class: 'vs' }, ic('i-swords', 'ic big')), reportSide(raid ? 'Phe tấn công' : 'Phe phòng thủ', 'i-swords', foe[0], foe[1], 'enemy')),
+      h('h4', { class: 'cz' }, 'Nguyên nhân chính'),
+      h('ul', { class: 'causes' }, ...r.causes.map((c) => h('li', {}, ic(CAUSE_ICON.find(([re]) => re.test(c))?.[1] ?? 'i-scroll'), h('span', {}, c)))));
   }
-  dlg.append(h('div', { class: 'row' }, h('button', { class: 'primary', onclick: () => { reportQueue = []; dlg.close(); render(); } }, 'Đóng')));
+  dlg.append(h('div', { class: 'row end' }, h('button', { class: 'primary', onclick: () => { reportQueue = []; try { dlg.close(); } catch { /* jsdom */ } render(); } }, 'Đóng')));
   queueMicrotask(() => { try { dlg.showModal(); } catch { /* môi trường không hỗ trợ dialog */ } });
   return dlg;
 }

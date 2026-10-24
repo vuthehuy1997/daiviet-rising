@@ -55,3 +55,12 @@ Duyệt: "approve CR-003: làm V1 theo thiết kế v4" (state/APPROVALS.md). Đ
 - Chủ đề tối: đã bỏ. Font Lora + Be Vietnam Pro (OFL, tự đóng gói, src/ui/fonts).
 Lệch so với thiết kế v4 (nói thẳng): (1) cột trái xếp chồng (tiêu đề → cảnh báo → bảng ô) thay vì thanh cảnh báo giữa trên, để không đè nhau ở 1280px; (2) bảng ô vẫn là danh sách nút (lưới ô là V2/UI-5); (3) cụm nút tròn xếp hàng ngang, chưa theo cung; (4) công trình vẽ sống chưa qua bước "painterize" như ảnh nướng nên hơi khác nền; (5) mobile: bảng ô là bottom-sheet và các nút phụ ẩn khi bảng mở (V3 sẽ làm kỹ); (6) dãy núi phía tây trong ảnh nền vẫn góc cạnh, chưa đẹp.
 Chưa làm: V2 (UI-5..8), V3 (UI-9), giữ/bỏ zoom 4x (người dùng chưa trả lời; đang dùng ≤1.5x).
+
+## Trạng thái triển khai — V2 (2026-10-24)
+Duyệt: "approve CR-003: làm V2" (state/APPROVALS.md). Đã làm UI-5..UI-8 (sim/save/dữ liệu không đổi):
+- UI-5 bảng ô dạng lưới: ô công trình (biểu tượng, nhãn Cấp N / đang xây, ↑ nâng cấp, phá bỏ; ô trống nét đứt), lưới nút Xây mới/Huấn luyện có biểu tượng + chi phí (đỏ khi thiếu tài nguyên), quân đồn trú và quân tại ô là chân dung tròn có huy hiệu số lượng, ô địch hiện biểu tượng địch + số (ước lượng/mơ hồ theo tình báo) + hướng dẫn tấn công. Văn bản tiếng Việt thay các khóa nội bộ (bo_binh → bộ binh, vague → mơ hồ).
+- UI-6 cảnh báo tập kích: huy hiệu đếm ngược (từ V1) + mũi tên chạy dọc đường (hoạt ảnh tắt khi giảm chuyển động).
+- UI-7 thẻ sự kiện: tranh riêng cho 8 sự kiện (src/ui/eventart.ts), 3 lựa chọn song song, hậu quả tô ▲ xanh / ▼ đỏ, thẻ Mặc định, "Để sau"; báo cáo trận: dải băng thắng/thua, hai phe bằng chân dung + "còn N" + thanh lực lượng, nguyên nhân kèm biểu tượng.
+- UI-8 Kế sách: nút thoi theo màu nhóm (lục = hậu cần, chàm = phòng thủ, son = chiến đấu), nêu chi phí + hiệu ứng.
+Chưa làm: V3 (UI-9: tối ưu điện thoại, hiệu năng, đánh bóng) và các tồn đọng nêu ở mục V1 (dãy núi phía tây, công trình sống chưa "painterize", cung nút tròn).
+Giới hạn thật: tranh sự kiện là SVG tự vẽ (nhất quán nhưng vẫn kiểu minh họa vector); trên điện thoại thẻ sự kiện xếp dọc nên phải cuộn để thấy lựa chọn Mặc định; chưa chơi thử bằng tay trên điện thoại thật.

@@ -59,7 +59,7 @@ describe('UI smoke (jsdom) — không thay thế E2E trình duyệt thật', () 
     expect(document.body.textContent).toContain('Thủ phủ (TIL-001)');
     const wood = () => document.querySelector('[data-res="wood"] b')!.textContent;
     const before = wood();
-    [...document.querySelectorAll('button')].find((b) => b.textContent === 'Chòi canh')!.click();
+    [...document.querySelectorAll('button')].find((b) => b.textContent?.startsWith('Chòi canh'))!.click();
     expect(wood()).not.toBe(before);
   });
   it('CR-002: hết lượt 1 → hộp thoại EVT-01 với 3 lựa chọn kèm hệ quả; chọn xong hộp thoại biến mất', async () => {

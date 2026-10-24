@@ -186,6 +186,7 @@ const SYMBOLS = `
 <symbol id="i-spear" viewBox="0 0 32 32"><path d="M6 28 L24 6" stroke="#6b4a2c" stroke-width="3" stroke-linecap="round"/><path d="M22 3 L29 3 L29 10 L22 9Z" fill="#c8ced4" stroke="#3b2a1c" stroke-width="1.5" stroke-linejoin="round" transform="rotate(0)"/><path d="M12 19 l4 4" stroke="#a33b2f" stroke-width="3"/></symbol>
 <symbol id="i-hat" viewBox="0 0 32 32"><path d="M3 20 C8 8 24 8 29 20 C22 24 10 24 3 20Z" fill="#d9b985" stroke="#3b2a1c" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9 V21 M9 12 L11 22 M23 12 L21 22" stroke="#9b7a4b" stroke-width="1.2"/></symbol>
 <symbol id="i-sword" viewBox="0 0 32 32"><path d="M7 25 L25 7" stroke="#3b2a1c" stroke-width="4.4" stroke-linecap="round"/><path d="M7 25 L25 7" stroke="#d6dbe0" stroke-width="2.2" stroke-linecap="round"/><path d="M5 20 L12 27 M3 29 L7 25" stroke="#6b4a2c" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-boat" viewBox="0 0 32 32"><path d="M3 20 Q16 30 29 20 L25 15 H7Z" fill="#8a6338" stroke="#3b2a1c" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 15 V4 M16 5 L26 14 H16Z" fill="#efe2c0" stroke="#3b2a1c" stroke-width="1.6" stroke-linejoin="round"/></symbol>
 <symbol id="i-banner" viewBox="0 0 32 32"><path d="M9 29 V3" stroke="#3b2a1c" stroke-width="2.6" stroke-linecap="round"/><path d="M10 4 Q20 0 28 6 Q20 10 10 12Z" fill="#a33b2f" stroke="#3b2a1c" stroke-width="1.6" stroke-linejoin="round"/></symbol>
 `;
 

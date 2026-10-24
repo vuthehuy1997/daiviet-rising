@@ -23,6 +23,18 @@ export function describeEffects(e: Effects): string[] {
   return out.length ? out : ['không thay đổi gì'];
 }
 
+/** Màu sắc hậu quả cho UI, thẳng hàng với describeEffects (cùng thứ tự/số phần tử). pos = có lợi cho người chơi. */
+export function effectTones(e: Effects): ('pos' | 'neg' | 'neu')[] {
+  const out: ('pos' | 'neg' | 'neu')[] = [];
+  const vals = Object.values(e.res ?? {}) as number[];
+  if (vals.length) out.push(vals.some((v) => v < 0) ? 'neg' : 'pos');
+  for (const m of e.mods ?? []) out.push(m.value > 0 ? 'pos' : 'neg');
+  if (e.raid?.delay) out.push('pos');
+  if (e.raid?.mult && e.raid.mult !== 1) out.push(e.raid.mult < 1 ? 'pos' : 'neg');
+  for (const _ of e.later ?? []) out.push('neg');
+  return out.length ? out : ['neu'];
+}
+
 /** Tài nguyên (trừ Dân tâm, vốn được phép âm) không được xuống dưới 0 khi trả giá. */
 export function canChoose(s: GameState, c: EventChoice): boolean {
   return (Object.entries(c.effects.res ?? {}) as [ResKey, number][]).every(([k, v]) => k === 'dantam' || v >= 0 || s.res[k] + v >= 0);

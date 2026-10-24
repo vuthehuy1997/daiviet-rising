@@ -1,0 +1,7 @@
+CR-003 V2 — bằng chứng kiểm thử (2026-10-24, build cục bộ, CHƯA push/deploy)
+Vitest: 4 files, 68/68 passed (thêm 1 test: effectTones thẳng hàng với describeEffects cho mọi lựa chọn của 8 sự kiện).
+Playwright (Chromium; desktop + Pixel 7): 25 passed, 1 skipped (bàn phím chỉ desktop). axe: 0 vi phạm serious/critical, gồm cả hộp thoại sự kiện dạng thẻ mới.
+  Chạy: NO_PROXY=127.0.0.1,localhost E2E_PORT=<cổng> npx playwright test
+tsc --noEmit OK; python3 -I tools/check_design.py OK.
+Ảnh chụp thật từ game: docs/qa/visual/v2_*.png (17 ảnh: bảng ô Thủ phủ/đất trống/đất địch, 8 thẻ sự kiện EVT-01..08, báo cáo trận, Kế sách; mobile: bảng ô, sự kiện, báo cáo, Kế sách). Script: tools/shoot_visual_v2.mjs. Không lỗi console, không cuộn ngang ở mọi ảnh. (Ảnh EVT-02..08 đặt sự kiện chờ bằng window.__game chỉ để chụp; không dùng trong game/test.)
+Sim/save/dữ liệu cân bằng không đổi.

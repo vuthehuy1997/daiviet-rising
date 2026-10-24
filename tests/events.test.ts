@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { applyCommand } from '../src/sim/commands';
 import { atkMult, fortBonus, supplyCap, warnLead } from '../src/sim/derived';
-import { canChoose, describeEffects } from '../src/sim/events';
+import { canChoose, describeEffects, effectTones } from '../src/sim/events';
 import { deserialize, serialize } from '../src/sim/save';
 import { stateJson } from '../src/sim/state';
 import { endTurn } from '../src/sim/turn';
@@ -117,5 +117,18 @@ describe('CR-002 lưu/nạp', () => {
     const m = deserialize(old);
     expect(m.save_version).toBe(2); expect(m.mods).toEqual([]); expect(m.pendingEvents).toEqual([]);
     expect(() => turns(m, 5)).not.toThrow();
+  });
+});
+
+describe('CR-003 V2: màu hậu quả thẳng hàng với mô tả', () => {
+  it('mọi lựa chọn của mọi sự kiện: số phần tử effectTones = describeEffects; trừ tài nguyên là neg, cộng là pos', () => {
+    for (const ev of D.events) for (const c of ev.choices) {
+      expect(effectTones(c.effects).length, `${ev.id}/${c.id}`).toBe(describeEffects(c.effects).length);
+    }
+    expect(effectTones({ res: { grain: -10 } })).toEqual(['neg']);
+    expect(effectTones({ res: { dantam: 2 } })).toEqual(['pos']);
+    expect(effectTones({})).toEqual(['neu']);
+    expect(effectTones({ raid: { delay: 1, mult: 0.9 } })).toEqual(['pos', 'pos']);
+    expect(effectTones({ later: [{ after: 3, res: { grain: -45 } }] })).toEqual(['neg']);
   });
 });
