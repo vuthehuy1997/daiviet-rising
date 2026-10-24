@@ -39,6 +39,9 @@ function tree(x, y, s = 1, seed = 1) {
   }
   return g + '</g>';
 }
+function deadTree(x, y, s = 1) {
+  return `<g transform="translate(${f1(x)},${f1(y)}) scale(${s})"><ellipse cx="6" cy="3" rx="13" ry="4" fill="${SH}"/><path d="M0,2 L-1,-22 M-1,-14 L-12,-26 M-1,-20 L9,-34 M-1,-22 L-3,-40 M9,-34 l5,-4" stroke="${INK2}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M0,2 L-1,-22 M-1,-14 L-12,-26 M-1,-20 L9,-34 M-1,-22 L-3,-40 M9,-34 l5,-4" stroke="#6e5a48" stroke-width="2.6" fill="none" stroke-linecap="round"/></g>`;
+}
 function bamboo(x, y, s = 1) {
   let g = `<g transform="translate(${x},${y}) scale(${s})"><ellipse cx="6" cy="3" rx="20" ry="4" fill="${SH}"/>`;
   for (let i = -2; i <= 2; i++) {
@@ -253,8 +256,12 @@ function settlementArt(id) {
 
 function mapSvg({ viewBox = '0 0 1600 900', sel = null, showAlert = true, w = 1600, h = 900, army = true } = {}) {
   const P = (n) => TILES[id3(n)].p;
+  const land = blob(800, 450, 960, 560, 21, 22, .06);
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid slice" font-family="Be Vietnam Pro,sans-serif"><defs>
 <filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/></filter>
+<filter id="wob" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter>
+<radialGradient id="hill" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="rgba(255,250,200,.55)"/><stop offset=".55" stop-color="rgba(255,250,200,0)"/><stop offset="1" stop-color="rgba(40,60,20,.38)"/></radialGradient>
+<clipPath id="landclip"><path d="${land}"/></clipPath>
 <filter id="soft" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
 <filter id="blur30" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="34"/></filter>
 <filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .26  0 0 0 0 .14  0 0 0 .22 0"/></filter>
@@ -271,7 +278,6 @@ function mapSvg({ viewBox = '0 0 1600 900', sel = null, showAlert = true, w = 16
 <radialGradient id="glow"><stop offset="0" stop-color="rgba(255,170,60,.65)"/><stop offset="1" stop-color="rgba(255,170,60,0)"/></radialGradient>
 <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10Z" fill="#a33b2f"/></marker>
 ${SYMBOLS}</defs>`;
-  const land = blob(800, 450, 960, 560, 21, 22, .06);
   s += `<rect width="1600" height="900" fill="#e6d9b3"/>`;
   // đất liền: viền cát → cỏ, rồi các mảng màu loang
   s += `<g filter="url(#rough)"><path d="${land}" fill="#dccd98" stroke="${INK}" stroke-width="3"/></g>`;
@@ -279,6 +285,16 @@ ${SYMBOLS}</defs>`;
   s += `<g opacity=".7" filter="url(#blur30)"><ellipse cx="500" cy="470" rx="200" ry="150" fill="#6f9446"/><ellipse cx="520" cy="270" rx="170" ry="110" fill="#6a8b44"/><ellipse cx="1150" cy="300" rx="190" ry="110" fill="#6f9446"/><ellipse cx="780" cy="640" rx="230" ry="110" fill="#c8cf86"/><ellipse cx="1060" cy="620" rx="150" ry="100" fill="#d4d38d"/><ellipse cx="760" cy="170" rx="160" ry="80" fill="#a2b36c"/><ellipse cx="300" cy="420" rx="140" ry="260" fill="#b0a780"/></g>`;
   s += `<path d="${land}" fill="#fff" filter="url(#wash)" opacity=".55" style="mix-blend-mode:multiply"/><path d="${land}" fill="#fff" filter="url(#mottle)" opacity=".5"/>`;
   s += `<path d="${land}" fill="url(#sun)"/>`;
+  // nét cọ chồng lớp (cảm giác tranh sơn), đồi nhấp nhô, tô màu theo vùng
+  { const b = R(303); let g = '<g clip-path="url(#landclip)">';
+    const cols = ['#8fae57', '#a9c068', '#6f9446', '#c3c97c', '#7f9f4e'];
+    for (let i = 0; i < 520; i++) { const x = 100 + b() * 1400, y = 20 + b() * 870, a = -0.5 + b() * .35, L = 26 + b() * 52, c = cols[Math.floor(b() * cols.length)]; g += `<path d="M${f1(x)},${f1(y)} q${f1(L / 2)},${f1(-8 - b() * 10)} ${f1(L)},${f1(Math.tan(a) * L)}" stroke="${c}" stroke-width="${f1(4 + b() * 7)}" fill="none" stroke-linecap="round" opacity="${f1(.14 + b() * .16)}"/>`; }
+    const hills = [[420, 520, 120, 52], [640, 420, 110, 46], [980, 340, 140, 56], [1240, 470, 130, 52], [860, 840, 150, 44], [1150, 800, 120, 40], [330, 800, 120, 44], [1340, 250, 110, 44], [610, 70, 110, 38], [1010, 90, 120, 40], [880, 590, 90, 36], [660, 750, 100, 40]];
+    for (const [x, y, rx, ry] of hills) g += `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="url(#hill)"/><path d="M${x - rx * .7},${y + ry * .25} q${rx * .7},${ry * .55} ${rx * 1.4},0" stroke="#4d6a30" stroke-width="1.6" fill="none" opacity=".35" stroke-linecap="round"/>`;
+    // ruộng bậc thang ở sườn tây-nam
+    for (let k = 0; k < 6; k++) g += `<path d="M${560 + k * 8},${820 - k * 9} q80,-26 190,-8" stroke="#6f9440" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/><path d="M${560 + k * 8},${824 - k * 9} q80,-26 190,-8" stroke="#e5ecb0" stroke-width="2" fill="none" opacity=".4" stroke-linecap="round"/>`;
+    g += `<ellipse cx="780" cy="130" rx="720" ry="300" fill="#5a4a6a" opacity=".22" filter="url(#blur30)"/><ellipse cx="1060" cy="150" rx="260" ry="140" fill="#4a3a3a" opacity=".22" filter="url(#blur30)"/><ellipse cx="780" cy="690" rx="420" ry="220" fill="#f6d27a" opacity=".3" filter="url(#blur30)"/>`;
+    s += g + '</g>'; }
   // cỏ lác đác
   { const gr = R(77); for (let i = 0; i < 260; i++) { const x = 140 + gr() * 1280, y = 40 + gr() * 830; if (Object.values(TILES).some((t) => Math.hypot(t.p[0] - x, (t.p[1] - y) * 1.6) < 96)) continue; s += tuft(x, y, 1, gr() < .5 ? '#7d9a4c' : '#a2b568'); } }
   // biển (đông nam) có độ sâu và sóng vỗ bờ
@@ -291,11 +307,11 @@ ${SYMBOLS}</defs>`;
   s += `<path d="${river}" stroke="#fff" stroke-width="2" fill="none" stroke-dasharray="18 26" opacity=".6" stroke-linecap="round" transform="translate(3,-5)"/>`;
   // núi, rừng
   const M = [[300, 230, 1.15, 1], [390, 150, .95, 2], [330, 70, 1.0, 3], [230, 340, .95, 4], [320, 470, 1.0, 5], [250, 590, 1.15, 6], [380, 710, 1.05, 7], [470, 560, .8, 8], [300, 800, 1.0, 9], [480, 60, .8, 10], [1260, 100, .95, 11], [1360, 170, 1.0, 12], [1300, 260, .85, 13]];
-  M.sort((a, b) => a[1] - b[1]); for (const [x, y, sc, sd] of M) s += mountain(x, y, sc, sd, sd);
+  M.sort((a, b) => a[1] - b[1]); s += '<g filter="url(#wob)">'; for (const [x, y, sc, sd] of M) s += mountain(x, y, sc * 1.2, sd, sd); s += '</g>';
   const rnd = R(5), trees = [];
   for (const [cx, cy, n] of [[520, 465, 22], [520, 290, 22], [1180, 290, 20], [1220, 560, 12], [900, 770, 12], [640, 600, 8], [960, 240, 12], [930, 520, 9], [1330, 340, 8]]) for (let i = 0; i < n; i++) trees.push([cx + (rnd() - .5) * 240, cy + (rnd() - .5) * 130, .75 + rnd() * .5, Math.floor(rnd() * 99)]);
   trees.sort((a, b) => a[1] - b[1]);
-  for (const [x, y, sc, sd] of trees) { if (Object.values(TILES).some((t) => Math.hypot(t.p[0] - x, (t.p[1] - y) * 1.5) < 88)) continue; s += tree(x, y, sc, sd); }
+  s += '<g filter="url(#wob)">'; for (const [x, y, sc, sd] of trees) { if (Object.values(TILES).some((t) => Math.hypot(t.p[0] - x, (t.p[1] - y) * 1.5) < 88)) continue; s += (y < 330 && sd % 3 === 0) ? deadTree(x, y, sc) : tree(x, y, sc, sd); } s += '</g>';
   for (const [x, y] of [[880, 700], [1160, 740], [620, 760], [1220, 380], [860, 580]]) s += bamboo(x, y, 1);
   // làng nhỏ ven đường
   for (const [x, y, sc] of [[880, 600, .6], [640, 400, .55], [1120, 540, .55], [900, 260, .55]]) s += house(x, y, sc, '#9f5a3c') + house(x + 26 * sc, y + 10 * sc, sc * .8, '#b0603f');
@@ -308,7 +324,7 @@ ${SYMBOLS}</defs>`;
   for (const id of order) {
     const [x, y] = TILES[id].p, st = TILES[id].s;
     if (sel === id) s += `<path d="${blob(x, y + 2, 98, 56, 5, 14, .08)}" fill="rgba(240,207,117,.35)" stroke="#f0cf75" stroke-width="5"/><path d="${blob(x, y + 2, 98, 56, 5, 14, .08)}" fill="none" stroke="${INK}" stroke-width="1.6" stroke-dasharray="8 6"/>`;
-    s += settlementArt(id);
+    s += `<g filter="url(#wob)">${settlementArt(id)}</g>`;
     const name = TILES[id].n, kind = st === 'settled' ? 'own' : st === 'open' ? 'open' : 'enemy';
     s += banner(x, y + 54, name, kind);
     if (st === 'settled') s += chip(x, y + 80, 'i-shield', id === 'TIL-001' ? '3' : '2', 'own');
@@ -317,6 +333,7 @@ ${SYMBOLS}</defs>`;
   if (showAlert) s += alertBadge(P(5)[0] + 70, P(5)[1] - 52, 2);
   // đội quân đang hành quân 001→005
   if (army) { const [x, y] = [800, 612]; s += `<g transform="translate(${x},${y})"><ellipse cx="4" cy="14" rx="22" ry="5" fill="rgba(60,40,20,.3)"/><use href="#i-banner" x="-14" y="-34" width="34" height="34"/><use href="#i-helm" x="-12" y="-4" width="24" height="24"/></g>` + chip(x + 58, y + 6, 'i-hourglass', '1 lượt', 'own').replace('<use href="#i-hourglass"', '<use color="#2f5d73" href="#i-hourglass"'); }
+  for (const n of [7, 9, 10, 11, 12]) { const [x, y] = P(n); s += `<path d="M${x + 38},${y - 4} C${x + 20},${y - 50} ${x + 62},${y - 90} ${x + 34},${y - 150}" stroke="#4d4540" stroke-width="16" fill="none" opacity=".22" stroke-linecap="round" filter="url(#soft)"/><path d="M${x + 38},${y - 4} C${x + 26},${y - 46} ${x + 56},${y - 86} ${x + 40},${y - 130}" stroke="#7a726a" stroke-width="7" fill="none" opacity=".3" stroke-linecap="round" filter="url(#soft)"/>`; }
   // sương mù vùng chưa khám phá (phía bắc) + mây rìa + tối góc
   s += `<rect x="0" y="0" width="1600" height="150" fill="url(#fog)" opacity=".55"/>`;
   s += cloud(1500, 130, 1.5, 3) + cloud(110, 800, 1.7, 4) + cloud(1250, 850, 1.2, 5) + cloud(60, 80, 1.3, 6);

@@ -39,3 +39,7 @@ Giữ nguyên bố cục/HUD, vẽ lại lớp minh họa theo một nguồn sá
 - **Đường**: đường đất có bóng, vệt bánh xe; làng nhỏ rải ven đường; sương mù phía bắc (chưa khám phá).
 
 Giới hạn còn lại (trung thực): vẫn là SVG thủ tục, nên cây/nhà còn lặp mẫu; chưa có hoạt ảnh; tranh sự kiện mới có 1 cảnh (7 sự kiện còn lại dùng chung hoặc chờ tranh); cây Kế sách, hộp Xây dựng, bảng ô địch chưa thiết kế. Nếu muốn vượt mức này cần tranh nền/icon do họa sĩ hoặc công cụ ảnh bạn cấp (CR-003 câu hỏi 1).
+
+### Lần 3 (2026-10-24, "nhìn quá tệ")
+Thêm: nét cọ chồng lớp (520 nét) + đồi nhấp nhô + tô màu theo vùng (bắc u ám tím-xám, nam ấm vàng) + nét mực rung như vẽ tay (filter wob) + cây chết quanh đất địch + cột khói từ trại + ruộng bậc thang; ảnh cận cảnh `05_zoom_detail.png` (mức zoom trong game).
+Đánh giá thật: ảnh cận cảnh cho thấy trần của cách vẽ bằng code: nhà/cây vẫn là hình vector phẳng, bóng/độ sâu chỉ mô phỏng, chưa có chất tranh vẽ tay. Tiếp tục thêm code chỉ cho cải thiện nhỏ. Muốn tới mức Demacia Rising cần tranh/icon thật (họa sĩ, công cụ tạo ảnh của bạn, hoặc bộ CC0 phối lại).

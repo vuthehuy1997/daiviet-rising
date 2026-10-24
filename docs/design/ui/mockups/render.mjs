@@ -14,4 +14,9 @@ for (const [h, w, ht, name] of shots) {
   await p.screenshot({ path: path.join(out, name + '.png') });
   console.log(name, errs.length ? errs : 'ok');
 }
+{ // cận cảnh: phóng 2.2x vùng thủ phủ + Đồng Trung (mức zoom trong game)
+  const p = await (await b.newContext({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 })).newPage();
+  await p.goto('file://' + path.join(dir, 'mock.html') + '#zoom'); await p.evaluate(() => document.fonts.ready);
+  await p.screenshot({ path: path.join(out, '05_zoom_detail.png') }); console.log('05_zoom_detail ok');
+}
 await b.close();

@@ -139,3 +139,7 @@ function screenBoard() {
   <h3>Nút Kết thúc lượt & cụm nút tròn</h3><div style="position:relative;height:250px">${cluster(130).replace('class="cluster"', 'class="cluster" style="position:absolute;left:0;top:0;width:380px;height:250px"')}</div>
   <h3>Nguyên tắc</h3><ul class="pr"><li>Bản đồ toàn màn hình, địa điểm là cụm minh họa — không phải hộp (P-UI1)</li><li>Mọi trạng thái có biểu tượng + chữ, không chỉ màu (trợ năng)</li><li>Hậu quả hiện bằng chữ trước khi bấm (P-UI6)</li><li>Họa tiết: sen, lá đề, rồng Lý — cần thẩm định sử học</li></ul></div></div>`;
 }
+
+function screenZoom() { // cận cảnh nghệ thuật (zoom ~2.7x, không HUD) — mức phóng khi người chơi zoom vào
+  return `<div class="stage" style="width:1280px;height:800px">${mapSvg({ viewBox: '590 400 480 300', w: 1280, h: 800, sel: null, showAlert: true })}</div>`;
+}

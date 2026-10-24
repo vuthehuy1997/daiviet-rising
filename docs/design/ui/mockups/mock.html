@@ -82,5 +82,5 @@ h4{margin:10px 0 6px;font:700 13px Lora;letter-spacing:.12em;text-transform:uppe
 <body><script src="art.js"></script><script src="screens.js"></script>
 <script>
 const s = (location.hash || '#map').slice(1);
-document.body.innerHTML = sprite + ({ map: screenMap, event: screenEvent, battle: screenBattle, mobile: screenMobile, board: screenBoard }[s] || screenMap)();
+document.body.innerHTML = sprite + ({ map: screenMap, event: screenEvent, battle: screenBattle, mobile: screenMobile, board: screenBoard, zoom: screenZoom }[s] || screenMap)();
 </script></body></html>
