@@ -57,9 +57,10 @@ describe('UI smoke (jsdom) — không thay thế E2E trình duyệt thật', () 
     await import('../src/ui/main');
     (document.querySelector('[data-tile="TIL-001"]') as SVGElement).dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(document.body.textContent).toContain('Thủ phủ (TIL-001)');
-    const before = document.body.textContent!.match(/Gỗ-tre: (\d+)/)![1];
+    const wood = () => document.querySelector('[data-res="wood"] b')!.textContent;
+    const before = wood();
     [...document.querySelectorAll('button')].find((b) => b.textContent === 'Chòi canh')!.click();
-    expect(document.body.textContent!.match(/Gỗ-tre: (\d+)/)![1]).not.toBe(before);
+    expect(wood()).not.toBe(before);
   });
   it('CR-002: hết lượt 1 → hộp thoại EVT-01 với 3 lựa chọn kèm hệ quả; chọn xong hộp thoại biến mất', async () => {
     await import('../src/ui/main');
@@ -70,6 +71,7 @@ describe('UI smoke (jsdom) — không thay thế E2E trình duyệt thật', () 
     expect(dlg.textContent).toContain('Hệ quả:');
     (dlg.querySelector('[data-choice="a"]') as HTMLElement).click();
     expect(document.querySelector('dialog[data-event]')).toBeNull();
-    expect(document.body.textContent).toContain('Cử trinh sát qua biên');
+    (document.querySelector('button[aria-label="Nhật ký"]') as HTMLElement).click();
+    expect(document.querySelector('ul.log')!.textContent).toContain('Cử trinh sát qua biên');
   });
 });

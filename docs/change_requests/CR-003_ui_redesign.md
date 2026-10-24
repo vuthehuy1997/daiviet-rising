@@ -47,3 +47,11 @@ Phát hành: build cục bộ trước (RC3). Push/deploy cần **bạn cho phé
 - `approve CR-003`: làm nguyên trạng (SVG tự vẽ, giấy dó + son/chàm/vàng, họa tiết Lý, bỏ chủ đề tối, 3 mốc V1–V3, chưa push).
 - `approve CR-003: <chỉnh sửa>` (ví dụ đổi bảng màu, giữ chủ đề tối, bạn cấp tranh).
 - Hoặc nêu điểm cần đổi.
+
+## Trạng thái triển khai — V1 (2026-10-24)
+Duyệt: "approve CR-003: làm V1 theo thiết kế v4" (state/APPROVALS.md). Đã làm UI-1..UI-4 trong src/ui; sim/save/dữ liệu cân bằng KHÔNG đổi (chỉ đổi toạ độ x,y của 12 ô trong game-data/campaign_cmp01.yaml).
+- Nền bản đồ: ảnh nướng bằng script (docs/design/ui/v4/tools/paint_map.py, NOSPR=1) → src/ui/assets/map_bg.webp (308 kB); công trình/đất theo phe vẽ SỐNG bằng SVG (src/ui/art.ts) theo trạng thái ô; đường tập kích đi theo đường thật (roads.json).
+- HUD: tiêu đề, thanh tài nguyên có biểu tượng, thẻ Mục tiêu (chặn/định cư/dân tâm/thời hạn), cảnh báo tập kích, đĩa Kết thúc lượt, nút tròn Nhật ký/Kế sách/Bối cảnh/Cài đặt/Hoàn tác (huy hiệu số bước), điều khiển zoom (giới hạn 1.5x) + kéo bản đồ.
+- Chủ đề tối: đã bỏ. Font Lora + Be Vietnam Pro (OFL, tự đóng gói, src/ui/fonts).
+Lệch so với thiết kế v4 (nói thẳng): (1) cột trái xếp chồng (tiêu đề → cảnh báo → bảng ô) thay vì thanh cảnh báo giữa trên, để không đè nhau ở 1280px; (2) bảng ô vẫn là danh sách nút (lưới ô là V2/UI-5); (3) cụm nút tròn xếp hàng ngang, chưa theo cung; (4) công trình vẽ sống chưa qua bước "painterize" như ảnh nướng nên hơi khác nền; (5) mobile: bảng ô là bottom-sheet và các nút phụ ẩn khi bảng mở (V3 sẽ làm kỹ); (6) dãy núi phía tây trong ảnh nền vẫn góc cạnh, chưa đẹp.
+Chưa làm: V2 (UI-5..8), V3 (UI-9), giữ/bỏ zoom 4x (người dùng chưa trả lời; đang dùng ≤1.5x).

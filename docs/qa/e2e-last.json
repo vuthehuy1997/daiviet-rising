@@ -71,7 +71,7 @@
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 30000,
         "use": {
-          "baseURL": "http://127.0.0.1:4173",
+          "baseURL": "http://127.0.0.1:4194",
           "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
           "viewport": {
             "width": 1280,
@@ -106,7 +106,7 @@
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 30000,
         "use": {
-          "baseURL": "http://127.0.0.1:4173",
+          "baseURL": "http://127.0.0.1:4194",
           "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Mobile Safari/537.36",
           "viewport": {
             "width": 412,
@@ -150,8 +150,8 @@
     "version": "1.64.1",
     "workers": 64,
     "webServer": {
-      "command": "npm run build && npx vite preview --host 127.0.0.1 --port 4173 --strictPort",
-      "url": "http://127.0.0.1:4173",
+      "command": "npm run build && npx vite preview --host 127.0.0.1 --port 4194 --strictPort",
+      "url": "http://127.0.0.1:4194",
       "reuseExistingServer": false,
       "timeout": 120000
     }
@@ -179,12 +179,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 267,
+                  "duration": 734,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:25.582Z",
+                  "startTime": "2026-10-24T07:55:06.494Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -194,7 +194,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-fe6f4347fb35fcc3f21a",
           "file": "game.spec.ts",
-          "line": 17,
+          "line": 27,
           "column": 1
         },
         {
@@ -213,12 +213,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 390,
+                  "duration": 798,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:25.994Z",
+                  "startTime": "2026-10-24T07:55:07.382Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -228,7 +228,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-314f71138a8edddd64a5",
           "file": "game.spec.ts",
-          "line": 26,
+          "line": 36,
           "column": 1
         },
         {
@@ -247,12 +247,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 269,
+                  "duration": 661,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:26.395Z",
+                  "startTime": "2026-10-24T07:55:08.192Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -262,7 +262,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-3bb92aea8051ff3c560e",
           "file": "game.spec.ts",
-          "line": 40,
+          "line": 50,
           "column": 1
         },
         {
@@ -281,12 +281,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 162,
+                  "duration": 538,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:26.674Z",
+                  "startTime": "2026-10-24T07:55:08.864Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -296,7 +296,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-00236f5b024689dfc2c1",
           "file": "game.spec.ts",
-          "line": 50,
+          "line": 60,
           "column": 1
         },
         {
@@ -315,12 +315,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 317,
+                  "duration": 881,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:26.846Z",
+                  "startTime": "2026-10-24T07:55:09.413Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -330,7 +330,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-23242ffda969ef6414f6",
           "file": "game.spec.ts",
-          "line": 57,
+          "line": 67,
           "column": 1
         },
         {
@@ -349,12 +349,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 486,
+                  "duration": 1203,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:27.180Z",
+                  "startTime": "2026-10-24T07:55:10.307Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -364,7 +364,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-f8d969674344c1551f43",
           "file": "game.spec.ts",
-          "line": 66,
+          "line": 76,
           "column": 1
         },
         {
@@ -383,12 +383,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 591,
+                  "duration": 1532,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:27.678Z",
+                  "startTime": "2026-10-24T07:55:11.528Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -398,7 +398,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-3708c9d748f1b1da8e62",
           "file": "game.spec.ts",
-          "line": 79,
+          "line": 89,
           "column": 1
         },
         {
@@ -417,12 +417,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 285,
+                  "duration": 614,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:28.287Z",
+                  "startTime": "2026-10-24T07:55:13.077Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -432,7 +432,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-09f410006ab84029e2c3",
           "file": "game.spec.ts",
-          "line": 92,
+          "line": 102,
           "column": 1
         },
         {
@@ -451,12 +451,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 980,
+                  "duration": 2041,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:28.599Z",
+                  "startTime": "2026-10-24T07:55:13.703Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -466,7 +466,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-8ded868a9d582ffb06cd",
           "file": "game.spec.ts",
-          "line": 105,
+          "line": 115,
           "column": 1
         },
         {
@@ -485,12 +485,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 226,
+                  "duration": 610,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:29.590Z",
+                  "startTime": "2026-10-24T07:55:15.754Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -500,7 +500,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-ec386beb04362f47c5cb",
           "file": "game.spec.ts",
-          "line": 112,
+          "line": 122,
           "column": 1
         },
         {
@@ -519,12 +519,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 229,
+                  "duration": 670,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:29.824Z",
+                  "startTime": "2026-10-24T07:55:16.373Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -534,7 +534,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-421f1e49bace72c573c6",
           "file": "game.spec.ts",
-          "line": 122,
+          "line": 132,
           "column": 1
         },
         {
@@ -553,12 +553,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 305,
+                  "duration": 943,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:30.062Z",
+                  "startTime": "2026-10-24T07:55:17.051Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -568,7 +568,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-bee88741fc6de8afb67e",
           "file": "game.spec.ts",
-          "line": 138,
+          "line": 149,
           "column": 1
         },
         {
@@ -587,12 +587,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 804,
+                  "duration": 1282,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:30.375Z",
+                  "startTime": "2026-10-24T07:55:18.002Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -602,7 +602,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-4c0355f42c2d158069cc",
           "file": "game.spec.ts",
-          "line": 150,
+          "line": 162,
           "column": 1
         },
         {
@@ -621,12 +621,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 258,
+                  "duration": 693,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:25.571Z",
+                  "startTime": "2026-10-24T07:55:06.495Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -636,7 +636,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-97d2b1c7e039d7f4e4f3",
           "file": "game.spec.ts",
-          "line": 17,
+          "line": 27,
           "column": 1
         },
         {
@@ -655,12 +655,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 385,
+                  "duration": 787,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:25.965Z",
+                  "startTime": "2026-10-24T07:55:07.341Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -670,7 +670,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-028c85dc4186668eb4fd",
           "file": "game.spec.ts",
-          "line": 26,
+          "line": 36,
           "column": 1
         },
         {
@@ -689,12 +689,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 269,
+                  "duration": 602,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:26.361Z",
+                  "startTime": "2026-10-24T07:55:08.140Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -704,7 +704,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-1f4e4752f5383ada6add",
           "file": "game.spec.ts",
-          "line": 40,
+          "line": 50,
           "column": 1
         },
         {
@@ -720,7 +720,7 @@
                   "description": "bàn phím chỉ kiểm tra trên desktop",
                   "location": {
                     "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
-                    "line": 51,
+                    "line": 61,
                     "column": 8
                   }
                 }
@@ -733,19 +733,19 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "skipped",
-                  "duration": 124,
+                  "duration": 295,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:26.641Z",
+                  "startTime": "2026-10-24T07:55:08.753Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "description": "bàn phím chỉ kiểm tra trên desktop",
                       "location": {
                         "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
-                        "line": 51,
+                        "line": 61,
                         "column": 8
                       }
                     }
@@ -758,7 +758,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-598f499fec0b74e6ff53",
           "file": "game.spec.ts",
-          "line": 50,
+          "line": 60,
           "column": 1
         },
         {
@@ -777,12 +777,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 324,
+                  "duration": 826,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:26.774Z",
+                  "startTime": "2026-10-24T07:55:09.059Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -792,7 +792,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-d21321fba92cecefdc2d",
           "file": "game.spec.ts",
-          "line": 57,
+          "line": 67,
           "column": 1
         },
         {
@@ -811,12 +811,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 487,
+                  "duration": 1064,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:27.113Z",
+                  "startTime": "2026-10-24T07:55:09.908Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -826,7 +826,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-c42ea48232534011bc98",
           "file": "game.spec.ts",
-          "line": 66,
+          "line": 76,
           "column": 1
         },
         {
@@ -845,12 +845,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 601,
+                  "duration": 1528,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:27.613Z",
+                  "startTime": "2026-10-24T07:55:10.991Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -860,7 +860,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-bb4b6a1cf8adba7ec5d1",
           "file": "game.spec.ts",
-          "line": 79,
+          "line": 89,
           "column": 1
         },
         {
@@ -879,12 +879,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 362,
+                  "duration": 565,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:28.226Z",
+                  "startTime": "2026-10-24T07:55:12.531Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -894,7 +894,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-4d50bc9b022e039e1d87",
           "file": "game.spec.ts",
-          "line": 92,
+          "line": 102,
           "column": 1
         },
         {
@@ -913,12 +913,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1025,
+                  "duration": 1886,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:28.602Z",
+                  "startTime": "2026-10-24T07:55:13.106Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -928,7 +928,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-96cf6fb797a7897626db",
           "file": "game.spec.ts",
-          "line": 105,
+          "line": 115,
           "column": 1
         },
         {
@@ -947,12 +947,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 226,
+                  "duration": 540,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:29.641Z",
+                  "startTime": "2026-10-24T07:55:15.001Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -962,7 +962,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-6dea49bbbb0221740a46",
           "file": "game.spec.ts",
-          "line": 112,
+          "line": 122,
           "column": 1
         },
         {
@@ -981,12 +981,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 230,
+                  "duration": 592,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:29.875Z",
+                  "startTime": "2026-10-24T07:55:15.549Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -996,7 +996,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-0459fb011ea496aa59f1",
           "file": "game.spec.ts",
-          "line": 122,
+          "line": 132,
           "column": 1
         },
         {
@@ -1015,12 +1015,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 304,
+                  "duration": 809,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:30.113Z",
+                  "startTime": "2026-10-24T07:55:16.149Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1030,7 +1030,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-0389051151824f3c3880",
           "file": "game.spec.ts",
-          "line": 138,
+          "line": 149,
           "column": 1
         },
         {
@@ -1049,12 +1049,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 796,
+                  "duration": 1310,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-23T04:20:30.425Z",
+                  "startTime": "2026-10-24T07:55:16.966Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1064,7 +1064,7 @@
           ],
           "id": "8b1bb1493a64c9fc3ab6-4f63c88b68358343d26e",
           "file": "game.spec.ts",
-          "line": 150,
+          "line": 162,
           "column": 1
         }
       ]
@@ -1072,8 +1072,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-23T04:20:22.113Z",
-    "duration": 9195.625,
+    "startTime": "2026-10-24T07:55:03.034Z",
+    "duration": 16369.213,
     "expected": 25,
     "skipped": 1,
     "unexpected": 0,

@@ -18,6 +18,7 @@ export class Controller {
   }
 
   get canUndo() { return this.history.length > 0; }
+  get undoDepth() { return this.history.length; }
 
   dispatch(cmd: Cmd): string | undefined {
     const r = applyCommand(this.d, this.state, cmd);

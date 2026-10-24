@@ -2,6 +2,16 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 /** Sự kiện lựa chọn (CR-002) mở hộp thoại modal sau khi kết thúc lượt; các luồng không quan tâm thì “Để sau”. */
+async function openLog(page: import('@playwright/test').Page) {
+  if (!(await page.locator('ul.log').count())) await page.getByRole('button', { name: 'Nhật ký' }).click();
+}
+/** Người chơi trên điện thoại ẩn bảng ô trước khi chạm ô khác (bảng là bottom-sheet che nửa dưới bản đồ). */
+async function pickTile(page: import('@playwright/test').Page, id: string) {
+  const close = page.getByRole('button', { name: 'Ẩn bảng ô' });
+  if (await close.isVisible().catch(() => false)) await close.click();
+  await page.locator(`[data-tile="${id}"]`).click();
+}
+const resNum = async (page: import('@playwright/test').Page, k: string) => Number(await page.locator(`[data-res="${k}"] b`).innerText());
 async function dismissEvent(page: import('@playwright/test').Page) {
   const later = page.getByRole('button', { name: 'Để sau' });
   if (await later.isVisible().catch(() => false)) await later.click();
@@ -26,7 +36,7 @@ test('TST-07 tải trang: 12 ô, không lỗi console, tiếng Việt', async ({
 test('chọn ô → xây → huấn luyện → kết thúc lượt (chuột/chạm)', async ({ page }) => {
   await page.locator('[data-tile="TIL-001"]').click();
   await expect(page.getByText('Thủ phủ (TIL-001)')).toBeVisible();
-  const wood = async () => Number((await page.locator('header.top .res').innerText()).match(/Gỗ-tre: (\d+)/)![1]);
+  const wood = () => resNum(page, 'wood');
   const w0 = await wood();
   await page.getByRole('button', { name: 'Chòi canh' }).click();
   expect(await wood()).toBeLessThan(w0);
@@ -39,7 +49,7 @@ test('chọn ô → xây → huấn luyện → kết thúc lượt (chuột/ch�
 
 test('hoàn tác trong lượt', async ({ page }) => {
   await page.locator('[data-tile="TIL-001"]').click();
-  const res = () => page.locator('header.top .res').innerText();
+  const res = () => page.locator('.res').innerText();
   const r0 = await res();
   await page.getByRole('button', { name: 'Chòi canh' }).click();
   expect(await res()).not.toBe(r0);
@@ -68,11 +78,11 @@ test('lập khu định cư rồi điều quân tới ô mới (luồng điều 
   await page.getByRole('button', { name: '+1 Bộ binh' }).click();
   await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
   await dismissEvent(page);
-  await page.locator('[data-tile="TIL-005"]').click();
+  await pickTile(page, 'TIL-005');
   await page.getByRole('button', { name: /Lập khu định cư/ }).click();
-  await page.locator('[data-tile="TIL-001"]').click();
+  await pickTile(page, 'TIL-001');
   await page.getByRole('button', { name: 'Điều quân' }).click();
-  await page.locator('[data-tile="TIL-005"]').click();
+  await page.locator('[data-tile="TIL-005"]').click(); // đang chọn đích: không đóng bảng
   await expect(page.getByRole('heading', { name: 'Quân đang hành quân' })).toBeVisible();
 });
 
@@ -127,11 +137,12 @@ test('CR-002 sự kiện lựa chọn: hiện ở lượt 2, nêu hệ quả, ch
   await expect(dlg).toContainText('SOURCED');
   await expect(dlg).toContainText('Hệ quả:');
   await expect(dlg.locator('[data-choice]')).toHaveCount(3);
-  const grain = async () => Number((await page.locator('header.top .res').innerText()).match(/Lương: (-?\d+)/)![1]);
+  const grain = () => resNum(page, 'grain');
   const g0 = await grain();
   await dlg.locator('[data-choice="a"]').click(); // −10 Lương
   await expect(page.getByRole('dialog')).toHaveCount(0);
   expect(await grain()).toBe(g0 - 10);
+  await openLog(page);
   await expect(page.locator('ul.log')).toContainText('Cử trinh sát qua biên');
 });
 
@@ -144,6 +155,7 @@ test('CR-002 sự kiện: “Để sau”/Esc không chọn hộ; kết thúc l�
   await expect(page.getByRole('dialog', { name: /Sự kiện/ })).toBeVisible();
   await page.getByRole('button', { name: 'Để sau' }).click();
   await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  await openLog(page);
   await expect(page.locator('ul.log')).toContainText('chưa quyết nên tự chọn');
 });
 

@@ -1,0 +1,8 @@
+CR-003 V1 — bằng chứng kiểm thử (2026-10-24, build cục bộ, CHƯA push/deploy)
+Vitest: 4 files, 67/67 passed (sim không đổi; tests/ui.test.ts cập nhật selector: [data-res], nút Nhật ký).
+Playwright (Chromium; desktop + Pixel 7 mobile-touch): 25 passed, 1 skipped (bàn phím chỉ desktop). axe: 0 vi phạm serious/critical (kể cả hộp thoại sự kiện).
+  Chạy: NO_PROXY=127.0.0.1,localhost E2E_PORT=<cổng> npx playwright test  (E2E_PORT mới thêm vào playwright.config.ts; không có NO_PROXY thì Playwright đi qua proxy và webServer hết thời gian chờ).
+tsc --noEmit: OK. python3 -I tools/check_design.py: OK.
+Ảnh chụp thật từ game: docs/qa/visual/v1_*.png (6 ảnh: 1600x900 chọn ô, 1280x800, 1920x1080, Pixel 7 chưa chọn/đã chọn ô, 1600x900 mở Nhật ký). Script: tools/shoot_visual.mjs. Không lỗi console, không cuộn ngang.
+Dung lượng dist: 606 kB chưa nén (JS 188, ảnh nền 308, font 93, CSS 11); truyền gzip ≈ 470 kB. Ngân sách CR-003 ≲ 600 kB.
+Đã sửa trong lúc kiểm thử (phát hiện bằng ảnh/E2E): nút zoom đè bảng ô; HUD mobile dãn cách; nhãn đĩa Kết thúc lượt tràn mép; aria-controls trỏ phần tử không tồn tại (axe); mobile: bảng ô che ô đích khi điều quân (thanh chọn đích + hoàn camera).

@@ -44,3 +44,11 @@
 - Approved: CR-003 (docs/change_requests/CR-003_ui_redesign.md) WITH the user's edit: produce the DESIGN first as preview images for the user to review. Defaults of the CR apply otherwise (SVG self-drawn, giấy dó + son/chàm/vàng thếp, Lý motifs, drop dark theme).
 - Implementation in src/ (milestones V1–V3) is NOT yet started; start only after the user has seen the preview images and says to proceed (treat their reply as feedback, not blanket approval).
 - Not authorized: push/deploy (G3 covers RC1/RC2 only).
+
+## CR-003 — V1 implementation approval
+- Date: 2026-10-24
+- Approver: user (as entered in session)
+- Exact words: "approve CR-003: làm V1 theo thiết kế v4"
+- Approved: implement milestone V1 (UI-1..UI-4: full-screen map, settlement art + name banners, HUD with objective card, End-Turn disc/buttons) in src/ following docs/design/ui/v4 (baked painted map background + SVG/HTML overlay). Sim, balance data, save format unchanged.
+- Zoom question was not answered by the user: the recommended default (zoom ≤ 1.5x, 2400px background) is applied and flagged for confirmation.
+- V2/V3 still need showing V1 screenshots first. Not authorized: push/deploy (RC3 is a local build until the user re-authorizes).

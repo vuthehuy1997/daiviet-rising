@@ -32,18 +32,18 @@ campaign:
   # Cơ chế "tập kích trước": chiếm ô này làm yếu các đợt tập kích xuất phát từ nó (cơ chế game, FICTION; không khẳng định chi tiết lịch sử).
   preemptive: {tile: TIL-012, weaken_factor: 0.7, min_turn_effect: 12}
 tiles:
-  - {id: TIL-001, name_vi: Thủ phủ, terrain: dong_bang, state: settled, x: 300, y: 520, adj: [TIL-002, TIL-003, TIL-004, TIL-005], source_label: FICTION, source_ids: []}
-  - {id: TIL-002, name_vi: Châu Đông, terrain: dong_bang, state: open, x: 460, y: 500, adj: [TIL-001, TIL-005, TIL-008], source_label: FICTION, source_ids: []}
-  - {id: TIL-003, name_vi: Châu Tây, terrain: nui, state: open, x: 140, y: 500, adj: [TIL-001, TIL-005, TIL-006], source_label: FICTION, source_ids: []}
-  - {id: TIL-004, name_vi: Châu Nam, terrain: ven_bien, state: open, x: 300, y: 650, adj: [TIL-001], source_label: FICTION, source_ids: []}
-  - {id: TIL-005, name_vi: Đồng Trung, terrain: dong_bang, state: open, x: 300, y: 390, adj: [TIL-001, TIL-002, TIL-003, TIL-006, TIL-007, TIL-008], source_label: FICTION, source_ids: []}
-  - {id: TIL-006, name_vi: Rừng Tây, terrain: rung, state: open, x: 150, y: 350, adj: [TIL-003, TIL-005, TIL-009], source_label: FICTION, source_ids: []}
-  - {id: TIL-007, name_vi: Bến sông Nam, terrain: song, state: hostile, x: 300, y: 270, adj: [TIL-005, TIL-008, TIL-009, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3}}
-  - {id: TIL-008, name_vi: Cửa Đông Bắc, terrain: dong_bang, state: hostile, x: 450, y: 300, adj: [TIL-002, TIL-005, TIL-007, TIL-010, TIL-012], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3, ENM-ARCHER: 1}}
-  - {id: TIL-009, name_vi: Rừng biên, terrain: rung, state: hostile, x: 150, y: 230, adj: [TIL-006, TIL-007, TIL-011], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3, ENM-ARCHER: 1}}
-  - {id: TIL-010, name_vi: Tuyến sông biên, terrain: song, state: hostile, x: 300, y: 140, adj: [TIL-007, TIL-008, TIL-011, TIL-012], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 4, ENM-ARCHER: 2}}
-  - {id: TIL-011, name_vi: Trại biên Tây, terrain: nui, state: hostile, x: 170, y: 70, adj: [TIL-009, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 5, ENM-ARCHER: 2}}
-  - {id: TIL-012, name_vi: Doanh trại biên Đông, terrain: dong_bang, state: hostile, x: 430, y: 70, adj: [TIL-008, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 6, ENM-ARCHER: 3}}
+  - {id: TIL-001, name_vi: Thủ phủ, terrain: dong_bang, state: settled, x: 760, y: 700, adj: [TIL-002, TIL-003, TIL-004, TIL-005], source_label: FICTION, source_ids: []}
+  - {id: TIL-002, name_vi: Châu Đông, terrain: dong_bang, state: open, x: 1030, y: 650, adj: [TIL-001, TIL-005, TIL-008], source_label: FICTION, source_ids: []}
+  - {id: TIL-003, name_vi: Châu Tây, terrain: nui, state: open, x: 500, y: 640, adj: [TIL-001, TIL-005, TIL-006], source_label: FICTION, source_ids: []}
+  - {id: TIL-004, name_vi: Châu Nam, terrain: ven_bien, state: open, x: 1010, y: 800, adj: [TIL-001], source_label: FICTION, source_ids: []}
+  - {id: TIL-005, name_vi: Đồng Trung, terrain: dong_bang, state: open, x: 760, y: 500, adj: [TIL-001, TIL-002, TIL-003, TIL-006, TIL-007, TIL-008], source_label: FICTION, source_ids: []}
+  - {id: TIL-006, name_vi: Rừng Tây, terrain: rung, state: open, x: 520, y: 465, adj: [TIL-003, TIL-005, TIL-009], source_label: FICTION, source_ids: []}
+  - {id: TIL-007, name_vi: Bến sông Nam, terrain: song, state: hostile, x: 760, y: 330, adj: [TIL-005, TIL-008, TIL-009, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3}}
+  - {id: TIL-008, name_vi: Cửa Đông Bắc, terrain: dong_bang, state: hostile, x: 1080, y: 410, adj: [TIL-002, TIL-005, TIL-007, TIL-010, TIL-012], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3, ENM-ARCHER: 1}}
+  - {id: TIL-009, name_vi: Rừng biên, terrain: rung, state: hostile, x: 520, y: 290, adj: [TIL-006, TIL-007, TIL-011], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 3, ENM-ARCHER: 1}}
+  - {id: TIL-010, name_vi: Tuyến sông biên, terrain: song, state: hostile, x: 760, y: 170, adj: [TIL-007, TIL-008, TIL-011, TIL-012], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 4, ENM-ARCHER: 2}}
+  - {id: TIL-011, name_vi: Trại biên Tây, terrain: nui, state: hostile, x: 520, y: 110, adj: [TIL-009, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 5, ENM-ARCHER: 2}}
+  - {id: TIL-012, name_vi: Doanh trại biên Đông, terrain: dong_bang, state: hostile, x: 1070, y: 150, adj: [TIL-008, TIL-010], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 6, ENM-ARCHER: 3}}
 # Kịch bản tập kích: mục tiêu = ô đang có khu định cư gần nguồn nhất (theo chi phí đường).
 raids:
   - {id: RAID-1, turn: 4, origin: TIL-011, units: {ENM-FOOT: 3}, source_label: FICTION, source_ids: [], design: SYS-07}

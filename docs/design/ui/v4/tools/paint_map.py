@@ -13,6 +13,8 @@ from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
 BUILD = os.path.join(HERE, '..', 'build')
 S = int(os.environ.get('S', 2))
+NOSPR = os.environ.get('NOSPR') == '1'   # bản dùng trong game: không nướng công trình/đất địa điểm theo phe (vẽ sống bằng SVG theo trạng thái ô)
+OUT = os.environ.get('OUT')
 SUF = '' if S == 2 else f'_s{S}'
 W, H = 1600 * S, 900 * S
 rng = np.random.default_rng(20260524)
@@ -250,7 +252,7 @@ for k, (n, x, y, st) in TILES.items():
         a_ = r_.random() * 6.283; ox, oy = math.cos(a_) * 34 * r_.random(), math.sin(a_) * 14 * r_.random()
         cv2.ellipse(m, (int((x + ox) * S), int((y + 4 + oy) * S)), (int((52 + r_.random() * 26) * S), int((26 + r_.random() * 12) * S)), 0, 0, 360, 255, -1, cv2.LINE_AA)
     m = cv2.GaussianBlur(m, (0, 0), 1.5).astype(np.float32) / 255
-    pad = np.maximum(pad, m); pad_t = np.where(m[..., None] > .05, tint[st][None, None], pad_t)
+    pad = np.maximum(pad, m); pad_t = np.where(m[..., None] > .05, tint['open' if NOSPR else st][None, None], pad_t)
 pad = sstep(.42, .56, pad * .85 + (fbm(95, 22, 4) - .5) * .5) * (1 - water)
 padr = pad - cv2.erode(pad, np.ones((3, 3), np.uint8), iterations=3 * S)    # vành
 pad_in = cv2.GaussianBlur(pad, (0, 0), 9 * S)
@@ -359,7 +361,7 @@ for _ in range(1400):
 # ---------- sương, mây, ánh sáng toàn cục ----------
 imgf = img8[..., ::-1].astype(np.float32) / 255
 # công trình (lớp SVG) -> painterize
-spr = np.array(Image.open(os.path.join(BUILD, f'sprites{SUF}.png')).convert('RGBA')).astype(np.float32) / 255
+spr = (np.zeros((H, W, 4), np.float32) if NOSPR else np.array(Image.open(os.path.join(BUILD, f'sprites{SUF}.png')).convert('RGBA')).astype(np.float32) / 255)
 sa = spr[..., 3]; srgb = spr[..., :3]
 # nền phẳng giả để mean-shift không bị viền lem
 bg_fill = srgb * sa[..., None] + imgf * (1 - sa[..., None])
@@ -416,8 +418,9 @@ imgf = np.clip(imgf, 0, 1)
 imgf = np.clip((imgf - .5) * 1.1 + .5, 0, 1)
 gray = (imgf * np.array([.3, .59, .11], np.float32)).sum(-1, keepdims=True); imgf = np.clip(gray + (imgf - gray) * .84, 0, 1)  # bớt bão hòa về mức tranh vẽ (~.38)
 out = (imgf * 255 + .5).astype(np.uint8)
-Image.fromarray(out).save(os.path.join(BUILD, f'map_bg{SUF}.png'))
+if not NOSPR: Image.fromarray(out).save(os.path.join(BUILD, f'map_bg{SUF}.png'))
 if S == 2:
-    Image.fromarray(out).save(os.path.join(BUILD, '..', 'map_bg.webp'), quality=int(os.environ.get('Q', 78)), method=6)
-    print('ok', os.path.getsize(os.path.join(BUILD, '..', 'map_bg.webp')) // 1024, 'kB webp')
+    dst = OUT or os.path.join(BUILD, '..', 'map_bg.webp')
+    Image.fromarray(out).save(dst, quality=int(os.environ.get('Q', 78)), method=6)
+    print('ok', os.path.getsize(dst) // 1024, 'kB webp')
 else: print('ok', SUF)
