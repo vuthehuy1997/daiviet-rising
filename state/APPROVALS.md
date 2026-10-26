@@ -66,3 +66,10 @@
 - Exact words: "approve CR-003: làm V3"
 - Approved: milestone V3 (UI-9 + performance + polish): phone layout (bottom-sheet, touch targets, compact event card, small/landscape screens), performance and size budget, AA-contrast checks, polish of known V1/V2 leftovers (button arc, west mountains, long tile panel). Sim, save format, balance data unchanged.
 - Zoom question still unanswered → keeping <= 1.5x. Not authorized: push/deploy (RC3 stays a local build).
+
+## G3 — RC3 push and deploy approval
+- Date: 2026-10-26
+- Approver: user (as entered in session)
+- Exact words: "approve G3: push và deploy RC3 lên vuthehuy1997/daiviet-rising"
+- Approved: push `main` + tag `rc3` and refresh `gh-pages` on vuthehuy1997/daiviet-rising ONLY (GitHub Pages). Nothing else (other repos, purchases, paid services).
+- Status: approved; push pending a credential (none available in this session; tokens are never stored).
