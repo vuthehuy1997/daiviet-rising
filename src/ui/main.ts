@@ -83,7 +83,7 @@ function resPill() {
     h('span', { class: 'rv', 'data-res': 'supply', title: 'Quân cơ động / trần' }, ic('i-helm'), h('b', {}, `${mobileSupplyUsed(d, st)}/${supplyCap(d, st)}`), h('span', { class: 'vh' }, 'Quân')));
 }
 
-let objOpen = typeof window === 'undefined' || window.innerWidth > 1500; // màn nhỏ: thu gọn để không che bản đồ
+let objOpen = typeof window === 'undefined' || (window.innerWidth > 1500 && window.innerHeight > 700); // màn nhỏ: thu gọn để không che bản đồ
 function objective() {
   const st = ctl.state, r = d.campaign.rules;
   const settled = Object.values(st.tiles).filter((t) => t.status === 'settled').length;
@@ -172,16 +172,26 @@ function panToTile(id: string) { // bảng ô là bottom-sheet trên màn hẹp:
   camSaved ??= { ...cam }; cam.cx = t.x; cam.cy = t.y + vh * .2; applyCam();
 }
 
+const ptrs = new Map<number, { x: number; y: number }>();
+let pinch: { d0: number; z0: number } | null = null;
+const ptrDist = () => { const [a, b] = [...ptrs.values()]; return Math.hypot(a.x - b.x, a.y - b.y) || 1; };
 let pdown: { x: number; y: number; cx: number; cy: number } | null = null;
-mapSvg.addEventListener('pointerdown', (e) => { if (e.button > 0) return; dragged = false; pdown = { x: e.clientX, y: e.clientY, cx: cam.cx, cy: cam.cy }; });
+mapSvg.addEventListener('pointerdown', (e) => {
+  if (e.button > 0) return;
+  ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (ptrs.size === 2) { pinch = { d0: ptrDist(), z0: cam.z }; dragged = true; pdown = null; return; } // hai ngón: thu/phóng
+  dragged = false; pdown = { x: e.clientX, y: e.clientY, cx: cam.cx, cy: cam.cy };
+});
 window.addEventListener('pointermove', (e) => {
+  if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pinch && ptrs.size >= 2) { const [a, b] = [...ptrs.values()], r = mapSvg.getBoundingClientRect(); zoomTo(pinch.z0 * ptrDist() / pinch.d0, ((a.x + b.x) / 2 - r.left) / r.width, ((a.y + b.y) / 2 - r.top) / r.height); return; }
   if (!pdown) return;
   const dx = e.clientX - pdown.x, dy = e.clientY - pdown.y;
   if (!dragged && Math.hypot(dx, dy) < 6) return;
   dragged = true; mapSvg.classList.add('drag');
   const { k } = camGeom(); cam.cx = pdown.cx - dx / k; cam.cy = pdown.cy - dy / k; applyCam();
 });
-const endDrag = () => { pdown = null; mapSvg.classList.remove('drag'); };
+const endDrag = (e: PointerEvent) => { ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch = null; if (!ptrs.size) { pdown = null; mapSvg.classList.remove('drag'); } };
 window.addEventListener('pointerup', endDrag); window.addEventListener('pointercancel', endDrag);
 mapSvg.addEventListener('wheel', (e) => { e.preventDefault(); const r = mapSvg.getBoundingClientRect(); zoomTo(cam.z * (e.deltaY < 0 ? 1.12 : 1 / 1.12), (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height); }, { passive: false });
 window.addEventListener('resize', applyCam);
@@ -194,6 +204,7 @@ function foeLabel(t: TileRT, id: string): string {
 }
 const svgFrom = (cls: string, html: string, extra: Record<string, any> = {}) => { const g = s('g', { class: cls, ...extra }); g.innerHTML = html; return g; };
 
+const tileCache = new Map<string, { key: string; node: SVGElement }>();
 function mapLayers() {
   const st = ctl.state, lead = warnLead(d, st);
   const raids: SVGElement[] = [], top: SVGElement[] = [], tiles: SVGElement[] = [];
@@ -212,6 +223,10 @@ function mapLayers() {
     const gar = Object.values(rt.garrison).reduce((p, q) => p + q, 0);
     const dest = !!selArmy && travelInfo(selArmy, t.id) !== null;
     const foes = Object.values(t.defenders ?? {}).reduce((p, q) => p + q, 0);
+    const label = foe ? foeLabel(rt, t.id) : '';
+    const key = [rt.status, rt.terrain, selTile === t.id, dest, gar, nUnits, label, foe ? Object.values(rt.defenders).reduce((p, q) => p + q, 0) : 0].join('|');
+    const cached = tileCache.get(t.id);
+    if (cached && cached.key === key) { tiles.push(cached.node); continue; } // ô không đổi: dùng lại nút DOM (giữ cả tiêu điểm bàn phím)
     const node = s('g', { class: `tile t-${rt.status}${selTile === t.id ? ' sel' : ''}${dest ? ' dest' : ''}`, tabindex: 0, role: 'button', 'data-tile': t.id,
       onclick: () => { if (!dragged) onTile(t.id); },
       onfocus: () => { if (!pdown) panToTile(t.id); },
@@ -224,8 +239,9 @@ function mapLayers() {
     if (rt.status === 'settled') {
       if (nUnits) node.append(svgFrom('chips', chip(x - 34, y + 80, 'i-shield', String(gar), 'own') + chip(x + 34, y + 80, 'i-banner', String(nUnits), 'own')));
       else node.append(svgFrom('chips', chip(x, y + 80, 'i-shield', String(gar), 'own')));
-    } else if (foe) node.append(svgFrom('chips', chip(x, y + 80, 'i-swords', foeLabel(rt, t.id), 'enemy')));
+    } else if (foe) node.append(svgFrom('chips', chip(x, y + 80, 'i-swords', label, 'enemy')));
     else if (nUnits) node.append(svgFrom('chips', chip(x, y + 80, 'i-banner', String(nUnits), 'own')));
+    tileCache.set(t.id, { key, node });
     tiles.push(node);
   }
   for (const a of st.armies.filter((q) => q.move)) { // đội đang hành quân: cờ + mũ trên đoạn đường kế tiếp
@@ -296,10 +312,10 @@ function tileBody(): HTMLElement {
         h('button', { onclick: () => act({ t: 'demolish', tile: sel, index: i }), 'aria-label': `Phá ${d.buildings[b.type].name_vi}`, title: 'Phá bỏ' }, '🗑')))));
     for (let i = t.buildings.length; i < slots; i++) grid.append(h('div', { class: 'slot empty', 'aria-hidden': 'true' }, ic('i-plus'), h('small', {}, 'Trống')));
     p.append(grid, h('h3', {}, 'Xây mới'));
-    const bl = h('div', { class: 'tgrid' });
+    const bl = h('div', { class: 'tgrid b3' });
     for (const b of Object.values(d.buildings).filter((x) => x.enabled !== false)) {
       const cost = b.cost as Record<string, number>;
-      bl.append(h('button', { class: `tbtn${canPay(cost) ? '' : ' poor'}`, title: costText(cost), onclick: () => act({ t: 'build', tile: sel, bld: b.id }) }, ic(BLD_ICON[b.id] ?? 'i-farm'), h('span', {}, b.name_vi), costLine(cost)));
+      bl.append(h('button', { class: `tbtn v${canPay(cost) ? '' : ' poor'}`, title: costText(cost), onclick: () => act({ t: 'build', tile: sel, bld: b.id }) }, ic(BLD_ICON[b.id] ?? 'i-farm'), h('span', {}, b.name_vi), costLine(cost)));
     }
     p.append(bl, h('h3', {}, 'Huấn luyện'));
     const tl = h('div', { class: 'tgrid' });

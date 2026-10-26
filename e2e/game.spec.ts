@@ -172,3 +172,46 @@ test('CR-002 axe với hộp thoại sự kiện đang mở; tải lại trang g
   await page.reload();
   await expect(page.getByRole('dialog', { name: /Sự kiện/ })).toBeVisible();
 });
+
+// CR-003 V3 (UI-9): các cỡ màn hình điện thoại/máy tính bảng, kể cả xoay ngang
+const SIZES: [string, number, number][] = [['điện thoại nhỏ 360x640', 360, 640], ['điện thoại 412x915', 412, 915], ['điện thoại ngang 915x412', 915, 412], ['máy tính bảng 768x1024', 768, 1024], ['laptop 1280x720', 1280, 720]];
+for (const [name, w, h] of SIZES) {
+  test(`V3 bố cục ${name}: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: h });
+    await page.reload();
+    await page.locator('[data-tile="TIL-001"]').click({ force: true });
+    await expect(page.getByText('Thủ phủ (TIL-001)')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+    for (const b of await page.locator('button:visible').all()) {
+      const box = await b.boundingBox(); if (!box) continue;
+      expect(box.height, (await b.innerText()) || (await b.getAttribute('aria-label')) || '?').toBeGreaterThanOrEqual(43.5);
+      expect(box.width, (await b.innerText()) || (await b.getAttribute('aria-label')) || '?').toBeGreaterThanOrEqual(43.5);
+    }
+    const end = await page.getByRole('button', { name: 'Kết thúc lượt' }).boundingBox();
+    expect(end!.x).toBeGreaterThanOrEqual(0); expect(end!.y).toBeGreaterThanOrEqual(0);
+    expect(end!.x + end!.width).toBeLessThanOrEqual(w + 1); expect(end!.y + end!.height).toBeLessThanOrEqual(h + 1);
+  });
+}
+
+test('V3 thu phóng bản đồ: nút +/− và Vừa màn hình hoạt động, giới hạn ≤1.5x', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'kiểm tra trên desktop');
+  const vb = async () => (await page.locator('svg.map').getAttribute('viewBox'))!.split(' ').map(Number);
+  const w0 = (await vb())[2];
+  for (let i = 0; i < 8; i++) await page.getByRole('button', { name: 'Phóng to' }).click();
+  const w1 = (await vb())[2];
+  expect(w1).toBeLessThan(w0); expect(w0 / w1).toBeLessThanOrEqual(1.51);
+  await page.getByRole('button', { name: 'Vừa màn hình' }).click();
+  expect((await vb())[2]).toBeCloseTo(w0, 0);
+});
+
+test('V3 axe ở điện thoại nhỏ với bảng ô mở và ở hộp thoại sự kiện', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 640 });
+  await page.reload();
+  await page.locator('[data-tile="TIL-001"]').click({ force: true });
+  let r = await new AxeBuilder({ page }).analyze();
+  expect(r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id)).toEqual([]);
+  await page.getByRole('button', { name: 'Kết thúc lượt' }).click();
+  await expect(page.getByRole('dialog', { name: /Sự kiện/ })).toBeVisible();
+  r = await new AxeBuilder({ page }).analyze();
+  expect(r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id)).toEqual([]);
+});

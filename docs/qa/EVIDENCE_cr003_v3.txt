@@ -1,0 +1,12 @@
+CR-003 V3 — bằng chứng kiểm thử (2026-10-26, build cục bộ, CHƯA push/deploy)
+Vitest: 5 files, 112/112 passed (68 cũ + 44 test tương phản AA mới trong tests/contrast.test.ts: màu chữ/nền của giấy dó và chữ trong SVG bảng tên/chip, ngưỡng 4.5:1).
+Playwright (Chromium; desktop + Pixel 7): 38 passed, 2 skipped (bàn phím desktop-only; thu phóng desktop-only). Thêm 8 test V3:
+  - 5 cỡ màn hình (360x640, 412x915, 915x412 ngang, 768x1024, 1280x720): không cuộn ngang, MỌI nút hiển thị >=44x44px, nút Kết thúc lượt nằm trong màn hình;
+  - thu phóng +/− và "Vừa màn hình" (giới hạn <=1.5x); axe 0 serious/critical ở 360x640 khi bảng ô mở và khi hộp thoại sự kiện mở.
+  Chạy: NO_PROXY=127.0.0.1,localhost E2E_PORT=<cổng> npx playwright test
+tsc --noEmit OK; python3 -I tools/check_design.py OK.
+
+Phát hiện & sửa nhờ test mới: màu nhấn --gold/--ok/--bad/--cham trượt AA (3.9–4.4:1) ở đầu tối của nền giấy → đậm lại (#704d10, #285e37, #982e24, #2d596e: tối thiểu 4.56:1).
+Dung lượng (dist, chưa nén): 531 kB = JS 110 + ảnh nền 308 + font 93 + CSS 21 (ngân sách CR-003 <= 600 kB đạt; gzip JS 36 kB). Cách giảm: dữ liệu YAML chuyển thành JSON lúc build (plugin trong vite.config.ts), thư viện yaml (~100 kB) không còn trong gói tải về; nguồn dữ liệu vẫn là YAML.
+Hiệu năng (tools/perf_probe.mjs, CPU giả lập chậm gấp 4, Chromium headless): tải trang 0.43–0.65 s; chọn ô -> khung hình kế ~110 ms (trước khi tái dùng nút ô: ~190 ms); Kết thúc lượt ~150 ms; kéo bản đồ 60 khung/giây (p95 17 ms). Chưa đo trên điện thoại thật.
+Ảnh chụp thật: docs/qa/visual/v3_* (10 ảnh, gồm 360x640, ngang 915x412, tablet 768x1024) và v2_* (17 ảnh, chụp lại ở build V3; ảnh EVT-02..08 ép sự kiện chờ qua window.__game chỉ để chụp). PNG đã nén 256 màu (46 MB -> 13 MB).

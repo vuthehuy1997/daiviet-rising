@@ -59,3 +59,10 @@
 - Exact words: "approve CR-003: làm V2"
 - Approved: milestone V2 (UI-5..UI-8): tile side panel as slot grids (buildings, garrison, enemy icons), raid-alert polish, event card with art + side-by-side choices, battle report with two sides/banner/causes, policies as diamond-node grid. Sim, save format and balance data unchanged.
 - Zoom question still unanswered → keeping <= 1.5x. Not authorized: push/deploy (RC3 stays a local build).
+
+## CR-003 — V3 implementation approval
+- Date: 2026-10-26
+- Approver: user (as entered in session)
+- Exact words: "approve CR-003: làm V3"
+- Approved: milestone V3 (UI-9 + performance + polish): phone layout (bottom-sheet, touch targets, compact event card, small/landscape screens), performance and size budget, AA-contrast checks, polish of known V1/V2 leftovers (button arc, west mountains, long tile panel). Sim, save format, balance data unchanged.
+- Zoom question still unanswered → keeping <= 1.5x. Not authorized: push/deploy (RC3 stays a local build).

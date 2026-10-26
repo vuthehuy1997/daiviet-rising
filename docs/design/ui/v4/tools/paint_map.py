@@ -110,7 +110,7 @@ shade = np.clip(shade * .5 + .5, 0, 1)
 
 # ---------- màu nền ----------
 C = {k: hexc(v) for k, v in dict(meadowL='#c2cf6a', meadow='#8cae45', meadowD='#5f8a3a', forest='#3c6b36', forestD='#27492f', paddyG='#cfc664', paddyD='#9cba4e', dry='#c9ac6d',
-                                 rockL='#d2d0b0', rockM='#9aaa9c', rockD='#72879a', ink='#2a2a26', sand='#e6d29b', deep='#235f7b', mid='#4a98a8', shal='#92cdbd', foam='#f6f2db', shadowT='#2a3c5a', sunT='#fff0b8').items()}
+                                 rockL='#d6d2b2', rockM='#a8b09a', rockD='#7d8a8a', ink='#2a2a26', sand='#e6d29b', deep='#235f7b', mid='#4a98a8', shal='#92cdbd', foam='#f6f2db', shadowT='#2a3c5a', sunT='#fff0b8').items()}
 moist = .6 * fbm(21, 4, 5) + .4 * fbm(22, 10, 4)
 dryness = fbm(23, 3, 4)
 base = mixc(C['meadow'], C['meadowL'], sstep(.38, .72, f_mid * .6 + dryness * .5 + (1 - moist) * .2))
@@ -147,6 +147,7 @@ base = base * (1 - sstep(.18, .6, fdb)[..., None] * .55) + C['forest'][None, Non
 rockm = sstep(.2, .34, Hh) * (.4 + .6 * sstep(.18, .5, slope + Hh * .5))
 rock_t = sstep(.2, .85, shade)
 rock_col = mixc(C['rockD'], C['rockM'], sstep(0, .5, rock_t)); rock_col = rock_col * (1 - sstep(.5, 1, rock_t)[..., None]) + C['rockL'][None, None] * sstep(.5, 1, rock_t)[..., None]
+rock_col = rock_col * (.86 + .28 * fbm(57, 46, 4))[..., None]   # vân đá (V3: bớt phẳng)
 # chân núi xanh, đỉnh xám xanh
 rock_green = (sstep(.7, .3, Hh) * (.55 + .25 * f_hi))[..., None] * .7
 rock_col = rock_col * (1 - rock_green) + (C['forestD'][None, None] * (.7 + .5 * shade[..., None])) * rock_green
@@ -155,15 +156,15 @@ base = base * (1 - rockm[..., None]) + rock_col * rockm[..., None]
 # ---------- chiếu sáng ----------
 # bậc tông (tranh cel) cho đá, mềm theo nhiễu
 sq = np.round((shade + (f_hi - .5) * .16) * 4) / 4
-shade_p = shade * (1 - .55 * rockm) + sq * .55 * rockm
+shade_p = shade * (1 - .28 * rockm) + sq * .28 * rockm   # V3: giảm phân tầng cel ('giấy gấp')
 light = .74 + .6 * (shade_p - .5) * (.45 + .95 * rockm) + .08
 col = base * np.clip(light, .25, 1.5)[..., None]
-cool = sstep(.45, .05, shade_p) * (.1 + .15 * rockm)
+cool = sstep(.45, .05, shade_p) * (.07 + .08 * rockm)
 col = col * (1 - cool[..., None]) + C['shadowT'][None, None] * col * 1.6 * cool[..., None]
 warm = sstep(.62, .95, shade_p) * (.12 + .2 * rockm)
 col = col * (1 - warm[..., None]) + C['sunT'][None, None] * col * 1.1 * warm[..., None]
 
-col = np.maximum(col, hexc('#62748a')[None, None] * (rockm * .95)[..., None])  # sàn tối: bóng đá là xanh chàm, không đen
+col = np.maximum(col, hexc('#707c76')[None, None] * (rockm * .95)[..., None])  # sàn tối: bóng đá là xanh chàm, không đen
 # gạch bóng (hatch) trên mặt khuất sáng của núi: nét song song chéo, độ dày theo độ tối
 hu = (X * .62 - Y * .78) / 3.2 + (f_hi - .5) * 2.2 + (fbm(51, 18, 3) - .5) * 1.5
 hf = np.abs(hu - np.floor(hu) - .5) * 2

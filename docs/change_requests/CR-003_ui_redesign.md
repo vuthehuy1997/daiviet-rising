@@ -64,3 +64,12 @@ Duyệt: "approve CR-003: làm V2" (state/APPROVALS.md). Đã làm UI-5..UI-8 (s
 - UI-8 Kế sách: nút thoi theo màu nhóm (lục = hậu cần, chàm = phòng thủ, son = chiến đấu), nêu chi phí + hiệu ứng.
 Chưa làm: V3 (UI-9: tối ưu điện thoại, hiệu năng, đánh bóng) và các tồn đọng nêu ở mục V1 (dãy núi phía tây, công trình sống chưa "painterize", cung nút tròn).
 Giới hạn thật: tranh sự kiện là SVG tự vẽ (nhất quán nhưng vẫn kiểu minh họa vector); trên điện thoại thẻ sự kiện xếp dọc nên phải cuộn để thấy lựa chọn Mặc định; chưa chơi thử bằng tay trên điện thoại thật.
+
+## Trạng thái triển khai — V3 (2026-10-26)
+Duyệt: "approve CR-003: làm V3" (state/APPROVALS.md). Đã làm UI-9 + hiệu năng + đánh bóng (sim/save/dữ liệu cân bằng không đổi):
+- Điện thoại: bottom-sheet cho bảng ô, nút phụ ẩn khi bảng mở (giữ Hoàn tác), thanh "chọn ô đích" thu gọn bảng khi điều quân, camera tự đưa ô được chọn lên nửa trên và trả lại khi đóng bảng, thu phóng hai ngón, thẻ sự kiện gọn (thấy đủ 3 lựa chọn ở 412x915), bố cục riêng cho điện thoại ngang / màn thấp.
+- Đánh bóng desktop: nút tròn xếp cung quanh đĩa Kết thúc lượt (đúng thiết kế v4), lưới Xây mới 3 cột (bảng ô ngắn hơn), thẻ cảnh báo "chưa có" ẩn ở màn <1500px để khỏi che bản đồ, dãy núi phía tây nướng lại mềm hơn (bớt "giấy gấp", bớt xanh lạnh).
+- Hiệu năng/dung lượng: tái dùng nút DOM của ô không đổi; YAML→JSON lúc build (JS 208→110 kB); tổng 531 kB.
+- Chất lượng/trợ năng: test tương phản AA (và sửa 4 màu trượt), test cỡ màn hình, axe ở 360x640.
+Còn lại (nói thẳng): dãy núi vẫn dạng khối, chưa là núi vẽ tay; công trình vẽ sống chưa "painterize" như ảnh nướng; tranh sự kiện là SVG vector; zoom <=1.5x (ảnh 4x chưa dùng, người dùng chưa trả lời); chưa thử trên điện thoại/trình duyệt thật khác Chromium; chưa đo hiệu năng trên thiết bị thật.
+CR-003 đã hoàn tất cả ba mốc V1–V3 ở mức build cục bộ (RC3). Muốn đưa lên GitHub Pages cần G3 mới.

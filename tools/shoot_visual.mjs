@@ -21,4 +21,9 @@ await shot('desktop_1920x1080_chon_o', { viewport: { width: 1920, height: 1080 }
 await shot('mobile_412x915_chua_chon', { ...devices['Pixel 7'] });
 await shot('mobile_412x915_chon_o', { ...devices['Pixel 7'] }, sel);
 await shot('desktop_1600x900_nhat_ky', { viewport: { width: 1600, height: 900 } }, async (p) => { await p.getByRole('button', { name: 'Nhật ký' }).click(); });
+const touch = (w, h) => ({ viewport: { width: w, height: h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+await shot('mobile_360x640_chon_o', touch(360, 640), sel);
+await shot('mobile_ngang_915x412', touch(915, 412));
+await shot('mobile_ngang_915x412_chon_o', touch(915, 412), sel);
+await shot('tablet_768x1024_chon_o', touch(768, 1024), sel);
 await b.close();

@@ -71,7 +71,7 @@
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 30000,
         "use": {
-          "baseURL": "http://127.0.0.1:4195",
+          "baseURL": "http://127.0.0.1:4196",
           "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
           "viewport": {
             "width": 1280,
@@ -106,7 +106,7 @@
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 30000,
         "use": {
-          "baseURL": "http://127.0.0.1:4195",
+          "baseURL": "http://127.0.0.1:4196",
           "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Mobile Safari/537.36",
           "viewport": {
             "width": 412,
@@ -150,8 +150,8 @@
     "version": "1.64.1",
     "workers": 64,
     "webServer": {
-      "command": "npm run build && npx vite preview --host 127.0.0.1 --port 4195 --strictPort",
-      "url": "http://127.0.0.1:4195",
+      "command": "npm run build && npx vite preview --host 127.0.0.1 --port 4196 --strictPort",
+      "url": "http://127.0.0.1:4196",
       "reuseExistingServer": false,
       "timeout": 120000
     }
@@ -179,12 +179,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 719,
+                  "duration": 784,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:04.833Z",
+                  "startTime": "2026-10-26T03:29:51.127Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -213,12 +213,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 957,
+                  "duration": 838,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:05.697Z",
+                  "startTime": "2026-10-26T03:29:52.064Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -247,12 +247,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 705,
+                  "duration": 643,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:06.666Z",
+                  "startTime": "2026-10-26T03:29:52.914Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -281,12 +281,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 563,
+                  "duration": 540,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:07.383Z",
+                  "startTime": "2026-10-26T03:29:53.566Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -315,12 +315,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 858,
+                  "duration": 979,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:07.955Z",
+                  "startTime": "2026-10-26T03:29:54.119Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -349,12 +349,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1217,
+                  "duration": 1308,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:08.824Z",
+                  "startTime": "2026-10-26T03:29:55.121Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -383,12 +383,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1762,
+                  "duration": 1964,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:10.051Z",
+                  "startTime": "2026-10-26T03:29:56.447Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -417,12 +417,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 561,
+                  "duration": 664,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:11.824Z",
+                  "startTime": "2026-10-26T03:29:58.427Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -451,12 +451,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2131,
+                  "duration": 2165,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:12.395Z",
+                  "startTime": "2026-10-26T03:29:59.103Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -485,12 +485,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 642,
+                  "duration": 608,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:14.535Z",
+                  "startTime": "2026-10-26T03:30:01.277Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -519,12 +519,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 728,
+                  "duration": 790,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:15.184Z",
+                  "startTime": "2026-10-26T03:30:01.894Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -553,12 +553,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1064,
+                  "duration": 936,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:15.922Z",
+                  "startTime": "2026-10-26T03:30:02.693Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -587,12 +587,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1325,
+                  "duration": 1454,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:16.994Z",
+                  "startTime": "2026-10-26T03:30:03.637Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -603,6 +603,244 @@
           "id": "8b1bb1493a64c9fc3ab6-4c0355f42c2d158069cc",
           "file": "game.spec.ts",
           "line": 162,
+          "column": 1
+        },
+        {
+          "title": "V3 bố cục điện thoại nhỏ 360x640: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 945,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:05.101Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-5547978fd5309940da96",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục điện thoại 412x915: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 926,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:06.055Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-88d6b089f941ff7f4ce3",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục điện thoại ngang 915x412: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1020,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:06.991Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-4114de55fcd859044dcf",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục máy tính bảng 768x1024: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 993,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:08.021Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-5492b544353b33a15770",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục laptop 1280x720: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 937,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:09.025Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-103a3bba4628bd3b6f51",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 thu phóng bản đồ: nút +/− và Vừa màn hình hoạt động, giới hạn ≤1.5x",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1031,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:09.972Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-4e081bba556ea2722afb",
+          "file": "game.spec.ts",
+          "line": 196,
+          "column": 1
+        },
+        {
+          "title": "V3 axe ở điện thoại nhỏ với bảng ô mở và ở hộp thoại sự kiện",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2794,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:11.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-c9d9e717f9fdc8cb9fc1",
+          "file": "game.spec.ts",
+          "line": 207,
           "column": 1
         },
         {
@@ -621,12 +859,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 680,
+                  "duration": 664,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:04.832Z",
+                  "startTime": "2026-10-26T03:29:51.124Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -655,12 +893,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 866,
+                  "duration": 828,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:05.657Z",
+                  "startTime": "2026-10-26T03:29:51.959Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -689,12 +927,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 574,
+                  "duration": 632,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:06.535Z",
+                  "startTime": "2026-10-26T03:29:52.799Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -733,12 +971,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "skipped",
-                  "duration": 301,
+                  "duration": 288,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:07.117Z",
+                  "startTime": "2026-10-26T03:29:53.442Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -777,12 +1015,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 818,
+                  "duration": 900,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:07.428Z",
+                  "startTime": "2026-10-26T03:29:53.739Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -811,12 +1049,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1209,
+                  "duration": 1173,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:08.256Z",
+                  "startTime": "2026-10-26T03:29:54.652Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -845,12 +1083,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1683,
+                  "duration": 2083,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:09.476Z",
+                  "startTime": "2026-10-26T03:29:55.848Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -879,12 +1117,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 560,
+                  "duration": 606,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:11.179Z",
+                  "startTime": "2026-10-26T03:29:57.948Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -913,12 +1151,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1912,
+                  "duration": 2047,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:11.764Z",
+                  "startTime": "2026-10-26T03:29:58.565Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -947,12 +1185,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 528,
+                  "duration": 542,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:13.687Z",
+                  "startTime": "2026-10-26T03:30:00.621Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -981,12 +1219,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 647,
+                  "duration": 655,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:14.223Z",
+                  "startTime": "2026-10-26T03:30:01.172Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1015,12 +1253,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 814,
+                  "duration": 876,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:14.880Z",
+                  "startTime": "2026-10-26T03:30:01.837Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1049,12 +1287,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 1339,
+                  "duration": 1390,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-24T14:42:15.706Z",
+                  "startTime": "2026-10-26T03:30:02.721Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1066,16 +1304,274 @@
           "file": "game.spec.ts",
           "line": 162,
           "column": 1
+        },
+        {
+          "title": "V3 bố cục điện thoại nhỏ 360x640: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 868,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:04.122Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-827f8ca4270bf173a92e",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục điện thoại 412x915: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 818,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:05.001Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-f565e6ad34908696d4d0",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục điện thoại ngang 915x412: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 928,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:05.827Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-8edd424b9bd6d6cd7b35",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục máy tính bảng 768x1024: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 895,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:06.765Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-2e453f5121da2328f996",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 bố cục laptop 1280x720: không cuộn ngang, nút chạm ≥44px, nút Kết thúc lượt nằm trong màn hình",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 978,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:07.672Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-9ff9614320fad1755af7",
+          "file": "game.spec.ts",
+          "line": 179,
+          "column": 3
+        },
+        {
+          "title": "V3 thu phóng bản đồ: nút +/− và Vừa màn hình hoạt động, giới hạn ≤1.5x",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "kiểm tra trên desktop",
+                  "location": {
+                    "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
+                    "line": 197,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 324,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:08.661Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "kiểm tra trên desktop",
+                      "location": {
+                        "file": "/data/yuu/ai-data/yuu/self/dev/daiviet-rising/e2e/game.spec.ts",
+                        "line": 197,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-235277056aa22f3c2215",
+          "file": "game.spec.ts",
+          "line": 196,
+          "column": 1
+        },
+        {
+          "title": "V3 axe ở điện thoại nhỏ với bảng ô mở và ở hộp thoại sự kiện",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-touch",
+              "projectName": "mobile-touch",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2845,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T03:30:08.996Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8b1bb1493a64c9fc3ab6-55be0a0ea7a8c605ea5a",
+          "file": "game.spec.ts",
+          "line": 207,
+          "column": 1
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-24T14:42:01.355Z",
-    "duration": 17040.817,
-    "expected": 25,
-    "skipped": 1,
+    "startTime": "2026-10-26T03:29:47.543Z",
+    "duration": 27655.118,
+    "expected": 38,
+    "skipped": 2,
     "unexpected": 0,
     "flaky": 0
   }

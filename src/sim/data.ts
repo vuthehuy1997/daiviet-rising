@@ -1,8 +1,7 @@
-import { parse } from 'yaml';
-import buildingsRaw from '../../game-data/buildings.yaml?raw';
-import unitsRaw from '../../game-data/units.yaml?raw';
-import eventsRaw from '../../game-data/events_cmp01.yaml?raw';
-import campaignRaw from '../../game-data/campaign_cmp01.yaml?raw';
+import buildingsDoc from '../../game-data/buildings.yaml';
+import unitsDoc from '../../game-data/units.yaml';
+import eventsDoc from '../../game-data/events_cmp01.yaml';
+import campaignDoc from '../../game-data/campaign_cmp01.yaml';
 import type { EventDef, BuildingDef, GameData, PolicyDef, TileDef, UnitDef, RaidDef } from './types';
 
 const RES_KEYS = new Set(['grain', 'wood', 'stone', 'iron', 'dantam']);
@@ -11,10 +10,10 @@ const LABELS = new Set(['SOURCED', 'FICTION', 'ALT-HISTORY']);
 
 /** Tải + kiểm tra schema dữ liệu (TST-05). Ném lỗi liệt kê mọi vấn đề. */
 export function loadData(): GameData {
-  const b = parse(buildingsRaw) as { buildings: BuildingDef[] };
-  const u = parse(unitsRaw) as { units: UnitDef[]; policies: PolicyDef[] };
-  const c = parse(campaignRaw) as any;
-  const ev = (parse(eventsRaw) as { events: EventDef[] }).events;
+  const b = buildingsDoc as { buildings: BuildingDef[] };
+  const u = unitsDoc as { units: UnitDef[]; policies: PolicyDef[] };
+  const c = campaignDoc as any;
+  const ev = (eventsDoc as { events: EventDef[] }).events;
   const data: GameData = {
     buildings: Object.fromEntries(b.buildings.map((x) => [x.id, x])),
     units: Object.fromEntries(u.units.map((x) => [x.id, x])),

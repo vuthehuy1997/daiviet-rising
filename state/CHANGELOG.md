@@ -17,3 +17,6 @@
 - CR-003 design v2-v4 produced (subagent designer research: docs/design/ui/v4/DESIGN_RESEARCH.md, ASSET_LICENSES.md).
 - "approve CR-003: làm V1 theo thiết kế v4" → V1 implemented locally (src/ui rewritten: full-screen painted map, live SVG settlements, HUD, End-Turn disc, pan/zoom<=1.5x; tile coords updated in campaign yaml; fonts + map_bg.webp bundled). Vitest 67/67, Playwright 25+1 skipped, axe 0 serious. Not pushed/deployed.
 - "approve CR-003: làm V2" → V2 implemented locally (tile-panel grids, event card art x8, battle report, policy diamonds, effectTones helper + test). Vitest 68/68, Playwright 25+1 skipped, axe 0 serious. Not pushed/deployed.
+
+## 2026-10-26
+- "approve CR-003: làm V3" → V3 implemented locally (phone/landscape layouts, pinch zoom, button arc, YAML→JSON at build, tile DOM reuse, AA contrast tests + 4 colours fixed, softer west mountains). Vitest 112/112, Playwright 38 passed + 2 skipped, dist 531 kB. Not pushed/deployed.
