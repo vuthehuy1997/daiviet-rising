@@ -18,3 +18,7 @@
 
 ## Rollback
 Re-push the previous `gh-pages` commit (RC1 = `612e6be`: `git push -f origin 612e6be:gh-pages`) or disable Pages in repo Settings → Pages. Source of truth remains `main`/tag `rc1`.
+
+## RC3 — 2026-10-27
+- Pushed main (26b0268), tag rc3, gh-pages (60b0e56 "Deploy RC3"). Token used transiently via http.extraHeader, not stored.
+- Live smoke (desktop 1280x800 + phone 412x915, Chromium): map background present, 6 resource pills, 0 page errors, 0 failed requests. Live assets index-CHXffyLx.js / index-Bdwl9FXN.css.

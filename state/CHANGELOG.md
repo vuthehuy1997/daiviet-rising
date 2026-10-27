@@ -6,6 +6,8 @@
 - 2026-10-21: Phase 4–5: TypeScript sim + UI, 48 unit tests, 20 E2E (Chromium), bot balance, CR-001, RC1 docs, local git + tag rc1. Dừng tại G3.
 - 2026-10-22: G3 approved; RC1 deployed to GitHub Pages (vuthehuy1997/daiviet-rising). See docs/release/DEPLOY_LOG.md.
 
+## RC3 deployed 2026-10-27 — CR-003 V1-V3 live (tag rc3).
+
 ## 2026-10-23
 - `update game: thêm sự kiện có lựa chọn cho chiến dịch 1` → created CR-002 (docs/change_requests/CR-002_choice_events_cmp01.md), status PENDING APPROVAL. No code or data changed.
 - CR-002 approved ("approve CR-002") and implemented locally: events_cmp01.yaml (8 events), sim (events.ts, choose cmd, mods, save v2 + migration), UI event dialog, tests (Vitest 67, Playwright 25+1 skipped). FEAT-011 → done. Not pushed/deployed.

@@ -72,4 +72,4 @@
 - Approver: user (as entered in session)
 - Exact words: "approve G3: push và deploy RC3 lên vuthehuy1997/daiviet-rising"
 - Approved: push `main` + tag `rc3` and refresh `gh-pages` on vuthehuy1997/daiviet-rising ONLY (GitHub Pages). Nothing else (other repos, purchases, paid services).
-- Status: approved; push pending a credential (none available in this session; tokens are never stored).
+- Status: EXECUTED 2026-10-27. Pushed main 26b0268, tag rc3, gh-pages 60b0e56 to vuthehuy1997/daiviet-rising. Credential: a token pasted by the user in chat, used only as a transient HTTP header and never stored. User should revoke it.
