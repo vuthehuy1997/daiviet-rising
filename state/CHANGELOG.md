@@ -22,3 +22,5 @@
 
 ## 2026-10-26
 - "approve CR-003: làm V3" → V3 implemented locally (phone/landscape layouts, pinch zoom, button arc, YAML→JSON at build, tile DOM reuse, AA contrast tests + 4 colours fixed, softer west mountains). Vitest 112/112, Playwright 38 passed + 2 skipped, dist 531 kB. Not pushed/deployed.
+
+- 2026-10-27 CR-004 (RC4, local): zoom up to 4x with on-demand 4x2 hi-res background tiles; west mountains re-baked (rounded massifs). See docs/qa/EVIDENCE_cr004.txt.

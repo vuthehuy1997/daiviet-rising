@@ -193,15 +193,22 @@ for (const [name, w, h] of SIZES) {
   });
 }
 
-test('V3 thu phóng bản đồ: nút +/− và Vừa màn hình hoạt động, giới hạn ≤1.5x', async ({ page, isMobile }) => {
+test('CR-004 thu phóng bản đồ tới 4x: nút +/−, mảnh nền nét nạp theo vùng nhìn, Vừa màn hình hoàn nguyên', async ({ page, isMobile }) => {
   test.skip(isMobile, 'kiểm tra trên desktop');
   const vb = async () => (await page.locator('svg.map').getAttribute('viewBox'))!.split(' ').map(Number);
   const w0 = (await vb())[2];
-  for (let i = 0; i < 8; i++) await page.getByRole('button', { name: 'Phóng to' }).click();
+  expect(await page.locator('svg.map image').count()).toBe(1); // chưa zoom sâu: chỉ ảnh nền 3200
+  for (let i = 0; i < 12; i++) await page.getByRole('button', { name: 'Phóng to' }).click();
   const w1 = (await vb())[2];
-  expect(w1).toBeLessThan(w0); expect(w0 / w1).toBeLessThanOrEqual(1.51);
+  expect(w1).toBeLessThan(w0); expect(w0 / w1).toBeLessThanOrEqual(4.01); expect(w0 / w1).toBeGreaterThan(3.9);
+  const hi = page.locator('svg.map image').nth(1);
+  await expect(hi).toBeAttached();
+  const n = await page.locator('svg.map image').count();
+  expect(n).toBeGreaterThan(1); expect(n).toBeLessThanOrEqual(7); // nền + ≤6 mảnh
+  expect(await page.evaluate(async () => { const im = document.querySelectorAll('svg.map image')[1] as SVGImageElement; const r = await fetch(im.getAttribute('href')!); return r.ok; })).toBe(true);
   await page.getByRole('button', { name: 'Vừa màn hình' }).click();
   expect((await vb())[2]).toBeCloseTo(w0, 0);
+  expect(await page.locator('svg.map image').count()).toBe(1); // thu nhỏ lại: bỏ mảnh
 });
 
 test('V3 axe ở điện thoại nhỏ với bảng ô mở và ở hộp thoại sự kiện', async ({ page }) => {

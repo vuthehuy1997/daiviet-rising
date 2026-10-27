@@ -1,0 +1,9 @@
+CR-004 evidence (2026-10-27) — zoom 4x + west mountains. Local build RC4; NOT pushed.
+Code: Z_MAX 1.5 -> 4; HI_Z=1.6; 8 tiles (4x2, 1600x1800 px each, webp q72) loaded on demand for viewBox-intersecting cells, max 6 kept (HI_KEEP) -> RAM cap.
+Bake: S=4 NOSPR=1 TILES_DIR=...; base 3200 map_bg.webp re-baked with new mountains (328 kB, was 308). Roads unchanged (roads.json keys/points independent of terrain: verified road_pts has no height term).
+Mountains (paint_map.py): superellipse p=1.8 cones instead of square pyramids, smooth-max merge, mild ridged noise, wider foothill green blend. Before/after: docs/qa/visual/cr004_west_before.png / cr004_west_after.png.
+Tests: tsc OK. Vitest 112 (111 first run + 1 timeout 5s on tests/balance.test.ts 'turtle' under machine load; same timeout also with changes stashed; rerun of file 7/7 passed). Playwright desktop+Pixel7: 38 passed, 2 skipped (desktop-only tests skipped on mobile). New e2e: zoom to 4x (w0/w1 in 3.9..4.01), hi tiles appear (<=7 images in DOM), tile URL fetch ok, reset removes tiles.
+Sizes: first load ~551 kB (bg 328 + js 111 + css 21 + fonts 93); hi tiles total 808 kB, on demand only.
+Perf (tools/shoot_cr004.mjs, Chromium headless, CPU 4x throttle, drag at 4x): desktop 1600x900 frame p50 17 ms, p95 50 ms, max 67 ms (some jank, not 60fps steady); Pixel 7 p50 17, p95 17, max 50. Desktop touched all 8 tiles in one drag (8 requests), phone 4.
+Not measured: real phone, other browsers, memory use. Mountains remain procedural (soft massifs, visible hatch stripes), not hand-painted.
+Screens: docs/qa/visual/cr004_desk_z0/z3/z6/pan4, cr004_phone_*.

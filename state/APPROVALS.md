@@ -73,3 +73,9 @@
 - Exact words: "approve G3: push và deploy RC3 lên vuthehuy1997/daiviet-rising"
 - Approved: push `main` + tag `rc3` and refresh `gh-pages` on vuthehuy1997/daiviet-rising ONLY (GitHub Pages). Nothing else (other repos, purchases, paid services).
 - Status: EXECUTED 2026-10-27. Pushed main 26b0268, tag rc3, gh-pages 60b0e56 to vuthehuy1997/daiviet-rising. Credential: a token pasted by the user in chat, used only as a transient HTTP header and never stored. User should revoke it.
+
+## CR-004 — zoom 4x + west mountains approval
+- Date: 2026-10-27
+- Approver: user (as entered in session)
+- Exact words: "approve CR-004"
+- Approved: Z-1..Z-3 (4x tiled background, Z_MAX 4 incl. phone), M-1..M-2 (west mountains re-bake, before/after shots) with CR defaults (accept ~1 MB on-demand tiles). Sim/save/balance unchanged. Not authorized: push/deploy (RC4 = local build until a new G3).

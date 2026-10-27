@@ -77,8 +77,9 @@ peaks = [  # (x, y, rx, ry, cao) — dãy núi tây (Hộ quốc tuyến), góc 
     (300, 230, 150, 130, 1.0), (390, 140, 120, 110, .85), (330, 60, 130, 90, .8), (230, 350, 130, 120, .95), (320, 470, 120, 120, .85), (250, 600, 150, 130, 1.0),
     (380, 720, 140, 110, .85), (470, 560, 80, 80, .55), (300, 810, 150, 100, .9), (170, 140, 120, 140, .8), (150, 480, 100, 150, .8), (140, 760, 120, 120, .75),
     (1260, 95, 130, 100, .85), (1370, 170, 120, 100, .9), (1310, 270, 100, 90, .7), (1500, 90, 120, 100, .8), (950, 20, 260, 80, .5), (700, 10, 240, 70, .45)]
-Hm = np.zeros((H, W), np.float32)
+Hm = np.zeros((H, W), np.float32); Hm_parts = []
 ridged = 1 - np.abs(2 * fbm(14, 6, 5) - 1)
+ridge_w = (1 - np.abs(2 * fbm(19, 22, 5, aniso=(1, 2.2)) - 1)) ** 2   # sống phụ kéo theo hướng Bắc-Nam
 wa, wb = (fbm(17, 7, 4) - .5) * 20, (fbm(18, 7, 4) - .5) * 15      # làm lệch toạ độ => sống núi răng cưa
 for pi_, (px, py, rx, ry, a) in enumerate(peaks):
     r_ = np.random.default_rng(700 + pi_)
@@ -88,9 +89,15 @@ for pi_, (px, py, rx, ry, a) in enumerate(peaks):
         ux, vy = X + wa - (px + ox), (Y + wb - (py + oy)) * 1.35
         gx2, gy2 = ux * c_ + vy * s_, -ux * s_ + vy * c_
         sc_ = (.85, .6, .5)[sub]
-        d = np.maximum(np.abs(gx2) / (rx * sc_ * .85), np.abs(gy2) / (ry * sc_ * 1.2) + .0)
-        h = a * (1.0 - .12 * sub) * np.clip(1 - d, 0, 1) * (1 + .22 * (ridged - .5))
-        Hm = np.maximum(Hm, h)
+        # CR-004 M-1: chóp tròn (siêu-elip p~2.3) thay vì kim tự tháp vuông; sống núi có nhiễu 'ridged' + khe suối; hợp các chóp bằng smooth-max (không còn nếp gấp)
+        d = (np.abs(gx2) / (rx * sc_ * .85)) ** 1.8 + (np.abs(gy2) / (ry * sc_ * 1.2)) ** 1.8
+        d = d ** (1 / 1.8)
+        h = a * (1.0 - .12 * sub) * np.clip(1 - d, 0, 1) ** .95 * (1 + .5 * (ridged - .5))
+        Hm_parts.append(h)
+_k = 12.0
+Hm = np.log1p(sum(np.expm1(_k * h_) for h_ in Hm_parts)) / _k   # smooth-max chỉ cộng phần dương: nơi không có núi vẫn = 0
+Hm = cv2.GaussianBlur(Hm, (0, 0), .7 * S)
+Hm = Hm * (.93 + .2 * ridge_w * sstep(.1, .5, Hm))   # sống núi sắc nét nhưng bo tròn (không có cạnh thẳng)
 ridge2 = 1 - np.abs(2 * fbm(15, 16, 4) - 1)
 Hh = .16 * f_lo + .06 * f_mid + Hm * (.85 + .22 * ridge2 * sstep(.1, .5, Hm))
 # làm phẳng quanh các địa điểm
@@ -144,12 +151,12 @@ fdb = cv2.GaussianBlur(fd, (0, 0), 7 * S)
 base = base * (1 - sstep(.18, .6, fdb)[..., None] * .55) + C['forest'][None, None] * sstep(.18, .6, fdb)[..., None] * .55
 
 # đá/núi
-rockm = sstep(.2, .34, Hh) * (.4 + .6 * sstep(.18, .5, slope + Hh * .5))
+rockm = sstep(.24, .52, Hh) * (.35 + .65 * sstep(.18, .55, slope + Hh * .5))
 rock_t = sstep(.2, .85, shade)
 rock_col = mixc(C['rockD'], C['rockM'], sstep(0, .5, rock_t)); rock_col = rock_col * (1 - sstep(.5, 1, rock_t)[..., None]) + C['rockL'][None, None] * sstep(.5, 1, rock_t)[..., None]
 rock_col = rock_col * (.86 + .28 * fbm(57, 46, 4))[..., None]   # vân đá (V3: bớt phẳng)
 # chân núi xanh, đỉnh xám xanh
-rock_green = (sstep(.7, .3, Hh) * (.55 + .25 * f_hi))[..., None] * .7
+rock_green = (sstep(.78, .36, Hh) * (.6 + .3 * f_hi))[..., None] * .78
 rock_col = rock_col * (1 - rock_green) + (C['forestD'][None, None] * (.7 + .5 * shade[..., None])) * rock_green
 base = base * (1 - rockm[..., None]) + rock_col * rockm[..., None]
 
@@ -420,7 +427,14 @@ imgf = np.clip((imgf - .5) * 1.1 + .5, 0, 1)
 gray = (imgf * np.array([.3, .59, .11], np.float32)).sum(-1, keepdims=True); imgf = np.clip(gray + (imgf - gray) * .84, 0, 1)  # bớt bão hòa về mức tranh vẽ (~.38)
 out = (imgf * 255 + .5).astype(np.uint8)
 if not NOSPR: Image.fromarray(out).save(os.path.join(BUILD, f'map_bg{SUF}.png'))
-if S == 2:
+TILES_DIR = os.environ.get('TILES_DIR')   # CR-004: cắt nền thành lưới 4x2 mảnh webp (hi_<cột>_<hàng>.webp) cho zoom sâu
+if TILES_DIR:
+    os.makedirs(TILES_DIR, exist_ok=True); tw, th = W // 4, H // 2
+    for c in range(4):
+        for r in range(2):
+            dst = os.path.join(TILES_DIR, f'hi_{c}_{r}.webp'); Image.fromarray(out[r * th:(r + 1) * th, c * tw:(c + 1) * tw]).save(dst, quality=int(os.environ.get('Q', 78)), method=6)
+            print('tile', c, r, os.path.getsize(dst) // 1024, 'kB')
+if S == 2 or (OUT and not TILES_DIR):
     dst = OUT or os.path.join(BUILD, '..', 'map_bg.webp')
     Image.fromarray(out).save(dst, quality=int(os.environ.get('Q', 78)), method=6)
     print('ok', os.path.getsize(dst) // 1024, 'kB webp')

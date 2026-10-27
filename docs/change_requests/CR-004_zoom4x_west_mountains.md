@@ -1,7 +1,7 @@
 # CR-004 — Zoom 4x và sửa núi phía tây
 
 Ngày: 2026-10-27 · Baseline: RC3 (live) · Yêu cầu: "zoom 4x và sửa núi phía tây"
-Loại: thay đổi nghệ thuật/UX (UI-1 bản đồ, camera). **Không đổi luật, sim, save, dữ liệu cân bằng.** Trạng thái: **CHỜ DUYỆT** (`approve CR-004`).
+Loại: thay đổi nghệ thuật/UX (UI-1 bản đồ, camera). **Không đổi luật, sim, save, dữ liệu cân bằng.** Trạng thái: **ĐÃ DUYỆT 2026-10-27 — đang làm**.
 
 ## Hiện trạng (thật)
 - Zoom tối đa 1,5x vì nền nướng 3200x1800 (308 kB) chỉ nét đến ~1,5x; vượt đó bị mờ (`Z_MAX` trong `src/ui/main.ts`).
@@ -29,3 +29,6 @@ Phát hành: build cục bộ (RC4). Push/deploy cần G3 mới.
 ## Câu hỏi mở
 1. Chấp nhận mốc ~1+ MB cho mảnh zoom sâu (tải theo nhu cầu)? Mặc định: có.
 2. Zoom tối đa 4x áp dụng cho cả điện thoại? Mặc định: có (cùng giới hạn).
+
+## Kết quả triển khai (2026-10-27)
+Hoàn tất Z-1..Z-3, M-1, M-2 ở mức build cục bộ (RC4). Bằng chứng: docs/qa/EVIDENCE_cr004.txt. Tải đầu ~551 kB; mảnh 4x tổng 808 kB, tải khi zoom. Hạn chế: desktop p95 khung 50 ms ở zoom 4x với CPU 4x chậm; núi vẫn procedural.

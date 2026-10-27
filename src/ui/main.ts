@@ -139,12 +139,30 @@ const FILTERS = `<filter id="inkr" x="-5%" y="-10%" width="110%" height="130%"><
 <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10Z" fill="#b0372a"/></marker>`;
 
 const cam = { z: 1, cx: 800, cy: 450 };
-const Z_MAX = 1.5; // giới hạn zoom: ảnh nền 3200px chỉ nét tới ~1.5x (xem docs/design/ui/v4/DESIGN_RESEARCH.md)
+const Z_MAX = 4; // CR-004: nền 3200px nét tới ~1.5x; trên đó nạp mảnh 6400px (4x2) theo vùng nhìn thấy
+const HI_Z = 1.6, HI_COLS = 4, HI_ROWS = 2, HI_KEEP = 6; // HI_KEEP: số mảnh giữ cùng lúc (giới hạn RAM giải mã trên điện thoại)
+const hiUrls = import.meta.glob('./assets/hi/hi_*.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
 let dragged = false;
 const mapSvg = s('svg', { class: 'map', viewBox: `0 0 ${WORLD_W} ${WORLD_H}`, preserveAspectRatio: 'none', role: 'group', 'aria-label': 'Bản đồ chiến dịch' },
   s('image', { href: bgUrl, x: 0, y: 0, width: WORLD_W, height: WORLD_H, 'aria-hidden': 'true' }));
-const gRaid = s('g'), gTiles = s('g'), gTop = s('g');
-mapSvg.append(gRaid, gTiles, gTop);
+const gHi = s('g', { 'aria-hidden': 'true' }), gRaid = s('g'), gTiles = s('g'), gTop = s('g');
+mapSvg.append(gHi, gRaid, gTiles, gTop);
+const hiNodes = new Map<string, { node: SVGElement; used: number }>();
+let hiTick = 0;
+function updateHi(vx: number, vy: number, vw: number, vh: number) { // nạp mảnh nền độ phân giải cao chạm khung nhìn khi zoom sâu
+  if (cam.z < HI_Z) { gHi.replaceChildren(); hiNodes.clear(); return; }
+  const tw = WORLD_W / HI_COLS, th = WORLD_H / HI_ROWS, c0 = Math.max(0, Math.floor(vx / tw)), c1 = Math.min(HI_COLS - 1, Math.floor((vx + vw) / tw)),
+    r0 = Math.max(0, Math.floor(vy / th)), r1 = Math.min(HI_ROWS - 1, Math.floor((vy + vh) / th));
+  hiTick++;
+  for (let c = c0; c <= c1; c++) for (let r = r0; r <= r1; r++) {
+    const key = `${c}_${r}`, url = hiUrls[`./assets/hi/hi_${key}.webp`];
+    if (!url) continue;
+    let e = hiNodes.get(key);
+    if (!e) { e = { node: s('image', { href: url, x: c * tw, y: r * th, width: tw, height: th, 'aria-hidden': 'true' }), used: 0 }; hiNodes.set(key, e); gHi.append(e.node); }
+    e.used = hiTick;
+  }
+  if (hiNodes.size > HI_KEEP) [...hiNodes.entries()].sort((a, b) => a[1].used - b[1].used).slice(0, hiNodes.size - HI_KEEP).forEach(([k, e]) => { e.node.remove(); hiNodes.delete(k); });
+}
 const stage = h('div', { class: 'stage' });
 
 function camGeom() {
@@ -156,6 +174,7 @@ function applyCam() {
   const extra = vw < WORLD_W * .6 ? vh * .45 : 0; // màn hẹp: cho kéo quá mép dưới để ô được chọn không bị bảng bottom-sheet che
   cam.cx = Math.min(Math.max(cam.cx, vw / 2), WORLD_W - vw / 2); cam.cy = Math.min(Math.max(cam.cy, vh / 2), WORLD_H - vh / 2 + extra);
   mapSvg.setAttribute('viewBox', `${(cam.cx - vw / 2).toFixed(1)} ${(cam.cy - vh / 2).toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}`);
+  updateHi(cam.cx - vw / 2, cam.cy - vh / 2, vw, vh);
 }
 function zoomTo(z: number, px = .5, py = .5) { // giữ nguyên điểm thế giới đang nằm dưới (px,py) của màn hình
   const g0 = camGeom(), wx = cam.cx - g0.vw / 2 + px * g0.vw, wy = cam.cy - g0.vh / 2 + py * g0.vh;
