@@ -10,3 +10,5 @@ Open: user should revoke the GitHub token that was pasted in chat.
 CR-002 (choice events CMP-01): APPROVED + implemented; RC2 pushed (tag rc2) and deployed to Pages 2026-10-23 under G3 (RC2) approval. Evidence: docs/qa/EVIDENCE_rc2.txt, docs/qa/EVENTS_BALANCE.md (2 open balance issues).
 CR-003 (UI redesign): V1, V2 and V3 (UI-1..9, perf, polish) IMPLEMENTED locally (approvals: "approve CR-003: làm V1 theo thiết kế v4", "...làm V2", "...làm V3"). RC3 pushed (main 26b0268, tag rc3) and deployed to Pages (gh-pages 60b0e56) 2026-10-27 under the RC3 G3 approval. Evidence: docs/qa/EVIDENCE_cr003_v1/v2/v3.txt, screenshots docs/qa/visual/. Next: user review/playtest; any further push/deploy needs a NEW explicit G3.
 Next: playtest feedback → `update game: ...` (change request flow).
+
+CR-004 (zoom 4x + west mountains): CREATED 2026-10-27, AWAITING APPROVAL (`approve CR-004`). Doc: docs/change_requests/CR-004_zoom4x_west_mountains.md. No implementation started.
