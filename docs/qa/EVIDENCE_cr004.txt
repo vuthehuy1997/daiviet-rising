@@ -7,3 +7,5 @@ Sizes: first load ~551 kB (bg 328 + js 111 + css 21 + fonts 93); hi tiles total 
 Perf (tools/shoot_cr004.mjs, Chromium headless, CPU 4x throttle, drag at 4x): desktop 1600x900 frame p50 17 ms, p95 50 ms, max 67 ms (some jank, not 60fps steady); Pixel 7 p50 17, p95 17, max 50. Desktop touched all 8 tiles in one drag (8 requests), phone 4.
 Not measured: real phone, other browsers, memory use. Mountains remain procedural (soft massifs, visible hatch stripes), not hand-painted.
 Screens: docs/qa/visual/cr004_desk_z0/z3/z6/pan4, cr004_phone_*.
+
+2026-10-28: tests/balance.test.ts TST-08 describe timeout raised 5s -> 30s (flake under load). Vitest 112/112 passed (5 files).

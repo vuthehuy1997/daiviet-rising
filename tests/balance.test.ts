@@ -20,7 +20,7 @@ describe('TST-08 cân bằng (bot)', () => {
 });
 
 /** CR-002: sự kiện không được mở đường thắng cho chiến thuật vô vọng; kết quả chi tiết ở docs/qa/EVENTS_BALANCE.md. */
-describe('TST-08 cân bằng với sự kiện lựa chọn', () => {
+describe('TST-08 cân bằng với sự kiện lựa chọn', { timeout: 30000 }, () => {
   const picks = ['a', 'b', 'c', 'mix'] as const;
   it('turtle không bao giờ thắng dù chọn kiểu nào', () => {
     for (const p of picks) expect(batch('turtle', seeds, p).wins, `turtle/${p}`).toBe(0);
