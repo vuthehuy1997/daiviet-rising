@@ -22,3 +22,8 @@ Re-push the previous `gh-pages` commit (RC1 = `612e6be`: `git push -f origin 612
 ## RC3 — 2026-10-27
 - Pushed main (26b0268), tag rc3, gh-pages (60b0e56 "Deploy RC3"). Token used transiently via http.extraHeader, not stored.
 - Live smoke (desktop 1280x800 + phone 412x915, Chromium): map background present, 6 resource pills, 0 page errors, 0 failed requests. Live assets index-CHXffyLx.js / index-Bdwl9FXN.css.
+
+## RC4 — 2026-10-28 (G3 approved: "approve G3: push và deploy RC4 lên vuthehuy1997/daiviet-rising")
+- Pushed main (26b0268..330c754), tag rc4, gh-pages (60b0e56..b1227bb "Deploy RC4 (rc4 tag)"; dist/ + .nojekyll only). Token used transiently via http.extraHeader, not stored. **Revoke it** (https://github.com/settings/tokens).
+- Pre-deploy: tsc OK, Vitest 112/112, build OK.
+- Live check: HTTP 200, served bundle index-BduymceC.js equals local build. Browser smoke on live URL NOT run this time.

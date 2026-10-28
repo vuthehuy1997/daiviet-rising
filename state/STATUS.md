@@ -1,6 +1,6 @@
 # Status
 Updated: 2026-10-27
-Phase: 6 — RELEASED (RC3 live) · maintenance/change requests
+Phase: 6 — RELEASED (RC4 live) · maintenance/change requests
 Gate: G3 APPROVED and executed for the named target only (see APPROVALS.md, docs/release/DEPLOY_LOG.md)
 Live: https://vuthehuy1997.github.io/daiviet-rising/ (GitHub Pages, branch gh-pages)
 Repo: https://github.com/vuthehuy1997/daiviet-rising (public), main + tags rc1, rc2, rc3
@@ -12,3 +12,5 @@ CR-003 (UI redesign): V1, V2 and V3 (UI-1..9, perf, polish) IMPLEMENTED locally 
 Next: playtest feedback → `update game: ...` (change request flow).
 
 CR-004 (zoom 4x + west mountains): APPROVED ("approve CR-004") + IMPLEMENTED locally as RC4 (commit pending/see git log), NOT pushed. Evidence docs/qa/EVIDENCE_cr004.txt. Live site is still RC3. Push needs a new G3.
+
+UPDATE 2026-10-28: RC4 (CR-004) pushed (main 330c754, tag rc4) and deployed to Pages (gh-pages b1227bb) under the RC4 G3 approval. Live bundle verified; browser smoke not run. Further push/deploy needs a NEW G3.

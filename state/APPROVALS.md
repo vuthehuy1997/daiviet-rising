@@ -85,4 +85,4 @@
 - Approver: user (as entered in session)
 - Exact words: "approve G3: push và deploy RC4 lên vuthehuy1997/daiviet-rising"
 - Approved: push `main` + tag `rc4` and refresh `gh-pages` on vuthehuy1997/daiviet-rising ONLY (GitHub Pages). Nothing else.
-- Status: EXECUTING 2026-10-28 (see docs/release/DEPLOY_LOG.md).
+- Status: EXECUTED 2026-10-28. Pushed main 330c754, tag rc4, gh-pages b1227bb to vuthehuy1997/daiviet-rising. Token used transiently, not stored.
