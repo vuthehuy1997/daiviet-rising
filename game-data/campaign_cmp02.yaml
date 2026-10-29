@@ -14,6 +14,7 @@ campaign:
   rules:
     deadline_turn: 20
     win_mode: survive
+    win_min_settled: 3
     negotiate_from_turn: 999
     negotiate_min_repelled: 99
     negotiate_min_dantam: 99
@@ -41,7 +42,7 @@ campaign:
     naval_ebb_cost_mult: 1.5
   # CR-005 nhử (tất định): mồi tốn kho + 1 đơn vị cơ động tại ô sông có cọc; dụ đợt kế tiếp nếu tình báo đủ, ô mồi gần đường tiến, đường vòng ngắn.
   lure:
-    cost: {grain: 20, wood: 20}
+    cost: {grain: 30, wood: 30}
     range: 2
     max_detour: 2
     estimate_max_units: 8
@@ -61,5 +62,5 @@ raids:
   - {id: RAID-B1, turn: 3, origin: TIL-209, units: {ENM-BOAT: 3}, source_label: FICTION, source_ids: [], design: SYS-07}
   - {id: RAID-B2, turn: 7, origin: TIL-210, units: {ENM-FOOT: 4, ENM-ARCHER: 2}, source_label: FICTION, source_ids: [], design: SYS-07}
   - {id: RAID-B3, turn: 10, origin: TIL-209, units: {ENM-BOAT: 6, ENM-ARCHER: 3}, source_label: FICTION, source_ids: [], design: SYS-07}
-  - {id: RAID-B4, turn: 14, origin: TIL-209, units: {ENM-BOAT: 9, ENM-ARCHER: 5}, source_label: FICTION, source_ids: [], design: SYS-07}
-  - {id: RAID-B5, turn: 17, origin: TIL-209, units: {ENM-BOAT: 12, ENM-ARCHER: 7}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-B4, turn: 14, origin: TIL-209, units: {ENM-BOAT: 10, ENM-ARCHER: 5}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-B5, turn: 17, origin: TIL-209, units: {ENM-BOAT: 13, ENM-ARCHER: 7}, source_label: FICTION, source_ids: [], design: SYS-07}

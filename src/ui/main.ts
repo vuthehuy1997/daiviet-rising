@@ -109,6 +109,7 @@ function objective() {
     ['Chặn các đợt tập kích', `${st.repelled}/${d.raids.length}`, st.repelled >= d.raids.length],
     ['Giữ Thủ phủ', st.tiles[d.campaign.capital].status === 'settled' ? 'còn' : 'mất', st.tiles[d.campaign.capital].status === 'settled'],
     ['Dân tâm ≥0', String(st.res.dantam), st.res.dantam >= 0],
+    ...(r.win_min_settled ? [[`Giữ ≥${r.win_min_settled} khu định cư`, `${settled}/${r.win_min_settled}`, settled >= r.win_min_settled] as [string, string, boolean]] : []),
     ['Thời hạn chiến dịch', `${Math.min(st.turn, r.deadline_turn)}/${r.deadline_turn}`, st.turn > r.deadline_turn],
   ] : [
     ['Chặn đợt tập kích', `${st.repelled}/${r.negotiate_min_repelled}`, st.repelled >= r.negotiate_min_repelled],
@@ -116,13 +117,13 @@ function objective() {
     [`Dân tâm ≥${r.negotiate_min_dantam}`, `${st.res.dantam}/${r.negotiate_min_dantam}`, st.res.dantam >= r.negotiate_min_dantam],
     ['Thời hạn chiến dịch', `${Math.min(st.turn, r.deadline_turn)}/${r.deadline_turn}`, st.turn >= r.negotiate_from_turn],
   ];
-  const met = rows.slice(0, 3).filter((x) => x[2]).length;
+  const met = rows.slice(0, -1).filter((x) => x[2]).length;
   const card = h('section', { class: 'obj parch', 'aria-label': 'Mục tiêu' },
     h('div', { class: 'obj-h' }, h('button', { 'aria-expanded': objOpen, 'aria-controls': objOpen ? 'obj-body' : undefined, onclick: () => { objOpen = !objOpen; render(); } },
-      h('span', {}, 'Mục tiêu'), h('span', { class: 'muted' }, objOpen ? '▾' : `${met}/3 ▸`))));
+      h('span', {}, 'Mục tiêu'), h('span', { class: 'muted' }, objOpen ? '▾' : `${met}/${rows.length - 1} ▸`))));
   if (objOpen) card.append(h('div', { id: 'obj-body' },
     ...rows.map(([t, v, ok]) => h('div', { class: `obj-r${ok ? ' ok' : ''}` }, h('span', { class: 'd' }, ok ? '✔' : '◆'), h('span', { class: 't' }, t), h('b', {}, v))),
-    h('p', { class: 'obj-n' }, survive ? `Thắng khi giữ vững phòng tuyến tới hết lượt ${r.deadline_turn}; không có giảng hòa.` : `Giảng hòa mở từ lượt ${r.negotiate_from_turn} khi đủ cả ba điều kiện trên (nút “Kế sách”).`)));
+    h('p', { class: 'obj-n' }, survive ? `Thắng khi giữ vững phòng tuyến (còn ≥${r.win_min_settled ?? 1} khu định cư) tới hết lượt ${r.deadline_turn}; không có giảng hòa.` : `Giảng hòa mở từ lượt ${r.negotiate_from_turn} khi đủ cả ba điều kiện trên (nút “Kế sách”).`)));
   return card;
 }
 

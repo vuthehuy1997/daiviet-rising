@@ -66,8 +66,13 @@ describe('CMP-02 dữ liệu & luật', () => {
   it('không có đàm phán; sống sót tới hết thời hạn = thắng', () => {
     expect(applyCommand(D2, fresh2(), { t: 'negotiate' }).error).toMatch(/không có đàm phán/);
     const s = fresh2(); s.turn = D2.campaign.rules.deadline_turn; s.res.dantam = 50;
+    for (const id of ['TIL-202', 'TIL-203']) s.tiles[id].status = 'settled'; // win_min_settled = 3 (CR-005 M4)
+    expect(endTurn(D2, s).outcome).toBe('won');
+  });
+  it('M4: hết thời hạn mà giữ ít hơn win_min_settled khu định cư = thua', () => {
+    const s = fresh2(); s.turn = D2.campaign.rules.deadline_turn; s.res.dantam = 50;
     const n = endTurn(D2, s);
-    expect(n.outcome).toBe('won');
+    expect(n.outcome).toBe('lost'); expect(n.outcomeReason).toMatch(/1\/3 khu định cư/);
   });
   it('EDGE-07: cùng seed + cùng lệnh → cùng kết quả (CMP-02)', () => {
     const play = () => { let s = fresh2(1288); for (let i = 0; i < 12 && s.outcome === 'playing'; i++) s = endTurn(D2, s); return stateJson(s); };

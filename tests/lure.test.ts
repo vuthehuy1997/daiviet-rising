@@ -27,7 +27,7 @@ describe('CR-005 lệnh nhử', () => {
   it('trừ kho và 1 đơn vị, ghi mồi', () => {
     const s = ok(setup(), { t: 'lure', tile: 'TIL-203' });
     expect(s.lure).toEqual({ tile: 'TIL-203', unit: 'UNT-FOOT' });
-    expect(s.res.grain).toBe(480); expect(s.res.wood).toBe(480);
+    expect(s.res.grain).toBe(470); expect(s.res.wood).toBe(470);
     expect(armyUnits(s, 'TIL-203')).toBe(1);
   });
   it('bị từ chối đúng lý do', () => {

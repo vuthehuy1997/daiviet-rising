@@ -1,0 +1,48 @@
+[
+ {
+  "strat": "idle",
+  "n": 40,
+  "wins": 0,
+  "lostReasons": {
+   "Thủ phủ thất thủ": 40
+  },
+  "avgRepelled": 0
+ },
+ {
+  "strat": "turtle",
+  "n": 40,
+  "wins": 0,
+  "lostReasons": {
+   "Hết thời hạn mà chỉ giữ 1/3 khu định cư — phòng tuyến sông không còn": 40
+  },
+  "avgRepelled": 5
+ },
+ {
+  "strat": "basic",
+  "n": 40,
+  "wins": 21,
+  "lostReasons": {
+   "Hết thời hạn mà chỉ giữ 2/3 khu định cư — phòng tuyến sông không còn": 19
+  },
+  "avgRepelled": 3.525000000000002
+ },
+ {
+  "strat": "tide-aware",
+  "n": 40,
+  "wins": 0,
+  "lostReasons": {
+   "Hết thời hạn mà chỉ giữ 2/3 khu định cư — phòng tuyến sông không còn": 8,
+   "Dân tâm cạn kiệt": 32
+  },
+  "avgRepelled": 2.200000000000001
+ },
+ {
+  "strat": "lurer",
+  "n": 40,
+  "wins": 30,
+  "lostReasons": {
+   "Hết thời hạn mà chỉ giữ 2/3 khu định cư — phòng tuyến sông không còn": 10
+  },
+  "avgRepelled": 3.7500000000000027
+ }
+]

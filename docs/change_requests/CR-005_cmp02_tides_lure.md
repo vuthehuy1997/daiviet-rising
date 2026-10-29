@@ -63,3 +63,9 @@ Tôi sẽ dừng sau mỗi mốc để bạn xem trước khi sang mốc kế (g
 **M1 (2026-10-29):** thủy triều, cọc theo pha, ETA thuyền, dữ liệu CMP-02, `win_mode: survive`. Bằng chứng: `docs/qa/EVIDENCE_cr005_m1.txt`.
 **M2 (2026-10-29):** lệnh `lure`, `lureCheck`/`lureForecast`, save v3. Khác bản duyệt: (a) bước tình báo "ước lượng" dùng ngưỡng quy mô đợt (≤ 8 quân) thay cho "chỉ huy thường" (chưa có chỉ huy địch); (b) ETA tính một lần khi đợt sinh ra (cả triều lẫn nhử), không tính lại mỗi lượt — đơn giản và tất định; nếu bạn muốn tính lại mỗi lượt, cần một CR nhỏ. Bằng chứng: `docs/qa/EVIDENCE_cr005_m2.txt`.
 **M3 (2026-10-29):** thẻ thủy triều + xem trước 3 lượt, hiệu lực cọc theo triều và dự báo/đặt mồi nhử ở bảng ô sông, chọn chiến dịch (`?campaign=cmp02` hoặc Cài đặt), bản đồ CMP-02 (nền 3200px + 8 mảnh nét 4x, nướng bằng `paint_map.py` với `CAMPAIGN=cmp02`). Ghi chú: CMP-02 dùng bản lưu riêng; JS tăng 111→137 kB; khối "Nhử địch" nằm cuối bảng ô (phải cuộn). Bằng chứng: `docs/qa/EVIDENCE_cr005_m3.txt`.
+
+## Ghi chú cài đặt M4 (2026-10-30)
+- Bot mới (tests/bots2.ts): idle, turtle, basic (không dùng triều/nhử), tide-aware (dồn tuyến sông + cọc + trạm canh, không nhử), lurer (trạm canh + cọc + nhử). Cân bằng thô, không phải người chơi tối ưu.
+- **Khác bản duyệt:** (1) thêm luật `win_min_settled: 3` cho chế độ survive — khi đo, `turtle` (chỉ giữ Thủ phủ) thắng 40/40; (2) chi phí nhử 20+20 → 30+30 (với 20+20 bot `lurer` thắng 40/40 ở nhiều cỡ đợt, nhử quyết định ván); (3) cỡ đợt B4: 9→10 thuyền, B5: 12→13 thuyền (còn lại giữ nguyên). Mọi số vẫn là placeholder.
+- Kết quả 40 seed: idle 0, turtle 0, basic 21 (52%), tide-aware 0, lurer 30 (75%). Chi tiết, giới hạn đo và vấn đề còn lại: docs/qa/BALANCE_CMP02.md.
+- Hồi quy CMP-01 (TST-08 + sự kiện) không đổi: 139/139 test đơn vị pass.

@@ -1,0 +1,15 @@
+CR-005 M4 / RC5 (local only), 2026-10-30
+Việc đã làm: bot CMP-02 (tests/bots2.ts), tests/balance_cmp02.test.ts (TST-11), luật win_min_settled, chi phí nhử 30+30, cỡ đợt B4/B5; docs/qa/BALANCE_CMP02.md.
+Lệnh đã chạy:
+- npx tsc --noEmit: 0 lỗi
+- npx vitest run: 9 files, 139/139 pass (gồm TST-08 CMP-01 hồi quy không đổi, TST-11 CMP-02 cân bằng)
+- python3 -I tools/check_design.py: OK
+- npm run build: OK (JS 137.66 kB)
+- Playwright (preview riêng, desktop + Pixel 7): 45 passed, 3 skipped
+Cân bằng CMP-02 (40 seed):
+  idle 0 /40 {'Thủ phủ thất thủ': 40}
+  turtle 0 /40 {'Hết thời hạn mà chỉ giữ 1/3 khu định cư — phòng tuyến sông không còn': 40}
+  basic 21 /40 {'Hết thời hạn mà chỉ giữ 2/3 khu định cư — phòng tuyến sông không còn': 19}
+  tide-aware 0 /40 {'Hết thời hạn mà chỉ giữ 2/3 khu định cư — phòng tuyến sông không còn': 8, 'Dân tâm cạn kiệt': 32}
+  lurer 30 /40 {'Hết thời hạn mà chỉ giữ 2/3 khu định cư — phòng tuyến sông không còn': 10}
+Giới hạn: xem BALANCE_CMP02.md (vách, triều đơn lẻ không giúp, chưa có người chơi thật, chưa rà soát sử học). Không push/deploy; RC5 chưa gắn tag.

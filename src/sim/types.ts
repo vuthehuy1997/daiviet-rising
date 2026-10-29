@@ -50,6 +50,7 @@ export interface Rules {
   default_slots: number; capital_slots: number; max_level: number;
   garrison_base: number; garrison_capital_bonus: number; garrison_per_fort_level: number;
   terrain_cost: Record<Terrain, number>;
+  win_min_settled?: number; // chỉ survive: số khu định cư tối thiểu phải còn khi hết thời hạn (CR-005 M4)
   win_mode?: 'negotiate' | 'survive'; // mặc định negotiate (CMP-01); survive = chặn hết các đợt tới hạn lượt (CMP-02)
 }
 export interface GameData {

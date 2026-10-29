@@ -187,7 +187,11 @@ export function endTurn(d: GameData, s0: GameState): GameState {
     s.negDantamTurns = s.res.dantam < 0 ? s.negDantamTurns + 1 : 0;
     if (s.negDantamTurns >= rules.lose_dantam_turns) { s.outcome = 'lost'; s.outcomeReason = 'Dân tâm cạn kiệt'; }
     else if (s.turn > rules.deadline_turn) {
-      if (rules.win_mode === 'survive') { s.outcome = 'won'; s.outcomeReason = 'Giữ vững phòng tuyến tới hết thời hạn'; }
+      if (rules.win_mode === 'survive') {
+        const held = Object.values(s.tiles).filter((t) => t.status === 'settled').length;
+        if (held >= (rules.win_min_settled ?? 0)) { s.outcome = 'won'; s.outcomeReason = 'Giữ vững phòng tuyến tới hết thời hạn'; }
+        else { s.outcome = 'lost'; s.outcomeReason = `Hết thời hạn mà chỉ giữ ${held}/${rules.win_min_settled} khu định cư — phòng tuyến sông không còn`; }
+      }
       else { s.outcome = 'lost'; s.outcomeReason = 'Hết thời hạn chiến dịch mà chưa giảng hòa'; }
     }
   }
