@@ -17,6 +17,6 @@ features:
   - {id: FEAT-015, title: Xem trước & báo cáo trận UI, design: [UXD-04, UXD-05], tests: [TST-07], milestone: M3, status: partial, note: "xem trước lực lượng địch ô địch chiếm; chưa xem trước tỷ lệ thắng (có chủ ý)"}
   - {id: FEAT-016, title: Lưu/nạp + xuất/nhập JSON, design: [UXD-SAVE], tests: [TST-06], milestone: M4, status: done}
   - {id: FEAT-017, title: Accessibility + chạm, design: [UXD-A11Y], tests: [TST-09], milestone: M4, status: partial, note: "axe + bàn phím + vùng chạm đã kiểm; CHƯA thử với trình đọc màn hình thật, chưa có chỉnh cỡ chữ"}
-  - {id: FEAT-018, title: Màn bối cảnh & nguồn lịch sử, design: [CNT-P2, PIL-05], tests: [TST-05, TST-11], milestone: M4, status: done, note: "dialog Bối cảnh & nguồn; nguồn chưa qua thẩm định sử học"}
+  - {id: FEAT-018, title: Màn bối cảnh & nguồn lịch sử, design: [CNT-P2, PIL-05], tests: [TST-05, TST-10], milestone: M4, status: done, note: "dialog Bối cảnh & nguồn; nguồn chưa qua thẩm định sử học"}
   - {id: FEAT-019, title: Hoàn tác trong lượt, design: [UXD-06], tests: [TST-03], milestone: M3, status: done}
   - {id: FEAT-020, title: Đóng gói GitHub Pages (không deploy), design: [TDD-01], tests: [TST-09], milestone: M5, status: partial, note: "build production OK (npm run build); KHÔNG deploy (chờ G3)"}
