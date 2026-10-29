@@ -48,6 +48,13 @@ export function validateData(d: GameData, rows: any[]): string[] {
   }
   if (!tiles.has(d.campaign.capital)) errs.push('capital không tồn tại');
   const tide = d.campaign.tide;
+  const lure = d.campaign.lure;
+  if (lure) {
+    for (const k of Object.keys(lure.cost)) if (!RES_KEYS.has(k)) errs.push(`lure.cost: tài nguyên lạ ${k}`);
+    if (!(lure.range >= 0 && Number.isInteger(lure.range))) errs.push('lure.range phải là số nguyên ≥ 0');
+    if (!(lure.max_detour >= 0)) errs.push('lure.max_detour phải ≥ 0');
+    if (!(lure.estimate_max_units >= 0)) errs.push('lure.estimate_max_units phải ≥ 0');
+  }
   if (tide) {
     if (!(Number.isInteger(tide.period) && tide.period >= 2 && tide.period <= 4)) errs.push('tide.period phải là số nguyên 2–4');
     if (!Number.isInteger(tide.phase_offset)) errs.push('tide.phase_offset phải là số nguyên');

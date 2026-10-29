@@ -1,28 +1,15 @@
 import { cleanArmies, fieldArmy } from './commands';
-import { activeBuildings, atkMult, fortBonus, moraleMod, stakesPenalty, tidePhase } from './derived';
+import { activeBuildings, atkMult, fortBonus, moraleMod, stakesPenalty } from './derived';
 import { resolveCombat, terrainAttackerMod } from './combat';
 import { applyScheduled, autoResolvePending, openEvents } from './events';
-import { enterCost, shortestPath } from './graph';
+import { ENEMY_SPEED, nearestSettled } from './graph';
+import { lureCheck, raidCostFn, releaseLure } from './lure';
 import { Rng } from './rng';
-import type { BattleReport, Counts, GameData, GameState, Raid, ResKey, Terrain, TileRT } from './types';
+import type { BattleReport, Counts, GameData, GameState, Raid, ResKey, TileRT } from './types';
 
-const ENEMY_SPEED = 2;
 const addTo = (a: Counts, b: Counts) => { for (const [k, n] of Object.entries(b)) a[k] = (a[k] ?? 0) + n; return a; };
 
 function log(s: GameState, msg: string) { s.log.push(`[Lượt ${s.turn}] ${msg}`); if (s.log.length > 300) s.log.shift(); }
-
-/** Ô định cư gần nguồn nhất theo chi phí đường (địch đi qua mọi ô). */
-export function nearestSettled(
-  d: GameData, s: GameState, from: string, costOf?: (terrain: Terrain) => number,
-): { tile: string; cost: number } | null {
-  let best: { tile: string; cost: number } | null = null;
-  for (const t of Object.values(s.tiles)) {
-    if (t.status !== 'settled') continue;
-    const p = shortestPath(d, s, from, t.id, undefined, costOf);
-    if (p && (!best || p.cost < best.cost || (p.cost === best.cost && t.id < best.tile))) best = { tile: t.id, cost: p.cost };
-  }
-  return best;
-}
 
 function produce(d: GameData, s: GameState) {
   for (const t of Object.values(s.tiles)) {
@@ -56,20 +43,18 @@ function train(d: GameData, s: GameState) {
   s.queue = rest;
 }
 
-/** SYS-11: khi nước rút, quân thuyền địch mắc cạn — chi phí ô sông tăng (chỉ đợt có thủy binh, chỉ chiến dịch có thủy triều). */
-function raidCostFn(d: GameData, s: GameState, units: Counts): ((t: Terrain) => number) | undefined {
-  const tide = d.campaign.tide;
-  if (!tide || tidePhase(d, s.turn) !== 'ebb') return undefined;
-  if (!Object.keys(units).some((u) => d.units[u].class === 'thuy_binh')) return undefined;
-  return (t) => enterCost(d, t) * (t === 'song' ? tide.naval_ebb_cost_mult : 1);
-}
-
 function spawnRaids(d: GameData, s: GameState) {
   for (const r of s.raids) r.eta -= 1; // chỉ các đợt đã có từ trước
   const pre = d.campaign.preemptive;
   for (const def of d.raids.filter((x) => x.turn === s.turn)) {
-    const target = nearestSettled(d, s, def.origin, raidCostFn(d, s, def.units));
+    const costOf = raidCostFn(d, s, def.units);
+    let target = nearestSettled(d, s, def.origin, costOf);
     if (!target) { s.outcome = 'lost'; s.outcomeReason = 'Không còn khu định cư nào'; return; }
+    if (s.lure && !s.lure.raidId) { // CR-005: mồi nhử có hiệu lực với đợt sinh ra kế tiếp
+      const lc = lureCheck(d, s, def.origin, def.units, costOf);
+      if (lc.divert) { target = lc.target!; s.lure.raidId = def.id; log(s, `Mồi nhử: ${def.id} bị dụ về ${target.tile}`); }
+      else { log(s, `Mồi nhử không có tác dụng với ${def.id}: ${lc.reason}`); releaseLure(s); }
+    }
     const weaken = def.turn >= pre.min_turn_effect && s.tiles[pre.tile].status !== 'hostile' ? pre.weaken_factor : 1;
     const edit = s.raidEdits[def.id] ?? { delay: 0, mult: 1 };
     const units: Counts = {};
@@ -85,6 +70,7 @@ function pushReport(s: GameState, r: BattleReport) { s.reports.push(r); log(s, `
 function loseTile(d: GameData, s: GameState, t: TileRT, survivors: Counts) {
   if (t.id === d.campaign.capital) { s.outcome = 'lost'; s.outcomeReason = 'Thủ phủ thất thủ'; }
   t.status = 'lost';
+  if (s.lure?.tile === t.id) { s.log.push(`[Lượt ${s.turn}] Mồi nhử tại ${t.id} mất cùng ô`); s.lure = null; }
   t.buildings = t.buildings.map((b) => ({ ...b, level: b.level - 1 })).filter((b) => b.level > 0);
   t.garrison = {};
   t.defenders = survivors;
@@ -117,6 +103,7 @@ function resolveRaids(d: GameData, s: GameState, rng: Rng) {
       causes: stakes > 0 ? [`Cọc ngầm làm quân vượt sông mất ${(stakes * 100).toFixed(0)}% sát thương`, ...res.causes].slice(0, 3) : res.causes,
     });
     s.raids = s.raids.filter((r) => r.id !== raid.id);
+    const baited = s.lure?.raidId === raid.id;
     if (res.winner === 'defender') {
       // phân bổ lại quân sống sót (dân binh ở garrison, còn lại ở đội đứng yên)
       t.garrison = {}; const mobile: Counts = {};
@@ -124,6 +111,7 @@ function resolveRaids(d: GameData, s: GameState, rng: Rng) {
       if (stat) stat.units = mobile;
       s.repelled += 1; s.res.dantam += 3;
       cleanArmies(s);
+      if (baited) releaseLure(s);
     } else {
       loseTile(d, s, t, res.attackerLeft);
       log(s, `${t.id} thất thủ!`);

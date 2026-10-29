@@ -128,6 +128,23 @@ export function applyCommand(d: GameData, s0: GameState, cmd: Cmd): CmdResult {
       const err = resolveEvent(d, s, cmd.event, cmd.choice, false);
       return err ? fail(s0, err) : { state: s };
     }
+    case 'lure': {
+      const L = d.campaign.lure;
+      if (!L) return fail(s0, 'Chiến dịch này không có nhử');
+      if (s.lure) return fail(s0, 'Đã có một mồi nhử đang hoạt động');
+      const t = s.tiles[cmd.tile];
+      if (!t || t.status !== 'settled' || t.terrain !== 'song') return fail(s0, 'Mồi nhử phải đặt ở ô sông thuộc về ta');
+      if (!hasActive(t, 'BLD-STAKES')) return fail(s0, 'Ô mồi cần có cọc ngầm đã xây xong');
+      if (!d.raids.some((r) => r.turn >= s.turn)) return fail(s0, 'Không còn đợt tập kích nào để nhử');
+      const army = s.armies.find((a) => a.tile === t.id && !a.move);
+      const unit = army && Object.keys(army.units).sort().find((u) => army.units[u] > 0 && !d.units[u].garrison);
+      if (!army || !unit) return fail(s0, 'Cần một đơn vị quân cơ động đứng tại ô mồi');
+      if (!canAfford(s, L.cost)) return fail(s0, 'Không đủ tài nguyên');
+      pay(s, L.cost);
+      army.units[unit] -= 1; cleanArmies(s);
+      s.lure = { tile: t.id, unit };
+      return { state: s };
+    }
     case 'negotiate': {
       if (rules.win_mode === 'survive') return fail(s0, 'Chiến dịch này không có đàm phán: hãy giữ phòng tuyến tới hết thời hạn');
       if (s.turn < rules.negotiate_from_turn) return fail(s0, `Chỉ đàm phán từ lượt ${rules.negotiate_from_turn}`);

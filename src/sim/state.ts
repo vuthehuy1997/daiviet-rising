@@ -10,9 +10,9 @@ export function newGame(d: GameData, seed: number = d.campaign.seed): GameState 
     };
   }
   return {
-    save_version: 2, campaign: d.campaign.id, turn: 1, rng: seed >>> 0,
+    save_version: 3, campaign: d.campaign.id, turn: 1, rng: seed >>> 0,
     res: { ...d.campaign.start }, tiles, armies: [], queue: [], raids: [], policies: [],
-    repelled: 0, negDantamTurns: 0, nextId: 1, weaken: {}, mods: [], pendingEvents: [], eventLog: [], raidEdits: {}, scheduled: [], log: [], reports: [], outcome: 'playing',
+    repelled: 0, negDantamTurns: 0, nextId: 1, weaken: {}, mods: [], pendingEvents: [], eventLog: [], raidEdits: {}, scheduled: [], lure: null, log: [], reports: [], outcome: 'playing',
   };
 }
 

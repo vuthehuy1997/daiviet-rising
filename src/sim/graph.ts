@@ -1,5 +1,7 @@
 import type { GameData, GameState, Terrain } from './types';
 
+export const ENEMY_SPEED = 2;
+
 /** Chi phí đi vào một ô = chi phí địa hình ô đích (SYS-01). */
 export function enterCost(d: GameData, terrain: Terrain): number { return d.campaign.rules.terrain_cost[terrain]; }
 
@@ -33,4 +35,33 @@ export function shortestPath(
   const path = [to];
   while (path[0] !== from) path.unshift(prev.get(path[0])!);
   return { path, cost: dist.get(to)! };
+}
+
+/** Ô định cư gần nguồn nhất theo chi phí đường (địch đi qua mọi ô). */
+export function nearestSettled(
+  d: GameData, s: GameState, from: string, costOf?: (terrain: Terrain) => number,
+): { tile: string; cost: number } | null {
+  let best: { tile: string; cost: number } | null = null;
+  for (const t of Object.values(s.tiles)) {
+    if (t.status !== 'settled') continue;
+    const p = shortestPath(d, s, from, t.id, undefined, costOf);
+    if (p && (!best || p.cost < best.cost || (p.cost === best.cost && t.id < best.tile))) best = { tile: t.id, cost: p.cost };
+  }
+  return best;
+}
+
+/** Số bước (kề nhau) ngắn nhất giữa hai ô, bỏ qua chi phí địa hình. */
+export function tileDistance(s: GameState, a: string, b: string): number {
+  if (a === b) return 0;
+  const seen = new Set([a]);
+  let frontier = [a];
+  for (let step = 1; frontier.length; step++) {
+    const next: string[] = [];
+    for (const id of frontier) for (const n of s.tiles[id].adj) {
+      if (n === b) return step;
+      if (!seen.has(n)) { seen.add(n); next.push(n); }
+    }
+    frontier = next;
+  }
+  return Infinity;
 }

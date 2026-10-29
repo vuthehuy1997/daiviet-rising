@@ -39,6 +39,12 @@ campaign:
     phase_offset: 0
     stakes_mult: {rising: 0.5, high: 0.25, ebb: 1}
     naval_ebb_cost_mult: 1.5
+  # CR-005 nhử (tất định): mồi tốn kho + 1 đơn vị cơ động tại ô sông có cọc; dụ đợt kế tiếp nếu tình báo đủ, ô mồi gần đường tiến, đường vòng ngắn.
+  lure:
+    cost: {grain: 20, wood: 20}
+    range: 2
+    max_detour: 2
+    estimate_max_units: 8
 tiles:
   - {id: TIL-201, name_vi: Thủ phủ, terrain: dong_bang, state: settled, x: 560, y: 720, adj: [TIL-202, TIL-203, TIL-207, TIL-208], source_label: FICTION, source_ids: []}
   - {id: TIL-202, name_vi: Bến Nội, terrain: dong_bang, state: open, x: 820, y: 760, adj: [TIL-201, TIL-203, TIL-206], source_label: FICTION, source_ids: []}

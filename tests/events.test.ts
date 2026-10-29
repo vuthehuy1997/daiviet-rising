@@ -115,7 +115,7 @@ describe('CR-002 lưu/nạp', () => {
     s.save_version = 1;
     const old = JSON.stringify({ save_version: 1, state: s });
     const m = deserialize(old);
-    expect(m.save_version).toBe(2); expect(m.mods).toEqual([]); expect(m.pendingEvents).toEqual([]);
+    expect(m.save_version).toBe(3); expect(m.mods).toEqual([]); expect(m.pendingEvents).toEqual([]);
     expect(() => turns(m, 5)).not.toThrow();
   });
 });

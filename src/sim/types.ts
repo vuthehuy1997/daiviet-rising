@@ -6,6 +6,7 @@ export interface TideCfg {
   stakes_mult: Record<TidePhase, number>; // hệ số hiệu lực của cọc ngầm theo pha (SYS-11)
   naval_ebb_cost_mult: number;            // chi phí ô sông của quân thuyền địch khi nước rút
 }
+export interface LureCfg { cost: Partial<Res>; range: number; max_detour: number; estimate_max_units: number }
 export type ResKey = 'grain' | 'wood' | 'stone' | 'iron' | 'dantam';
 export type Res = Record<ResKey, number>;
 export type Counts = Record<string, number>;
@@ -60,6 +61,7 @@ export interface GameData {
     start_buildings: Record<string, string[]>; rules: Rules;
     preemptive: { tile: string; weaken_factor: number; min_turn_effect: number };
     tide?: TideCfg;
+    lure?: LureCfg;
   };
   tiles: TileDef[];
   raids: RaidDef[];
@@ -82,7 +84,7 @@ export interface BattleReport {
 }
 
 export interface GameState {
-  save_version: 2;
+  save_version: 3;
   campaign: string;
   turn: number;
   rng: number;
@@ -101,6 +103,7 @@ export interface GameState {
   eventLog: { turn: number; event: string; choice: string; auto: boolean }[];
   raidEdits: Record<string, { delay: number; mult: number }>;
   scheduled: { turn: number; res: Partial<Res> }[];
+  lure: { tile: string; unit: string; raidId?: string } | null; // CR-005: mồi nhử đang hoạt động (tối đa 1)
   log: string[];
   reports: BattleReport[];
   outcome: 'playing' | 'won' | 'lost';
@@ -117,6 +120,7 @@ export type Cmd =
   | { t: 'settle'; tile: string }
   | { t: 'research'; policy: string }
   | { t: 'negotiate' }
+  | { t: 'lure'; tile: string }
   | { t: 'choose'; event: string; choice: string };
 
 export interface CmdResult { state: GameState; error?: string }

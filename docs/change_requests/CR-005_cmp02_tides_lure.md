@@ -57,3 +57,8 @@ Tôi sẽ dừng sau mỗi mốc để bạn xem trước khi sang mốc kế (g
 - `approve CR-005` — làm **Phương án A** nguyên trạng (RC5 chỉ build cục bộ, chưa push).
 - `approve CR-005: phương án B` hoặc `phương án C` hoặc kèm chỉnh sửa (ví dụ đổi chu kỳ triều, bỏ thắng-bằng-chặn…).
 - Hoặc nêu điểm cần đổi; tôi sửa CR rồi hỏi lại.
+
+
+## Ghi chú triển khai
+**M1 (2026-10-29):** thủy triều, cọc theo pha, ETA thuyền, dữ liệu CMP-02, `win_mode: survive`. Bằng chứng: `docs/qa/EVIDENCE_cr005_m1.txt`.
+**M2 (2026-10-29):** lệnh `lure`, `lureCheck`/`lureForecast`, save v3. Khác bản duyệt: (a) bước tình báo "ước lượng" dùng ngưỡng quy mô đợt (≤ 8 quân) thay cho "chỉ huy thường" (chưa có chỉ huy địch); (b) ETA tính một lần khi đợt sinh ra (cả triều lẫn nhử), không tính lại mỗi lượt — đơn giản và tất định; nếu bạn muốn tính lại mỗi lượt, cần một CR nhỏ. Bằng chứng: `docs/qa/EVIDENCE_cr005_m2.txt`.

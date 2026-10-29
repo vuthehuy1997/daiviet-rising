@@ -17,3 +17,4 @@ UPDATE 2026-10-28: RC4 (CR-004) pushed (main 330c754, tag rc4) and deployed to P
 
 CR-005 (CMP-02 tides + lure): APPROVED 2026-10-29 ("approve CR-005", Option A). Implementing M1 (sim tide + stakes + CMP-02 data + tests) locally; NOT pushed.
 CR-005 M1 DONE locally 2026-10-29 (tide sim, CMP-02 data, 120/120 tests, evidence docs/qa/EVIDENCE_cr005_m1.txt). Waiting for user review before M2 (lure command + save v3). Not pushed.
+CR-005 M2 DONE locally 2026-10-29 (lure command, save v3, 129/129 tests, e2e 38 pass; docs/qa/EVIDENCE_cr005_m2.txt). Waiting for user review before M3 (UI + campaign select + CMP-02 map). Not pushed.
