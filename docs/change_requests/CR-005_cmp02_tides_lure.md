@@ -30,7 +30,7 @@ Loại: **thêm cơ chế + nội dung mới (ảnh hưởng thiết kế)** →
 **3. Thắng/Thua CMP-02 (đề xuất):** thắng = chặn đợt cuối đến hạn lượt (không có giảng hòa như CMP-01); thua = mất Thủ phủ hoặc Dân tâm < 0 kéo dài 3 lượt. Giữ SYS-12 cho CMP-01 nguyên trạng.
 
 ## Tác động
-- **Thiết kế:** mở rộng GDD SYS-11 (công thức triều, nhử, EDGE mới: nhử cùng lúc nhiều đợt, triều trong lúc đợt đang đi, cọc bị phá khi đang nhử), cập nhật 03_CONTENT_NARRATIVE (CMP-02), backlog FEAT-012 + FEAT mới, thêm test TST-10 (triều/nhử).
+- **Thiết kế:** mở rộng GDD SYS-11 (công thức triều, nhử, EDGE mới: nhử cùng lúc nhiều đợt, triều trong lúc đợt đang đi, cọc bị phá khi đang nhử), cập nhật 03_CONTENT_NARRATIVE (CMP-02), backlog FEAT-012 + FEAT mới, thêm test TST-11 (triều/nhử).
 - **Dữ liệu:** `game-data/campaign_cmp02.yaml` (ô, đợt tập kích, `tide`, `lure`), cập nhật `buildings.yaml` (bảng penalty cọc theo pha, bật `BLD-DOCK` nếu cần), `units.yaml` nếu thêm quân thuyền địch (`ENM-BOAT`).
 - **Sim:** `types.ts`/`data.ts` (validator cho `tide`, `lure`), `derived.ts` (pha triều, hệ số chi phí), `turn.ts` (ETA theo triều, đổi mục tiêu), `commands.ts` (lệnh `lure`), `combat.ts` (penalty cọc theo pha). **Đổi định dạng save → nâng `save_version` lên 3**, migrate v2 (CMP-01 không có triều). Chọn chiến dịch cần màn chọn chiến dịch tối thiểu.
 - **UI:** chỉ báo triều trên HUD (chữ + biểu tượng), xem trước 3 lượt, panel ô sông hiển thị hiệu lực cọc theo pha, nút/chế độ "Nhử" có dự báo, tường thuật báo cáo trận nêu rõ vai trò triều/nhử, bản đồ CMP-02 mới (nền vẽ/bake riêng; phụ thuộc pipeline nền hiện có). Mobile + AA giữ như CR-003.

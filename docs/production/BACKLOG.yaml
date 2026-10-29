@@ -11,12 +11,12 @@ features:
   - {id: FEAT-009, title: Tình báo có độ nhiễu + chòi canh, design: [SYS-08], tests: [TST-04], milestone: M3, status: done}
   - {id: FEAT-010, title: Kế sách (nghiên cứu), design: [SYS-09], tests: [TST-01], milestone: M3, status: partial, note: "3 kế sách (mục tiêu ~12)"}
   - {id: FEAT-011, title: Sự kiện + ngoại giao CMP-01, design: [SYS-10, CMP-01], tests: [TST-03, TST-05], milestone: M4, status: done, note: "CR-002: 8 sự kiện lựa chọn CMP-01 (game-data/events_cmp01.yaml); văn bản FICTION chưa qua rà soát sử học"}
-  - {id: FEAT-012, title: Tuyến sông giản lược (cọc ngầm, tuyến chặn), design: [SYS-11], tests: [TST-04, TST-08, TST-10], milestone: M4, status: partial, note: "cọc ngầm có; thủy triều đã làm (CR-005 M1, TST-10); nhử CHƯA làm (CR-005 M2); UI triều: M3"}
+  - {id: FEAT-012, title: Tuyến sông giản lược (cọc ngầm, tuyến chặn), design: [SYS-11], tests: [TST-04, TST-08, TST-11], milestone: M4, status: partial, note: "cọc ngầm có; thủy triều đã làm (CR-005 M1, TST-10); nhử CHƯA làm (CR-005 M2); UI triều: M3"}
   - {id: FEAT-013, title: Điều kiện thắng/thua, design: [SYS-12], tests: [TST-03, TST-07], milestone: M4, status: done, note: "SYS-12 đã cập nhật qua CR-001"}
   - {id: FEAT-014, title: UI bản đồ, cảnh báo, điều quân, design: [UXD-01, UXD-02, UXD-03], tests: [TST-07, TST-09], milestone: M2, status: done}
   - {id: FEAT-015, title: Xem trước & báo cáo trận UI, design: [UXD-04, UXD-05], tests: [TST-07], milestone: M3, status: partial, note: "xem trước lực lượng địch ô địch chiếm; chưa xem trước tỷ lệ thắng (có chủ ý)"}
   - {id: FEAT-016, title: Lưu/nạp + xuất/nhập JSON, design: [UXD-SAVE], tests: [TST-06], milestone: M4, status: done}
   - {id: FEAT-017, title: Accessibility + chạm, design: [UXD-A11Y], tests: [TST-09], milestone: M4, status: partial, note: "axe + bàn phím + vùng chạm đã kiểm; CHƯA thử với trình đọc màn hình thật, chưa có chỉnh cỡ chữ"}
-  - {id: FEAT-018, title: Màn bối cảnh & nguồn lịch sử, design: [CNT-P2, PIL-05], tests: [TST-05, TST-10], milestone: M4, status: done, note: "dialog Bối cảnh & nguồn; nguồn chưa qua thẩm định sử học"}
+  - {id: FEAT-018, title: Màn bối cảnh & nguồn lịch sử, design: [CNT-P2, PIL-05], tests: [TST-05, TST-11], milestone: M4, status: done, note: "dialog Bối cảnh & nguồn; nguồn chưa qua thẩm định sử học"}
   - {id: FEAT-019, title: Hoàn tác trong lượt, design: [UXD-06], tests: [TST-03], milestone: M3, status: done}
   - {id: FEAT-020, title: Đóng gói GitHub Pages (không deploy), design: [TDD-01], tests: [TST-09], milestone: M5, status: partial, note: "build production OK (npm run build); KHÔNG deploy (chờ G3)"}
