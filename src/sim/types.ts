@@ -1,5 +1,11 @@
 export type Terrain = 'dong_bang' | 'song' | 'nui' | 'ven_bien' | 'rung';
 export type TileStatus = 'hostile' | 'open' | 'settled' | 'lost';
+export type TidePhase = 'rising' | 'high' | 'ebb';
+export interface TideCfg {
+  period: number; phase_offset: number;
+  stakes_mult: Record<TidePhase, number>; // hệ số hiệu lực của cọc ngầm theo pha (SYS-11)
+  naval_ebb_cost_mult: number;            // chi phí ô sông của quân thuyền địch khi nước rút
+}
 export type ResKey = 'grain' | 'wood' | 'stone' | 'iron' | 'dantam';
 export type Res = Record<ResKey, number>;
 export type Counts = Record<string, number>;
@@ -43,6 +49,7 @@ export interface Rules {
   default_slots: number; capital_slots: number; max_level: number;
   garrison_base: number; garrison_capital_bonus: number; garrison_per_fort_level: number;
   terrain_cost: Record<Terrain, number>;
+  win_mode?: 'negotiate' | 'survive'; // mặc định negotiate (CMP-01); survive = chặn hết các đợt tới hạn lượt (CMP-02)
 }
 export interface GameData {
   buildings: Record<string, BuildingDef>;
@@ -52,6 +59,7 @@ export interface GameData {
     id: string; name_vi: string; seed: number; capital: string; start: Res;
     start_buildings: Record<string, string[]>; rules: Rules;
     preemptive: { tile: string; weaken_factor: number; min_turn_effect: number };
+    tide?: TideCfg;
   };
   tiles: TileDef[];
   raids: RaidDef[];

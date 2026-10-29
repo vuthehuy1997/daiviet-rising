@@ -9,6 +9,7 @@ export function enterCost(d: GameData, terrain: Terrain): number { return d.camp
  */
 export function shortestPath(
   d: GameData, s: GameState, from: string, to: string, allow: (id: string) => boolean = () => true,
+  costOf: (terrain: Terrain) => number = (t) => enterCost(d, t),
 ): { path: string[]; cost: number } | null {
   if (from === to) return { path: [from], cost: 0 };
   const dist = new Map<string, number>([[from, 0]]);
@@ -25,7 +26,7 @@ export function shortestPath(
     for (const n of s.tiles[cur].adj) {
       if (done.has(n)) continue;
       if (n !== to && !allow(n)) continue;
-      const nd = dist.get(cur)! + enterCost(d, s.tiles[n].terrain);
+      const nd = dist.get(cur)! + costOf(s.tiles[n].terrain);
       if (!dist.has(n) || nd < dist.get(n)! || (nd === dist.get(n)! && cur < prev.get(n)!)) { dist.set(n, nd); prev.set(n, cur); }
     }
   }

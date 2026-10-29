@@ -1,0 +1,6 @@
+CR-005 M1 (2026-10-29): sim thủy triều + cọc theo pha + ETA thuyền + dữ liệu CMP-02 (10 ô, 5 đợt) + win_mode survive
+Commands run: npm run typecheck (0 lỗi); npm test -> 6 files, 120/120 tests pass (8 mới trong tests/tide.test.ts);
+python3 -I tools/check_design.py -> OK (ids=65 tiles=22 features=20).
+Hồi quy: các test CMP-01 (sim/balance/events/ui/contrast) không đổi và đều đạt -> CMP-01 giữ nguyên.
+Chưa làm (theo CR): lệnh nhử + save v3 (M2), UI triều/chọn chiến dịch/bản đồ CMP-02 (M3), cân bằng CMP-02 + bot (M4).
+Không push/deploy.

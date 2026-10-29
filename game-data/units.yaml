@@ -7,6 +7,7 @@ units:
   - {id: UNT-BOAT, name_vi: Thuyền chiến, side: player, class: thuy_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 120, atk: 14, def: 6, range: 2, speed: 3, supply: 2, cost: {wood: 30}, train_turns: 2, enabled: false}
   - {id: ENM-FOOT, name_vi: Bộ binh địch, side: enemy, class: bo_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 100, atk: 12, def: 8, range: 1, speed: 2, supply: 0}
   - {id: ENM-ARCHER, name_vi: Cung thủ địch, side: enemy, class: cung_no, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-05, hp: 70, atk: 14, def: 4, range: 3, speed: 2, supply: 0}
+  - {id: ENM-BOAT, name_vi: Thuyền chiến địch, side: enemy, class: thuy_binh, source_label: FICTION, source_ids: [], balance: placeholder, design: SYS-11, hp: 110, atk: 13, def: 6, range: 2, speed: 3, supply: 0}
 characters:
   - {id: CHR-LTK, name_vi: Lý Thường Kiệt, source_label: SOURCED, source_ids: [H2, H8], balance: placeholder, design: SYS-05, role: chi_huy, enabled: false, note: "tướng/chỉ huy chưa triển khai trong vertical slice"}
 policies:

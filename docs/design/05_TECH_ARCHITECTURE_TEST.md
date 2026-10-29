@@ -33,6 +33,7 @@ Tệp mẫu ở `game-data/`: `tiles`, `buildings`, `units`, `campaign`. Trườ
 | TST-07 | E2E | Playwright: chơi hết CP1 bằng kịch bản; chạm & chuột |
 | TST-08 | Balance | Simulation hàng loạt: không chiến thuật thống trị, tỉ lệ thắng dải mục tiêu |
 | TST-09 | A11y/Perf | axe, tương phản, thời gian nạp, bundle size |
+| TST-10 | Thủy triều/nhử (CR-005) | pha triều, cọc theo pha, ETA thuyền, CMP-02 dữ liệu/luật, tất định (tests/tide.test.ts) |
 | TST-10 | Manual | Playtest thực — ghi riêng khỏi build tự động |
 Hồi quy: chạy toàn bộ trên mỗi thay đổi; không giả lập kết quả test.
 

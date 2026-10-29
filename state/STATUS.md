@@ -15,4 +15,5 @@ CR-004 (zoom 4x + west mountains): APPROVED ("approve CR-004") + IMPLEMENTED loc
 
 UPDATE 2026-10-28: RC4 (CR-004) pushed (main 330c754, tag rc4) and deployed to Pages (gh-pages b1227bb) under the RC4 G3 approval. Live bundle verified; browser smoke not run. Further push/deploy needs a NEW G3.
 
-CR-005 (CMP-02 tides + lure): DRAFTED 2026-10-29 (docs/change_requests/CR-005_cmp02_tides_lure.md), AWAITING APPROVAL. No code written.
+CR-005 (CMP-02 tides + lure): APPROVED 2026-10-29 ("approve CR-005", Option A). Implementing M1 (sim tide + stakes + CMP-02 data + tests) locally; NOT pushed.
+CR-005 M1 DONE locally 2026-10-29 (tide sim, CMP-02 data, 120/120 tests, evidence docs/qa/EVIDENCE_cr005_m1.txt). Waiting for user review before M2 (lure command + save v3). Not pushed.

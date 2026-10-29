@@ -1,4 +1,4 @@
-import type { Counts, GameData, GameState, ModKind, Terrain, TileRT } from './types';
+import type { Counts, GameData, GameState, ModKind, Terrain, TidePhase, TileRT } from './types';
 
 export const MAX_FORT = 0.40;
 export const MAX_WARN_BONUS = 3;
@@ -51,11 +51,32 @@ export function fortBonus(d: GameData, s: GameState, tile: string): number {
   return Math.min(MAX_FORT, f);
 }
 
+/** SYS-11: pha thủy triều của một lượt (tất định theo lượt); null nếu chiến dịch không có thủy triều. */
+export function tidePhase(d: GameData, turn: number): TidePhase | null {
+  const c = d.campaign.tide;
+  if (!c) return null;
+  const i = (((turn - 1 + c.phase_offset) % c.period) + c.period) % c.period;
+  return i === 0 ? 'rising' : i === c.period - 1 ? 'ebb' : 'high';
+}
+
+/** Xem trước pha triều của `n` lượt kể từ `from` (gồm cả `from`). */
+export function tideForecast(d: GameData, from: number, n: number): TidePhase[] {
+  const out: TidePhase[] = [];
+  for (let i = 0; i < n; i++) { const p = tidePhase(d, from + i); if (p) out.push(p); }
+  return out;
+}
+
+/** Hệ số hiệu lực cọc ngầm ở lượt `turn` (1 nếu không có thủy triều). */
+export function stakesTideMult(d: GameData, turn: number): number {
+  const p = tidePhase(d, turn);
+  return p ? d.campaign.tide!.stakes_mult[p] : 1;
+}
+
 export function stakesPenalty(d: GameData, s: GameState, tile: string): number {
   const t = s.tiles[tile];
   let p = 0;
   for (const b of activeBuildings(t)) p += (d.buildings[b.type].attacker_penalty ?? 0) * b.level;
-  return Math.min(0.4, p);
+  return Math.min(0.4, p) * stakesTideMult(d, s.turn);
 }
 
 export function atkMult(d: GameData, s: GameState): number { return 1 + policyEffect(d, s, 'atk_mult') + modSum(s, 'atk_mult'); }

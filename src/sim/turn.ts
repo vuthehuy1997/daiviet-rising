@@ -1,10 +1,10 @@
 import { cleanArmies, fieldArmy } from './commands';
-import { activeBuildings, atkMult, fortBonus, moraleMod, stakesPenalty } from './derived';
+import { activeBuildings, atkMult, fortBonus, moraleMod, stakesPenalty, tidePhase } from './derived';
 import { resolveCombat, terrainAttackerMod } from './combat';
 import { applyScheduled, autoResolvePending, openEvents } from './events';
-import { shortestPath } from './graph';
+import { enterCost, shortestPath } from './graph';
 import { Rng } from './rng';
-import type { BattleReport, Counts, GameData, GameState, Raid, ResKey, TileRT } from './types';
+import type { BattleReport, Counts, GameData, GameState, Raid, ResKey, Terrain, TileRT } from './types';
 
 const ENEMY_SPEED = 2;
 const addTo = (a: Counts, b: Counts) => { for (const [k, n] of Object.entries(b)) a[k] = (a[k] ?? 0) + n; return a; };
@@ -12,11 +12,13 @@ const addTo = (a: Counts, b: Counts) => { for (const [k, n] of Object.entries(b)
 function log(s: GameState, msg: string) { s.log.push(`[Lượt ${s.turn}] ${msg}`); if (s.log.length > 300) s.log.shift(); }
 
 /** Ô định cư gần nguồn nhất theo chi phí đường (địch đi qua mọi ô). */
-export function nearestSettled(d: GameData, s: GameState, from: string): { tile: string; cost: number } | null {
+export function nearestSettled(
+  d: GameData, s: GameState, from: string, costOf?: (terrain: Terrain) => number,
+): { tile: string; cost: number } | null {
   let best: { tile: string; cost: number } | null = null;
   for (const t of Object.values(s.tiles)) {
     if (t.status !== 'settled') continue;
-    const p = shortestPath(d, s, from, t.id);
+    const p = shortestPath(d, s, from, t.id, undefined, costOf);
     if (p && (!best || p.cost < best.cost || (p.cost === best.cost && t.id < best.tile))) best = { tile: t.id, cost: p.cost };
   }
   return best;
@@ -54,11 +56,19 @@ function train(d: GameData, s: GameState) {
   s.queue = rest;
 }
 
+/** SYS-11: khi nước rút, quân thuyền địch mắc cạn — chi phí ô sông tăng (chỉ đợt có thủy binh, chỉ chiến dịch có thủy triều). */
+function raidCostFn(d: GameData, s: GameState, units: Counts): ((t: Terrain) => number) | undefined {
+  const tide = d.campaign.tide;
+  if (!tide || tidePhase(d, s.turn) !== 'ebb') return undefined;
+  if (!Object.keys(units).some((u) => d.units[u].class === 'thuy_binh')) return undefined;
+  return (t) => enterCost(d, t) * (t === 'song' ? tide.naval_ebb_cost_mult : 1);
+}
+
 function spawnRaids(d: GameData, s: GameState) {
   for (const r of s.raids) r.eta -= 1; // chỉ các đợt đã có từ trước
   const pre = d.campaign.preemptive;
   for (const def of d.raids.filter((x) => x.turn === s.turn)) {
-    const target = nearestSettled(d, s, def.origin);
+    const target = nearestSettled(d, s, def.origin, raidCostFn(d, s, def.units));
     if (!target) { s.outcome = 'lost'; s.outcomeReason = 'Không còn khu định cư nào'; return; }
     const weaken = def.turn >= pre.min_turn_effect && s.tiles[pre.tile].status !== 'hostile' ? pre.weaken_factor : 1;
     const edit = s.raidEdits[def.id] ?? { delay: 0, mult: 1 };
@@ -188,7 +198,10 @@ export function endTurn(d: GameData, s0: GameState): GameState {
     openEvents(d, s);
     s.negDantamTurns = s.res.dantam < 0 ? s.negDantamTurns + 1 : 0;
     if (s.negDantamTurns >= rules.lose_dantam_turns) { s.outcome = 'lost'; s.outcomeReason = 'Dân tâm cạn kiệt'; }
-    else if (s.turn > rules.deadline_turn) { s.outcome = 'lost'; s.outcomeReason = 'Hết thời hạn chiến dịch mà chưa giảng hòa'; }
+    else if (s.turn > rules.deadline_turn) {
+      if (rules.win_mode === 'survive') { s.outcome = 'won'; s.outcomeReason = 'Giữ vững phòng tuyến tới hết thời hạn'; }
+      else { s.outcome = 'lost'; s.outcomeReason = 'Hết thời hạn chiến dịch mà chưa giảng hòa'; }
+    }
   }
   return s;
 }

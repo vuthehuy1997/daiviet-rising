@@ -129,6 +129,7 @@ export function applyCommand(d: GameData, s0: GameState, cmd: Cmd): CmdResult {
       return err ? fail(s0, err) : { state: s };
     }
     case 'negotiate': {
+      if (rules.win_mode === 'survive') return fail(s0, 'Chiến dịch này không có đàm phán: hãy giữ phòng tuyến tới hết thời hạn');
       if (s.turn < rules.negotiate_from_turn) return fail(s0, `Chỉ đàm phán từ lượt ${rules.negotiate_from_turn}`);
       if (s.raids.length || d.raids.some((r) => r.turn >= s.turn)) return fail(s0, 'Còn đợt tập kích chưa phân giải');
       if (s.repelled < rules.negotiate_min_repelled) return fail(s0, `Cần chặn ít nhất ${rules.negotiate_min_repelled} đợt tập kích`);

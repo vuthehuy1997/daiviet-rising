@@ -2,6 +2,7 @@ import buildingsDoc from '../../game-data/buildings.yaml';
 import unitsDoc from '../../game-data/units.yaml';
 import eventsDoc from '../../game-data/events_cmp01.yaml';
 import campaignDoc from '../../game-data/campaign_cmp01.yaml';
+import campaign2Doc from '../../game-data/campaign_cmp02.yaml';
 import type { EventDef, BuildingDef, GameData, PolicyDef, TileDef, UnitDef, RaidDef } from './types';
 
 const RES_KEYS = new Set(['grain', 'wood', 'stone', 'iron', 'dantam']);
@@ -9,11 +10,11 @@ const MOD_KINDS = new Set(['atk_mult', 'fort', 'warn_lead', 'supply_cap']);
 const LABELS = new Set(['SOURCED', 'FICTION', 'ALT-HISTORY']);
 
 /** Tải + kiểm tra schema dữ liệu (TST-05). Ném lỗi liệt kê mọi vấn đề. */
-export function loadData(): GameData {
+export function loadData(campaignId: 'CMP-01' | 'CMP-02' = 'CMP-01'): GameData {
   const b = buildingsDoc as { buildings: BuildingDef[] };
   const u = unitsDoc as { units: UnitDef[]; policies: PolicyDef[] };
-  const c = campaignDoc as any;
-  const ev = (eventsDoc as { events: EventDef[] }).events;
+  const c = (campaignId === 'CMP-02' ? campaign2Doc : campaignDoc) as any;
+  const ev = campaignId === 'CMP-01' ? (eventsDoc as { events: EventDef[] }).events : []; // CMP-02 chưa có sự kiện lựa chọn
   const data: GameData = {
     buildings: Object.fromEntries(b.buildings.map((x) => [x.id, x])),
     units: Object.fromEntries(u.units.map((x) => [x.id, x])),
@@ -46,6 +47,13 @@ export function validateData(d: GameData, rows: any[]): string[] {
     for (const k of Object.keys(t.defenders ?? {})) if (!d.units[k]) errs.push(`${t.id}: defender không tồn tại ${k}`);
   }
   if (!tiles.has(d.campaign.capital)) errs.push('capital không tồn tại');
+  const tide = d.campaign.tide;
+  if (tide) {
+    if (!(Number.isInteger(tide.period) && tide.period >= 2 && tide.period <= 4)) errs.push('tide.period phải là số nguyên 2–4');
+    if (!Number.isInteger(tide.phase_offset)) errs.push('tide.phase_offset phải là số nguyên');
+    for (const p of ['rising', 'high', 'ebb'] as const) if (!(tide.stakes_mult?.[p] >= 0 && tide.stakes_mult[p] <= 1)) errs.push(`tide.stakes_mult.${p} phải trong [0,1]`);
+    if (!(tide.naval_ebb_cost_mult >= 1)) errs.push('tide.naval_ebb_cost_mult phải ≥ 1');
+  }
   for (const r of d.raids) {
     if (!tiles.has(r.origin)) errs.push(`${r.id}: origin không tồn tại`);
     for (const k of Object.keys(r.units)) if (!d.units[k]) errs.push(`${r.id}: unit không tồn tại ${k}`);

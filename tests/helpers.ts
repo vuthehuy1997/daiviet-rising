@@ -17,3 +17,7 @@ export function run(s: GameState, ...cmds: Cmd[]): GameState {
 }
 export function turns(s: GameState, n: number): GameState { for (let i = 0; i < n; i++) s = endTurn(D, s); return s; }
 export const fresh = (seed?: number) => newGame(D, seed);
+
+/** CMP-02 (CR-005): chiến dịch có thủy triều. */
+export const D2: GameData = loadData('CMP-02');
+export const fresh2 = (seed?: number) => newGame(D2, seed);

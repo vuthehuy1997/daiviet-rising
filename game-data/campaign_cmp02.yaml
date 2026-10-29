@@ -1,0 +1,59 @@
+# CMP-02 lát cắt (CR-005 phương án A): 10 ô sông/cửa biển minh họa. Địa danh trừu tượng/hư cấu; số liệu placeholder (cân bằng ở M4).
+# Khung lịch sử Trần–Nguyên 1285–1288 chỉ ở mức chủ đề; chưa qua rà soát sử học.
+campaign:
+  id: CMP-02
+  name_vi: Sông Nước Bạch Đằng
+  period: "1285-1288"
+  source_label: FICTION
+  source_ids: [H8]
+  design: CMP-02
+  seed: 1288
+  capital: TIL-201
+  start: {grain: 120, wood: 140, stone: 50, iron: 30, dantam: 10}
+  start_buildings: {TIL-201: [BLD-FARM, BLD-LUMBER, BLD-BARRACKS]}
+  rules:
+    deadline_turn: 20
+    win_mode: survive
+    negotiate_from_turn: 999
+    negotiate_min_repelled: 99
+    negotiate_min_dantam: 99
+    negotiate_min_settled: 99
+    lose_dantam_turns: 3
+    base_supply_cap: 4
+    base_warn_lead: 2
+    rounds: 15
+    defense_k: 20
+    settle_cost: {wood: 40, grain: 30}
+    default_slots: 4
+    capital_slots: 6
+    max_level: 3
+    garrison_base: 4
+    garrison_capital_bonus: 4
+    garrison_per_fort_level: 3
+    terrain_cost: {dong_bang: 1, song: 2, nui: 3, rung: 2, ven_bien: 1}
+  # CMP-02 không có cơ chế tập kích trước; weaken_factor 1 = không tác dụng.
+  preemptive: {tile: TIL-209, weaken_factor: 1, min_turn_effect: 99}
+  # SYS-11: chu kỳ 3 lượt (lên → đầy → rút). Số liệu chỉ là cơ chế game, không phải dữ kiện lịch sử.
+  tide:
+    period: 3
+    phase_offset: 0
+    stakes_mult: {rising: 0.5, high: 0.25, ebb: 1}
+    naval_ebb_cost_mult: 1.5
+tiles:
+  - {id: TIL-201, name_vi: Thủ phủ, terrain: dong_bang, state: settled, x: 560, y: 720, adj: [TIL-202, TIL-203, TIL-207, TIL-208], source_label: FICTION, source_ids: []}
+  - {id: TIL-202, name_vi: Bến Nội, terrain: dong_bang, state: open, x: 820, y: 760, adj: [TIL-201, TIL-203, TIL-206], source_label: FICTION, source_ids: []}
+  - {id: TIL-203, name_vi: Khúc sông Trong, terrain: song, state: open, x: 760, y: 560, adj: [TIL-201, TIL-202, TIL-204], source_label: FICTION, source_ids: []}
+  - {id: TIL-204, name_vi: Khúc sông Giữa, terrain: song, state: open, x: 980, y: 420, adj: [TIL-203, TIL-205, TIL-206], source_label: FICTION, source_ids: []}
+  - {id: TIL-205, name_vi: Cửa sông, terrain: song, state: open, x: 1180, y: 300, adj: [TIL-204, TIL-206, TIL-209], source_label: FICTION, source_ids: []}
+  - {id: TIL-206, name_vi: Bãi bồi, terrain: ven_bien, state: open, x: 1100, y: 560, adj: [TIL-202, TIL-204, TIL-205], source_label: FICTION, source_ids: []}
+  - {id: TIL-207, name_vi: Rừng Đông, terrain: rung, state: open, x: 420, y: 480, adj: [TIL-201, TIL-210], source_label: FICTION, source_ids: []}
+  - {id: TIL-208, name_vi: Núi Tây, terrain: nui, state: open, x: 250, y: 600, adj: [TIL-201, TIL-210], source_label: FICTION, source_ids: []}
+  - {id: TIL-209, name_vi: Cửa biển, terrain: ven_bien, state: hostile, x: 1360, y: 170, adj: [TIL-205], source_label: FICTION, source_ids: [], defenders: {ENM-BOAT: 4, ENM-ARCHER: 2}}
+  - {id: TIL-210, name_vi: Trại bộ biên, terrain: dong_bang, state: hostile, x: 330, y: 230, adj: [TIL-207, TIL-208], source_label: FICTION, source_ids: [], defenders: {ENM-FOOT: 5, ENM-ARCHER: 2}}
+# Kịch bản tập kích: mục tiêu = ô đang có khu định cư gần nguồn nhất (theo chi phí đường; thuyền chịu hệ số triều rút).
+raids:
+  - {id: RAID-B1, turn: 3, origin: TIL-209, units: {ENM-BOAT: 3}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-B2, turn: 7, origin: TIL-210, units: {ENM-FOOT: 4, ENM-ARCHER: 2}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-B3, turn: 10, origin: TIL-209, units: {ENM-BOAT: 6, ENM-ARCHER: 3}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-B4, turn: 14, origin: TIL-209, units: {ENM-BOAT: 9, ENM-ARCHER: 5}, source_label: FICTION, source_ids: [], design: SYS-07}
+  - {id: RAID-B5, turn: 17, origin: TIL-209, units: {ENM-BOAT: 12, ENM-ARCHER: 7}, source_label: FICTION, source_ids: [], design: SYS-07}

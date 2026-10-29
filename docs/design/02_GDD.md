@@ -71,6 +71,8 @@ Sự kiện có lựa chọn, nhãn nguồn (CR-002). Kích hoạt theo lượt 
 ## SYS-11 Lớp thủy chiến (từ C)
 Ô `song`: thủy triều chu kỳ 2–3 lượt (placeholder); `BLD-STAKES` hiệu quả khi nước rút/lên theo kịch bản; nhử mục tiêu = lệnh kéo địch vào ô cọc. Dùng chủ yếu ở CP2, MVP có phiên bản giản lược (tuyến sông CP1).
 
+**Phụ lục CR-005 (M1, đã cài đặt — số liệu placeholder):** chiến dịch có khối `tide: {period, phase_offset, stakes_mult, naval_ebb_cost_mult}`. Pha của lượt `t`: `i = (t-1+offset) mod period`; `i=0` → *lên*, `i=period-1` → *rút*, còn lại *đầy* (chu kỳ 3: lên, đầy, rút). Tất định, không RNG; xem trước bằng `tideForecast`. (1) `BLD-STAKES`: hệ số hiệu lực `stakes_mult` (CMP-02: rút 1, lên 0.5, đầy 0.25) nhân vào `attacker_penalty` (trần 0.4) theo pha của lượt phân giải trận. (2) Đợt tập kích có thủy binh, sinh ở lượt *rút*: chi phí ô `song` ×`naval_ebb_cost_mult` (1.5) khi tính mục tiêu/ETA — ETA chỉ tính lúc sinh (tính lại mỗi lượt để dành cho M2 cùng lệnh nhử). Chiến dịch không có `tide` (CMP-01) giữ nguyên hành vi. CMP-02 dùng `win_mode: survive`: thắng khi sống sót tới hết `deadline_turn`; lệnh `negotiate` bị từ chối. Nhử (`lure`): M2.
+
 ## SYS-12 Thắng / Thua (thiết kế của chúng ta — reference chưa rõ)
 - **Thua:** mất Thủ phủ (`CAPITAL`), hoặc tổng `Dân tâm < 0` kéo dài 3 lượt.
 - **Thắng CP1:** chặn đợt tập kích cuối **và** đạt điều kiện giảng hòa/ngoại giao đến hạn lịch.
