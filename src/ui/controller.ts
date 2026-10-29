@@ -11,9 +11,11 @@ export class Controller {
   state: GameState;
   private history: GameState[] = [];
   storageOk = true;
+  private key: string;
 
   constructor(readonly d: GameData, private storage: Storage | null = safeStorage()) {
     this.state = newGame(d);
+    this.key = d.campaign.id === 'CMP-01' ? KEY : `${KEY}.${d.campaign.id}`; // CMP-01 giữ khóa cũ để bản lưu RC1–RC4 vẫn nạp được
     if (!this.storage) this.storageOk = false;
   }
 
@@ -55,15 +57,17 @@ export class Controller {
 
   autosave() {
     if (!this.storage) return;
-    try { this.storage.setItem(KEY, serialize(this.state)); } catch { this.storageOk = false; }
+    try { this.storage.setItem(this.key, serialize(this.state)); } catch { this.storageOk = false; }
   }
 
   loadAutosave(): boolean {
     if (!this.storage) return false;
     try {
-      const t = this.storage.getItem(KEY);
+      const t = this.storage.getItem(this.key);
       if (!t) return false;
-      this.state = deserialize(t); this.history = [];
+      const loaded = deserialize(t);
+      if (loaded.campaign !== this.d.campaign.id) return false;
+      this.state = loaded; this.history = [];
       return true;
     } catch { return false; }
   }

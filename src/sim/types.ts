@@ -57,7 +57,7 @@ export interface GameData {
   units: Record<string, UnitDef>;
   policies: Record<string, PolicyDef>;
   campaign: {
-    id: string; name_vi: string; seed: number; capital: string; start: Res;
+    id: string; name_vi: string; period?: string; seed: number; capital: string; start: Res;
     start_buildings: Record<string, string[]>; rules: Rules;
     preemptive: { tile: string; weaken_factor: number; min_turn_effect: number };
     tide?: TideCfg;

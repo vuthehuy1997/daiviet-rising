@@ -40,16 +40,23 @@ TILES = {1: ('Thủ phủ', 760, 700, 'own'), 2: ('Châu Đông', 1030, 650, 'op
          5: ('Đồng Trung', 760, 500, 'own'), 6: ('Rừng Tây', 520, 465, 'open'), 7: ('Bến sông Nam', 760, 330, 'enemy'), 8: ('Cửa Đông Bắc', 1080, 410, 'enemy'),
          9: ('Rừng biên', 520, 290, 'enemy'), 10: ('Tuyến sông biên', 760, 170, 'enemy'), 11: ('Trại biên Tây', 520, 110, 'enemy'), 12: ('Doanh trại biên Đông', 1070, 150, 'enemy')}
 EDGES = [(1, 2), (1, 3), (1, 4), (1, 5), (2, 5), (2, 8), (3, 5), (3, 6), (5, 6), (5, 7), (5, 8), (6, 9), (7, 8), (7, 9), (7, 10), (8, 10), (8, 12), (9, 11), (10, 11), (10, 12)]
+CMP02 = os.environ.get('CAMPAIGN') == 'cmp02'   # CR-005 M3: chiến dịch Sông Nước (khoá = số hiệu ô TIL-2xx, khớp tnum() ở lớp UI)
+if CMP02:
+    TILES = {201: ('Thủ phủ', 560, 720, 'own'), 202: ('Bến Nội', 820, 760, 'open'), 203: ('Khúc sông Trong', 760, 560, 'open'), 204: ('Khúc sông Giữa', 980, 420, 'open'),
+             205: ('Cửa sông', 1180, 300, 'open'), 206: ('Bãi bồi', 1100, 560, 'open'), 207: ('Rừng Đông', 420, 480, 'open'), 208: ('Núi Tây', 250, 600, 'open'),
+             209: ('Cửa biển', 1360, 170, 'enemy'), 210: ('Trại bộ biên', 330, 230, 'enemy')}
+    EDGES = [(201, 202), (201, 203), (201, 207), (201, 208), (202, 203), (202, 206), (203, 204), (204, 205), (204, 206), (205, 206), (205, 209), (207, 210), (208, 210)]
 
 def bez(p0, p1, p2, p3, n=60):
     t = np.linspace(0, 1, n)[:, None]
     return (1 - t) ** 3 * p0 + 3 * (1 - t) ** 2 * t * p1 + 3 * (1 - t) * t ** 2 * p2 + t ** 3 * p3
 
 # ---------- sông & biển ----------
-RIVER_CP = [((560, -10), (640, 80), (700, 120), (690, 190)), ((690, 190), (680, 260), (640, 290), (720, 350)),
+RIVER_CP = [((640, 910), (660, 800), (700, 650), (760, 560)), ((760, 560), (830, 500), (900, 470), (980, 420)), ((980, 420), (1060, 370), (1120, 340), (1180, 300)),
+            ((1180, 300), (1280, 240), (1400, 215), (1500, 170))] if CMP02 else [((560, -10), (640, 80), (700, 120), (690, 190)), ((690, 190), (680, 260), (640, 290), (720, 350)),
             ((720, 350), (800, 410), (900, 395), (1100, 470)), ((1100, 470), (1300, 545), (1330, 560), (1452, 596)), ((1452, 596), (1500, 612), (1550, 625), (1620, 640))]
 river = np.vstack([bez(*[np.array(p, float) for p in seg]) for seg in RIVER_CP])
-rw = np.interp(np.arange(len(river)), [0, len(river) * .35, len(river)], [15, 19, 30])  # nửa bề rộng (1x)
+rw = np.interp(np.arange(len(river)), [0, len(river) * .35, len(river)], [12, 16, 26] if CMP02 else [15, 19, 30])  # nửa bề rộng (1x)
 def poly_mask(pts, widths, wob=None):
     m = np.zeros((H, W), np.uint8)
     for i in range(len(pts) - 1):
@@ -62,6 +69,9 @@ def warped(m, k=1.): # làm bờ ngoằn ngoèo bằng remap
 water_r = warped(poly_mask(river, rw))
 sea_poly = np.array(list(bez(np.array([1600, 360.]), np.array([1520, 410.]), np.array([1440, 500.]), np.array([1452, 590.])))
                     + list(bez(np.array([1452, 590.]), np.array([1462, 680.]), np.array([1400, 760.]), np.array([1330, 900.]))) + [[1600, 900.]]) * S
+if CMP02:  # biển ở góc Đông Bắc, cửa sông đổ ra đó
+    sea_poly = np.array(list(bez(np.array([1400, -10.]), np.array([1430, 60.]), np.array([1470, 110.]), np.array([1480, 200.])))
+                        + list(bez(np.array([1480, 200.]), np.array([1490, 280.]), np.array([1540, 330.]), np.array([1610, 360.]))) + [[1610, -10.]]) * S
 sea_m = np.zeros((H, W), np.uint8); cv2.fillPoly(sea_m, [np.round(sea_poly).astype(np.int32)], 255)
 sea = warped(cv2.GaussianBlur(sea_m, (0, 0), 3).astype(np.float32) / 255, 1.2)
 water = np.maximum(water_r, sea)
@@ -77,6 +87,9 @@ peaks = [  # (x, y, rx, ry, cao) — dãy núi tây (Hộ quốc tuyến), góc 
     (300, 230, 150, 130, 1.0), (390, 140, 120, 110, .85), (330, 60, 130, 90, .8), (230, 350, 130, 120, .95), (320, 470, 120, 120, .85), (250, 600, 150, 130, 1.0),
     (380, 720, 140, 110, .85), (470, 560, 80, 80, .55), (300, 810, 150, 100, .9), (170, 140, 120, 140, .8), (150, 480, 100, 150, .8), (140, 760, 120, 120, .75),
     (1260, 95, 130, 100, .85), (1370, 170, 120, 100, .9), (1310, 270, 100, 90, .7), (1500, 90, 120, 100, .8), (950, 20, 260, 80, .5), (700, 10, 240, 70, .45)]
+if CMP02:  # núi phía Tây (quanh ô 208/210) và dãy xa phía Bắc; Đông là sông–biển
+    peaks = [(250, 620, 140, 120, 1.0), (150, 480, 110, 150, .85), (170, 300, 120, 140, .85), (120, 790, 120, 110, .8), (300, 130, 150, 110, .9), (470, 40, 200, 80, .6),
+             (240, 440, 90, 90, .7), (900, 20, 260, 70, .45), (1050, 880, 220, 60, .35)]
 Hm = np.zeros((H, W), np.float32); Hm_parts = []
 ridged = 1 - np.abs(2 * fbm(14, 6, 5) - 1)
 ridge_w = (1 - np.abs(2 * fbm(19, 22, 5, aniso=(1, 2.2)) - 1)) ** 2   # sống phụ kéo theo hướng Bắc-Nam
@@ -237,7 +250,7 @@ for (a, b) in EDGES:
     p = road_pts(TILES[a][1:3], TILES[b][1:3], a * 13 + b); roads[f'{a}-{b}'] = p.round(1).tolist()
     q = np.round(p * S).astype(np.int32)
     cv2.polylines(road_m, [q], False, 255, 13 * S, cv2.LINE_AA); cv2.polylines(road_in, [q], False, 255, 8 * S, cv2.LINE_AA)
-json.dump(roads, open(os.path.join(BUILD, 'roads.json'), 'w'))
+json.dump(roads, open(os.environ.get('ROADS_OUT') or os.path.join(BUILD, 'roads.json'), 'w'))
 rm, ri = road_m.astype(np.float32) / 255, road_in.astype(np.float32) / 255
 rm_s = cv2.GaussianBlur(rm, (0, 0), 1.2) ; ri_s = cv2.GaussianBlur(ri, (0, 0), 1.0)
 rm_s = rm_s * (1 - water); ri_s = ri_s * (1 - water)

@@ -1,0 +1,10 @@
+CR-005 M3 (2026-10-29): UI thủy triều/nhử + chọn chiến dịch + bản đồ CMP-02
+Việc đã làm:
+- Chọn chiến dịch: ?campaign=cmp02 > lựa chọn lưu trong trình duyệt (Cài đặt → Chiến dịch) > CMP-01; mỗi chiến dịch có bản lưu riêng (CMP-01 giữ khóa cũ nên bản lưu RC1–RC4 vẫn nạp được).
+- Bản đồ CMP-02: paint_map.py (docs/design/ui/v4/tools) thêm CAMPAIGN=cmp02 (ô/đường/sông/biển/núi riêng); chạy S=2 NOSPR=1 -> src/ui/assets/cmp02/map_bg.webp (361 kB) + roads.json; S=4 TILES_DIR -> cmp02/hi/hi_*.webp (8 mảnh, ~904 kB, nạp theo vùng khi zoom). Thuật toán thuần, không dùng tài nguyên bên thứ ba (ASSET_LICENSES.md không đổi về bản chất).
+- HUD: thẻ thủy triều (chữ + ký hiệu ↑ ≈ ↓, % hiệu lực cọc, xem trước 3 lượt); thẻ Mục tiêu theo win_mode; bỏ nút giảng hòa ở CMP-02; bối cảnh & nguồn riêng cho CMP-02.
+- Bảng ô sông có cọc: hiệu lực cọc 3 lượt (theo triều), dự báo nhử (lureForecast) + nút "Đặt mồi nhử"; huy hiệu "Mồi nhử" trên bản đồ; cảnh báo ghi "bị mồi nhử dụ về".
+Lệnh đã chạy: npm run typecheck (0 lỗi); npm test -> 8 files, 133/133 pass (4 test jsdom mới: tests/ui_cmp02.test.ts); npm run build OK (JS 137 kB, CSS 21 kB; CMP-01 JS trước đó 111 kB -> tăng do dữ liệu/đường CMP-02 + code triều/nhử; ảnh CMP-02 chỉ nạp khi chơi CMP-02);
+python3 -I tools/check_design.py -> OK; Playwright (preview riêng, desktop + Pixel 7): 45 passed, 3 skipped (7 test mới trong e2e/cmp02.spec.ts: tải trang, đổi pha triều, bảng ô sông + axe nghiêm trọng/cực kỳ nghiêm trọng, zoom 4x nạp mảnh CMP-02 [chỉ desktop]).
+Ảnh chụp: docs/qa/visual/cr005_cmp02_desktop.png, cr005_cmp02_phone.png.
+Giới hạn: chưa có người chơi thật thử; axe rule 'region' (moderate) vẫn báo như CMP-01 (ngưỡng test là serious/critical); khối "Nhử địch" nằm cuối bảng ô nên phải cuộn; CMP-02 chưa có sự kiện lựa chọn; cân bằng + bot ở M4. Không push/deploy.

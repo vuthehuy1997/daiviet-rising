@@ -230,3 +230,8 @@ dialog.rep{width:min(800px,calc(100vw - 24px));max-height:calc(100vh - 24px);ove
   .evt-foot{margin-top:6px}
   dialog.rep{padding:0 16px 8px}.ribbon{margin:0 -16px;padding:6px 14px}.ribbon h2,.ribbon h3{font-size:18px}.urs{gap:6px}.causes{margin:4px 0}
 }
+
+/* ---- CR-005: thủy triều & nhử ---- */
+.tide{padding:8px 12px;font-size:13.5px}.tide-now{display:flex;align-items:center;gap:8px;font:700 16px Lora,serif;color:var(--cham)}.tide-now .tg{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--cham);color:#fff;font:700 16px "Be Vietnam Pro"}
+.tide[data-tide=ebb] .tide-now .tg{background:var(--warn)}.tide .muted{margin-top:2px}
+.lure-fc{margin:4px 0;padding:6px 8px;border-radius:6px;border:2px solid var(--line);font-size:13.5px}.lure-fc.yes{border-color:var(--ok);color:var(--ok);font-weight:600}.lure-fc.no{border-color:var(--warn);color:var(--warn)}

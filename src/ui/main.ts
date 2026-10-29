@@ -1,13 +1,16 @@
 import { loadData } from '../sim/data';
-import { garrisonCap, intelLevel, mobileSupplyUsed, raidIntel, supplyCap, warnLead, fortBonus } from '../sim/derived';
+import { fortBonus, garrisonCap, hasActive, intelLevel, mobileSupplyUsed, raidIntel, stakesTideMult, supplyCap, tideForecast, tidePhase, warnLead } from '../sim/derived';
 import { canChoose, describeEffects, effectTones, eventById } from '../sim/events';
 import { shortestPath } from '../sim/graph';
+import { lureForecast } from '../sim/lure';
 import type { BattleReport, Counts, GameData, TileRT } from '../sim/types';
 import { Controller } from './controller';
 import { SYMBOLS, alertBadge, banner, chip, endDisc, settlementSvg } from './art';
 import { eventArtSvg } from './eventart';
-import bgUrl from './assets/map_bg.webp';
-import roadsRaw from './assets/roads.json';
+import bgUrl1 from './assets/map_bg.webp';
+import bgUrl2 from './assets/cmp02/map_bg.webp';
+import roads1 from './assets/roads.json';
+import roads2 from './assets/cmp02/roads.json';
 import './style.css';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
@@ -40,7 +43,21 @@ const CLASS_VI: Record<string, string> = { bo_binh: 'bộ binh', cung_no: 'cung 
 const viText = (t: string) => t.replace(/\b(bo_binh|cung_no|dan_binh|thuy_binh)\b/g, (m) => CLASS_VI[m]);
 const RES_VI: Record<string, string> = { grain: 'Lương', wood: 'Gỗ-tre', stone: 'Đá', iron: 'Sắt', dantam: 'Dân tâm' };
 
-const d: GameData = loadData();
+/** Chiến dịch hiện tại: ?campaign=cmp02 (kiểm thử/chia sẻ) > lựa chọn đã lưu ở trình duyệt > CMP-01. */
+const CAMPAIGN_KEY = 'daiviet-rising.campaign';
+function pickCampaign(): 'CMP-01' | 'CMP-02' {
+  try { const q = new URLSearchParams(location.search).get('campaign'); if (q) return q.toLowerCase() === 'cmp02' ? 'CMP-02' : 'CMP-01'; } catch { /* không có location */ }
+  try { return localStorage.getItem(CAMPAIGN_KEY) === 'CMP-02' ? 'CMP-02' : 'CMP-01'; } catch { return 'CMP-01'; }
+}
+const campaignId = pickCampaign();
+const d: GameData = loadData(campaignId);
+const bgUrl = campaignId === 'CMP-02' ? bgUrl2 : bgUrl1;
+const roadsRaw = campaignId === 'CMP-02' ? roads2 : roads1;
+const CAMPAIGNS: { id: 'CMP-01' | 'CMP-02'; name: string }[] = [{ id: 'CMP-01', name: 'Hộ Quốc Tuyến' }, { id: 'CMP-02', name: 'Sông Nước Bạch Đằng' }];
+function switchCampaign(id: 'CMP-01' | 'CMP-02') {
+  try { localStorage.setItem(CAMPAIGN_KEY, id); } catch { /* không lưu được → chỉ có hiệu lực qua ?campaign= */ }
+  try { const u = new URL(location.href); u.searchParams.set('campaign', id === 'CMP-02' ? 'cmp02' : 'cmp01'); location.href = u.toString(); } catch { /* jsdom */ }
+}
 const ctl = new Controller(d);
 ctl.loadAutosave();
 
@@ -72,7 +89,7 @@ const RES_ICON: Record<string, string> = { grain: 'i-grain', wood: 'i-wood', sto
 function titleBanner() {
   const st = ctl.state;
   return h('header', { class: 'title' }, h('h1', {}, h('span', { class: 't1' }, d.campaign.name_vi),
-    h('span', { class: 't2' }, `Dai Viet Rising · 1075–1077 · Lượt ${Math.min(st.turn, d.campaign.rules.deadline_turn)}/${d.campaign.rules.deadline_turn}`)));
+    h('span', { class: 't2' }, `Dai Viet Rising · ${(d.campaign.period ?? '').replace('-', '–')} · Lượt ${Math.min(st.turn, d.campaign.rules.deadline_turn)}/${d.campaign.rules.deadline_turn}`)));
 }
 function resPill() {
   const st = ctl.state;
@@ -87,7 +104,13 @@ let objOpen = typeof window === 'undefined' || (window.innerWidth > 1500 && wind
 function objective() {
   const st = ctl.state, r = d.campaign.rules;
   const settled = Object.values(st.tiles).filter((t) => t.status === 'settled').length;
-  const rows: [string, string, boolean][] = [
+  const survive = r.win_mode === 'survive';
+  const rows: [string, string, boolean][] = survive ? [
+    ['Chặn các đợt tập kích', `${st.repelled}/${d.raids.length}`, st.repelled >= d.raids.length],
+    ['Giữ Thủ phủ', st.tiles[d.campaign.capital].status === 'settled' ? 'còn' : 'mất', st.tiles[d.campaign.capital].status === 'settled'],
+    ['Dân tâm ≥0', String(st.res.dantam), st.res.dantam >= 0],
+    ['Thời hạn chiến dịch', `${Math.min(st.turn, r.deadline_turn)}/${r.deadline_turn}`, st.turn > r.deadline_turn],
+  ] : [
     ['Chặn đợt tập kích', `${st.repelled}/${r.negotiate_min_repelled}`, st.repelled >= r.negotiate_min_repelled],
     [`Giữ ≥${r.negotiate_min_settled} khu định cư`, `${settled}/${r.negotiate_min_settled}`, settled >= r.negotiate_min_settled],
     [`Dân tâm ≥${r.negotiate_min_dantam}`, `${st.res.dantam}/${r.negotiate_min_dantam}`, st.res.dantam >= r.negotiate_min_dantam],
@@ -99,7 +122,7 @@ function objective() {
       h('span', {}, 'Mục tiêu'), h('span', { class: 'muted' }, objOpen ? '▾' : `${met}/3 ▸`))));
   if (objOpen) card.append(h('div', { id: 'obj-body' },
     ...rows.map(([t, v, ok]) => h('div', { class: `obj-r${ok ? ' ok' : ''}` }, h('span', { class: 'd' }, ok ? '✔' : '◆'), h('span', { class: 't' }, t), h('b', {}, v))),
-    h('p', { class: 'obj-n' }, `Giảng hòa mở từ lượt ${r.negotiate_from_turn} khi đủ cả ba điều kiện trên (nút “Kế sách”).`)));
+    h('p', { class: 'obj-n' }, survive ? `Thắng khi giữ vững phòng tuyến tới hết lượt ${r.deadline_turn}; không có giảng hòa.` : `Giảng hòa mở từ lượt ${r.negotiate_from_turn} khi đủ cả ba điều kiện trên (nút “Kế sách”).`)));
   return card;
 }
 
@@ -115,9 +138,22 @@ function alerts() {
       const t = travelInfo(selArmy, r.target);
       if (t) { const ok = t.turns <= r.eta; cls += ok ? ' ok' : ' late'; verdict = h('div', { class: 'verdict' }, ok ? `Đội đang chọn tới kịp sau ${t.turns} lượt.` : `Đội đang chọn cần ${t.turns} lượt — KHÔNG kịp.`); }
     }
-    box.append(h('div', { class: cls }, h('b', {}, `${r.id} → ${r.target}`), ` tới sau ${r.eta} lượt. Dự báo: ${viText(intel.text)}.`, verdict));
+    box.append(h('div', { class: cls }, h('b', {}, `${r.id} → ${r.target}`), ` tới sau ${r.eta} lượt. Dự báo: ${viText(intel.text)}.${st.lure?.raidId === r.id ? ' (bị mồi nhử dụ về)' : ''}`, verdict));
   }
   return box;
+}
+
+/** SYS-11: thủy triều hiện tại + xem trước 3 lượt; chữ + ký hiệu (không chỉ dựa vào màu). */
+const TIDE_VI = { rising: 'Nước lên', high: 'Nước đầy', ebb: 'Nước rút' } as const;
+const TIDE_SYM = { rising: '↑', high: '≈', ebb: '↓' } as const;
+function tideChip() {
+  const st = ctl.state, ph = tidePhase(d, st.turn), cfg = d.campaign.tide;
+  if (!ph || !cfg) return null;
+  const pct = (p: keyof typeof TIDE_VI) => `${Math.round(cfg.stakes_mult[p] * 100)}%`;
+  return h('section', { class: 'tide parch', 'data-tide': ph, 'aria-label': 'Thủy triều' },
+    h('div', { class: 'tide-now' }, h('span', { class: 'tg', 'aria-hidden': 'true' }, TIDE_SYM[ph]), h('b', {}, TIDE_VI[ph])),
+    h('div', { class: 'muted' }, `Cọc ngầm hiệu lực ${pct(ph)}${ph === 'ebb' ? ' · thuyền địch mắc cạn' : ''}`),
+    h('div', { class: 'tide-fc muted', 'data-tide-forecast': tideForecast(d, st.turn + 1, 3).join(',') }, 'Ba lượt tới: ', tideForecast(d, st.turn + 1, 3).map((p) => `${TIDE_SYM[p]} ${TIDE_VI[p].toLowerCase()}`).join(' · ')));
 }
 
 /* ---------- bản đồ (ảnh nền tranh + lớp SVG sống) ---------- */
@@ -141,7 +177,11 @@ const FILTERS = `<filter id="inkr" x="-5%" y="-10%" width="110%" height="130%"><
 const cam = { z: 1, cx: 800, cy: 450 };
 const Z_MAX = 4; // CR-004: nền 3200px nét tới ~1.5x; trên đó nạp mảnh 6400px (4x2) theo vùng nhìn thấy
 const HI_Z = 1.6, HI_COLS = 4, HI_ROWS = 2, HI_KEEP = 6; // HI_KEEP: số mảnh giữ cùng lúc (giới hạn RAM giải mã trên điện thoại)
-const hiUrls = import.meta.glob('./assets/hi/hi_*.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const hiUrls = {
+  ...(import.meta.glob('./assets/hi/hi_*.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>),
+  ...(import.meta.glob('./assets/cmp02/hi/hi_*.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>),
+};
+const HI_DIR = campaignId === 'CMP-02' ? './assets/cmp02/hi' : './assets/hi';
 let dragged = false;
 const mapSvg = s('svg', { class: 'map', viewBox: `0 0 ${WORLD_W} ${WORLD_H}`, preserveAspectRatio: 'none', role: 'group', 'aria-label': 'Bản đồ chiến dịch' },
   s('image', { href: bgUrl, x: 0, y: 0, width: WORLD_W, height: WORLD_H, 'aria-hidden': 'true' }));
@@ -155,7 +195,7 @@ function updateHi(vx: number, vy: number, vw: number, vh: number) { // nạp m�
     r0 = Math.max(0, Math.floor(vy / th)), r1 = Math.min(HI_ROWS - 1, Math.floor((vy + vh) / th));
   hiTick++;
   for (let c = c0; c <= c1; c++) for (let r = r0; r <= r1; r++) {
-    const key = `${c}_${r}`, url = hiUrls[`./assets/hi/hi_${key}.webp`];
+    const key = `${c}_${r}`, url = hiUrls[`${HI_DIR}/hi_${key}.webp`];
     if (!url) continue;
     let e = hiNodes.get(key);
     if (!e) { e = { node: s('image', { href: url, x: c * tw, y: r * th, width: tw, height: th, 'aria-hidden': 'true' }), used: 0 }; hiNodes.set(key, e); gHi.append(e.node); }
@@ -243,7 +283,7 @@ function mapLayers() {
     const dest = !!selArmy && travelInfo(selArmy, t.id) !== null;
     const foes = Object.values(t.defenders ?? {}).reduce((p, q) => p + q, 0);
     const label = foe ? foeLabel(rt, t.id) : '';
-    const key = [rt.status, rt.terrain, selTile === t.id, dest, gar, nUnits, label, foe ? Object.values(rt.defenders).reduce((p, q) => p + q, 0) : 0].join('|');
+    const key = [rt.status, rt.terrain, selTile === t.id, dest, gar, nUnits, label, foe ? Object.values(rt.defenders).reduce((p, q) => p + q, 0) : 0, st.lure?.tile === t.id ? 'lure' : '', d.campaign.tide ? tidePhase(d, st.turn) : ''].join('|');
     const cached = tileCache.get(t.id);
     if (cached && cached.key === key) { tiles.push(cached.node); continue; } // ô không đổi: dùng lại nút DOM (giữ cả tiêu điểm bàn phím)
     const node = s('g', { class: `tile t-${rt.status}${selTile === t.id ? ' sel' : ''}${dest ? ' dest' : ''}`, tabindex: 0, role: 'button', 'data-tile': t.id,
@@ -260,6 +300,7 @@ function mapLayers() {
       else node.append(svgFrom('chips', chip(x, y + 80, 'i-shield', String(gar), 'own')));
     } else if (foe) node.append(svgFrom('chips', chip(x, y + 80, 'i-swords', label, 'enemy')));
     else if (nUnits) node.append(svgFrom('chips', chip(x, y + 80, 'i-banner', String(nUnits), 'own')));
+    if (st.lure?.tile === t.id) node.append(svgFrom('chips lurechip', chip(x, y - 46, 'i-boat', 'Mồi nhử', 'own')));
     tileCache.set(t.id, { key, node });
     tiles.push(node);
   }
@@ -285,7 +326,7 @@ function onTile(id: string) {
   selTile = id; panToTile(id); render();
 }
 
-const UNIT_ICON: Record<string, string> = { 'UNT-FOOT': 'i-helm', 'UNT-ARCHER': 'i-bow', 'UNT-CROSSBOW': 'i-bow', 'UNT-MILITIA': 'i-hat', 'UNT-BOAT': 'i-boat', 'ENM-FOOT': 'i-helm', 'ENM-ARCHER': 'i-bow' };
+const UNIT_ICON: Record<string, string> = { 'UNT-FOOT': 'i-helm', 'UNT-ARCHER': 'i-bow', 'UNT-CROSSBOW': 'i-bow', 'UNT-MILITIA': 'i-hat', 'UNT-BOAT': 'i-boat', 'ENM-FOOT': 'i-helm', 'ENM-ARCHER': 'i-bow', 'ENM-BOAT': 'i-boat' };
 const CLASS_ICON: Record<string, string> = { bo_binh: 'i-helm', cung_no: 'i-bow', dan_binh: 'i-hat', thuy_binh: 'i-boat' };
 const BLD_ICON: Record<string, string> = { 'BLD-FARM': 'i-farm', 'BLD-LUMBER': 'i-lumber', 'BLD-QUARRY': 'i-stone', 'BLD-FORGE': 'i-iron', 'BLD-BARRACKS': 'i-barracks', 'BLD-GRANARY': 'i-grain', 'BLD-DIKE': 'i-stone', 'BLD-PALISADE': 'i-palisade', 'BLD-STAKES': 'i-spear', 'BLD-WATCH': 'i-watch', 'BLD-DOCK': 'i-boat' };
 /** Chân dung tròn + huy hiệu số lượng (P-UI4/P-UI5). label chỉ dành cho trình đọc màn hình. */
@@ -349,6 +390,24 @@ function tileBody(): HTMLElement {
     for (const [u, n] of Object.entries(t.garrison)) if (n > 0) gd.append(unitDot(UNIT_ICON[u] ?? 'i-hat', n, 'own', d.units[u].name_vi));
     for (let i = 0; i < Math.min(cap - gSum, 8); i++) gd.append(emptyDot());
     p.append(gd, h('div', { class: 'muted' }, `Đồn trú: ${countsText(t.garrison)} (${gSum}/${cap}) · Công sự: -${Math.round(fortBonus(d, st, sel) * 100)}% sát thương`));
+    if (d.campaign.tide && t.terrain === 'song' && hasActive(t, 'BLD-STAKES')) {
+      const fc = [0, 1, 2].map((i) => `${Math.round(stakesTideMult(d, st.turn + i) * 100)}%`).join(' · ');
+      p.append(h('h3', {}, 'Cọc ngầm theo thủy triều'), h('div', { class: 'muted', 'data-stakes-fc': fc }, `Hiệu lực cọc bây giờ và hai lượt sau: ${fc}`));
+    }
+    if (d.campaign.lure && t.terrain === 'song' && hasActive(t, 'BLD-STAKES')) {
+      const L = d.campaign.lure as { cost: Record<string, number> };
+      p.append(h('h3', {}, 'Nhử địch'));
+      if (st.lure) p.append(h('div', { class: 'muted', 'data-lure-state': 'active' }, st.lure.tile === sel
+        ? (st.lure.raidId ? `Mồi nhử đang ở ô này — đợt ${st.lure.raidId} bị dụ tới đây.` : 'Mồi nhử đang ở ô này, chờ đợt tập kích kế tiếp.')
+        : `Đã có mồi nhử ở ${tdef.get(st.lure.tile)!.name_vi}; mỗi lúc chỉ một mồi.`));
+      else {
+        const f = lureForecast(d, st, sel);
+        p.append(h('div', { class: `lure-fc ${f?.divert ? 'yes' : 'no'}`, 'data-lure-forecast': f ? (f.divert ? 'yes' : 'no') : 'none' },
+          f ? `Dự báo đợt ${f.raidId} (lượt ${f.turn}): ${f.divert ? 'SẼ bị dụ về ô này' : 'KHÔNG bị dụ'} — ${f.reason}.` : 'Không còn đợt tập kích nào để nhử.'),
+          costLine(L.cost), h('p', { class: 'muted' }, 'Cần 1 đơn vị cơ động đứng ở ô; đơn vị được giữ lại cho tới khi đợt đó phân giải.'),
+          h('button', { class: 'primary', 'data-act': 'lure', disabled: !canPay(L.cost) || undefined, onclick: () => act({ t: 'lure', tile: sel }) }, 'Đặt mồi nhử'));
+      }
+    }
     const q = st.queue.filter((j) => j.tile === sel);
     if (q.length) p.append(h('div', { class: 'muted' }, 'Hàng đợi: ' + q.map((j) => `${j.count} ${d.units[j.unit].name_vi} (${j.remaining})`).join(', ')));
   }
@@ -381,9 +440,10 @@ const SOURCES: [string, string][] = [
 let showAbout = false;
 function aboutDialog() {
   if (!showAbout) return null;
+  const c2 = campaignId === 'CMP-02';
   const dlg = h('dialog', { 'aria-label': 'Bối cảnh và nguồn' },
-    h('h2', {}, 'Bối cảnh & nguồn — Hộ Quốc Tuyến (1075–1077)'),
-    h('p', {}, 'Khung chiến dịch lấy cảm hứng từ cuộc chiến Lý–Tống và phòng tuyến sông Như Nguyệt (đầu năm 1077) [SOURCED ở mức khung].'),
+    h('h2', {}, c2 ? 'Bối cảnh & nguồn — Sông Nước Bạch Đằng (1285–1288)' : 'Bối cảnh & nguồn — Hộ Quốc Tuyến (1075–1077)'),
+    h('p', {}, c2 ? 'Chiến dịch thử nghiệm (lát cắt) lấy chủ đề phòng thủ đường sông cửa biển thời Trần–Nguyên; toàn bộ bối cảnh cụ thể là [FICTION]. Thủy triều và “nhử” là cơ chế trò chơi, KHÔNG phải dữ kiện lịch sử; nội dung chưa qua rà soát sử học.' : 'Khung chiến dịch lấy cảm hứng từ cuộc chiến Lý–Tống và phòng tuyến sông Như Nguyệt (đầu năm 1077) [SOURCED ở mức khung].'),
     h('p', {}, 'Địa danh, ô bản đồ, đơn vị, số lượng quân, chi phí và các đợt tập kích là trừu tượng hóa [FICTION] để làm cơ chế chơi. Chúng KHÔNG phải số liệu lịch sử.'),
     h('p', {}, 'Lực lượng đối phương là một thế lực lịch sử trừu tượng; trò chơi không đồng nhất họ với dân tộc hay quốc gia hiện đại.'),
     h('p', { class: 'muted' }, 'Nhãn nội dung: SOURCED (có nguồn) · FICTION (hư cấu) · ALT-HISTORY (lịch sử giả định). Nguồn dưới đây chưa qua thẩm định sử học chuyên môn:'),
@@ -472,11 +532,14 @@ function popover() {
         return h('button', { class: `dia${own ? ' own' : ''}${poor ? ' poor' : ''}`, disabled: own || undefined, title: `${p.cost_dantam} Dân tâm`, onclick: () => act({ t: 'research', policy: p.id }) },
           shape, h('span', { class: 'dn' }, p.name_vi), h('small', {}, own ? 'Đã áp dụng' : `${p.cost_dantam} Dân tâm`), h('small', { class: 'dt' }, m.txt));
       })),
-      h('p', { class: 'muted' }, 'Giảng hòa chỉ mở từ lượt ' + d.campaign.rules.negotiate_from_turn + ' khi đủ ba điều kiện ở thẻ Mục tiêu.'),
-      h('div', { class: 'row' }, h('button', { onclick: () => act({ t: 'negotiate' }) }, 'Đàm phán giảng hòa')));
+      ...(d.campaign.rules.win_mode === 'survive' ? [h('p', { class: 'muted' }, 'Chiến dịch này không có giảng hòa: hãy giữ vững phòng tuyến tới hết thời hạn.')] : [
+        h('p', { class: 'muted' }, 'Giảng hòa chỉ mở từ lượt ' + d.campaign.rules.negotiate_from_turn + ' khi đủ ba điều kiện ở thẻ Mục tiêu.'),
+        h('div', { class: 'row' }, h('button', { onclick: () => act({ t: 'negotiate' }) }, 'Đàm phán giảng hòa'))]));
   }
   if (openPop === 'settings') {
     box.append(h('h2', {}, 'Cài đặt'),
+      h('div', { class: 'row', role: 'group', 'aria-label': 'Chiến dịch' }, ...CAMPAIGNS.map((c) => h('button', { 'data-campaign': c.id, 'aria-pressed': c.id === campaignId, disabled: c.id === campaignId || undefined, onclick: () => switchCampaign(c.id) }, c.name))),
+      h('p', { class: 'muted' }, 'Mỗi chiến dịch có bản lưu riêng.'),
       h('div', { class: 'row' }, h('button', { onclick: onExport }, 'Xuất JSON'), h('button', { onclick: () => fileInput.click() }, 'Nhập JSON'),
         h('button', { onclick: () => { if (confirm('Bắt đầu lại chiến dịch?')) { ctl.newGame(); eventDismissed = false; clearSel(); msg = ''; openPop = null; render(); } } }, 'Chơi lại')),
       ...(ctl.storageOk ? [] : [h('p', { class: 'muted' }, 'Không lưu được vào trình duyệt — hãy dùng “Xuất JSON”.')]));
@@ -571,7 +634,7 @@ function render() {
   mapLayers();
   const side = sidePanel();
   colL.replaceChildren(titleBanner(), alerts(), ...[eventsPanel(), side].filter(Boolean) as Node[]);
-  colR.replaceChildren(resPill(), objective());
+  colR.replaceChildren(...[resPill(), tideChip(), objective()].filter(Boolean) as Node[]);
   dyn.replaceChildren(...[msg ? h('p', { class: 'toast', role: 'alert' }, msg) : null, popover(), zoomControls(), cluster()].filter(Boolean) as Node[]);
   stage.classList.toggle('sheet', !!side && !selArmy);
   stage.classList.toggle('sheetpick', !!side && !!selArmy);
