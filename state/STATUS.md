@@ -21,3 +21,5 @@ CR-005 M2 DONE locally 2026-10-29 (lure command, save v3, 129/129 tests, e2e 38 
 CR-005 M3 DONE locally 2026-10-29 (UI tide/lure, campaign picker, CMP-02 map; 133/133 unit, e2e 45 pass; docs/qa/EVIDENCE_cr005_m3.txt). Waiting for user review before M4 (balance + bots + CMP-01 regression + RC5 evidence). Not pushed.
 
 CR-005 M4 DONE locally 2026-10-30 (CMP-02 balance + bots + CMP-01 regression; 139/139 unit, e2e 45 pass; docs/qa/EVIDENCE_cr005_m4.txt, docs/qa/BALANCE_CMP02.md). RC5 = local build only, NOT pushed. Waiting for user review. Push/deploy needs a NEW `approve G3: ...` naming RC5.
+
+UPDATE 2026-10-30: RC5 (CR-005) pushed (main c829fad, tag rc5) and deployed to Pages (gh-pages 262df45) under the RC5 G3 approval. Live bundle verified + smoke passed. Further push/deploy needs a NEW G3.

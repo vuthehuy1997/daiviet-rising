@@ -92,3 +92,10 @@
 - Approver: user (as entered in session)
 - Exact words: "approve CR-005"
 - Approved: Option A as drafted (tide + lure mechanics + small CMP-02 slice, milestones M1..M4, stop after each for review). CMP-01 unchanged apart from save v3 migration. Not authorized: push/deploy (RC5 = local build until a new G3).
+
+## G3 — RC5 release approval
+- Date: 2026-10-30
+- Approver: user (as entered in session)
+- Exact words: "approve G3: push và deploy RC5 lên vuthehuy1997/daiviet-rising"
+- Approved: push `main` + tag `rc5` and refresh `gh-pages` on vuthehuy1997/daiviet-rising ONLY (GitHub Pages). Nothing else.
+- Status: EXECUTED 2026-10-30. Pushed main (330c754..c829fad), tag rc5, gh-pages (b1227bb..262df45) to vuthehuy1997/daiviet-rising. Token supplied in chat, used transiently via http.extraHeader, not stored.

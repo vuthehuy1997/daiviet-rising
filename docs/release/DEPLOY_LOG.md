@@ -28,3 +28,10 @@ Re-push the previous `gh-pages` commit (RC1 = `612e6be`: `git push -f origin 612
 - Pre-deploy: tsc OK, Vitest 112/112, build OK.
 - Live check: HTTP 200, served bundle index-BduymceC.js equals local build. Browser smoke on live URL NOT run this time.
 - Live smoke RC4 (2026-10-29, real Chromium on the live URL, desktop 1280x800 + Pixel 7): 12 tiles, "Lượt 1/28", 6 resource pills, End Turn → event dialog → "Để sau" → "Lượt 2/28", 0 console/page errors, 0 failed requests, 0 HTTP ≥400, no horizontal overflow. Desktop wheel-zoom to 4x: svg.map images 1 → 7, hi-res tiles hi_*.webp fetched with HTTP 200 (8 files total as the view moved), no errors.
+
+## RC5 — 2026-10-30 (G3 approved: "approve G3: push và deploy RC5 lên vuthehuy1997/daiviet-rising")
+- Pushed main (330c754..c829fad), tag rc5, gh-pages (b1227bb..262df45 "Deploy RC5 (rc5 tag)"; dist/ + .nojekyll only). Token used transiently via http.extraHeader, not stored. **Revoke it** (https://github.com/settings/tokens).
+- Pre-deploy: tsc OK, Vitest 139/139, Playwright 45 passed/3 skipped, build OK.
+- Live check: HTTP 200, served bundle index-BotHpFIR.js equals local build.
+- Live smoke (real Chromium, desktop 1280x800 + Pixel 7; CMP-01 and ?campaign=cmp02): CMP-01 12 tiles, CMP-02 10 tiles + tide chip, Lượt 1 → End Turn → Lượt 2, 0 console/page errors, 0 HTTP >=400, no horizontal overflow.
+- Caveat: CMP-02 balance is bot-only (docs/qa/BALANCE_CMP02.md); no human playtest.
